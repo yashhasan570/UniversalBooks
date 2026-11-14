@@ -1,0 +1,14 @@
+{
+  "app_name": {
+    "message": "发送到 Universal Books",
+    "description": "Extension name shown in the browser toolbar and the Chrome Web Store listing."
+  },
+  "app_description": {
+    "message": "将网页保存到你的 Universal Books 书库",
+    "description": "Short description shown in the Chrome Web Store listing."
+  },
+  "action_title": {
+    "message": "发送到 Universal Books",
+    "description": "Tooltip on the toolbar action button."
+  }
+}
