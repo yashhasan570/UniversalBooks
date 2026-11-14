@@ -29,7 +29,7 @@ let
 in
 rustPlatform.buildRustPackage (finalAttrs: {
   inherit version;
-  pname = "readest";
+  pname = "universalbooks";
   src =
     let
       tree = lib.fileset.toSource {
@@ -37,9 +37,9 @@ rustPlatform.buildRustPackage (finalAttrs: {
         fileset = lib.fileset.intersection
           (lib.fileset.gitTracked ../.)
           (lib.fileset.unions [
-            ../apps/readest-app
-            ../apps/readest-app/src-tauri/plugins/tauri-plugin-turso
-            ../apps/readest-app/src-tauri/plugins/tauri-plugin-webview-upgrade
+            ../apps/universalbooks-app
+            ../apps/universalbooks-app/src-tauri/plugins/tauri-plugin-turso
+            ../apps/universalbooks-app/src-tauri/plugins/tauri-plugin-webview-upgrade
 
             ../packages
             ../patches
@@ -55,17 +55,17 @@ rustPlatform.buildRustPackage (finalAttrs: {
       };
     in
     # Linux builds on the CEF runtime, like `pnpm tauri build` on Linux
-      # (apps/readest-app/scripts/tauri.mjs): the CEF dependency graph is pinned
+      # (apps/universalbooks-app/scripts/tauri.mjs): the CEF dependency graph is pinned
       # in Cargo.cef.lock, and src-tauri/.cargo/cef.toml holds the Linux-only
       # `[patch.crates-io]` that takes tauri and its plugins from the feat/cef
       # branches. Cargo only reads a file named config.toml, so both are put in
       # place here, where cargoDeps (fetchCargoVendor) and the build see them.
-    runCommand "readest-source" { } ''
+    runCommand "universalbooks-source" { } ''
       cp -r ${tree} $out
       chmod -R u+w $out
       cp $out/Cargo.cef.lock $out/Cargo.lock
-      cp $out/apps/readest-app/src-tauri/.cargo/cef.toml \
-        $out/apps/readest-app/src-tauri/.cargo/config.toml
+      cp $out/apps/universalbooks-app/src-tauri/.cargo/cef.toml \
+        $out/apps/universalbooks-app/src-tauri/.cargo/config.toml
     '';
 
   # The CEF binary distribution the `cef` crate would otherwise download at
@@ -90,11 +90,11 @@ rustPlatform.buildRustPackage (finalAttrs: {
   }.${stdenv.hostPlatform.system} or null;
   postUnpack = ''
     # pnpm.configHook has to write to ../.., as our sourceRoot is set to
-    # apps/readest-app
+    # apps/universalbooks-app
     chmod -R +w .
   '';
 
-  sourceRoot = "${finalAttrs.src.name}/apps/readest-app";
+  sourceRoot = "${finalAttrs.src.name}/apps/universalbooks-app";
 
   pnpmRoot = "../..";
   pnpmDeps = fetchPnpmDeps {
@@ -138,7 +138,7 @@ rustPlatform.buildRustPackage (finalAttrs: {
         '"beforeBuildCommand": "pnpm build && pnpm upload-sourcemaps"' \
         '"beforeBuildCommand": "pnpm build"' \
       --replace-fail '"createUpdaterArtifacts": true' '"createUpdaterArtifacts": false' \
-      --replace-fail '"productName": "Readest"' '"productName": "readest"'
+      --replace-fail '"productName": "Universal Books"' '"productName": "universalbooks"'
     jq 'del(.plugins."deep-link")' src-tauri/tauri.conf.json | sponge src-tauri/tauri.conf.json
     substituteInPlace src/services/constants.ts \
       --replace-fail "autoCheckUpdates: true" "autoCheckUpdates: false" \
@@ -209,17 +209,17 @@ rustPlatform.buildRustPackage (finalAttrs: {
 
     # `tauri-plugin-turso` expects frontend files to exist before the build, else it fails with:
     #
-    # > > tauri-plugin-turso-api@0.1.0 build /build/source/apps/readest-app/src-tauri/plugins/tauri-plugin-turso
+    # > > tauri-plugin-turso-api@0.1.0 build /build/source/apps/universalbooks-app/src-tauri/plugins/tauri-plugin-turso
     # > > true
     # >
     # >   Error Unable to find your web assets, did you forget to build your web app?
-    #     Your frontendDist is set to "../out" (which is `/build/source/apps/readest-app/out`).
-    pnpm --filter @readest/readest-app build
+    #     Your frontendDist is set to "../out" (which is `/build/source/apps/universalbooks-app/out`).
+    pnpm --filter @universalbooks/universalbooks-app build
   '';
 
   # The deb the nixpkgs tauri CLI bundles carries only the executable; ship
   # the CEF runtime next to it the way the CEF tauri CLI does for the deb
-  # (usr/share/Readest), since libcef.so is found through $ORIGIN.
+  # (usr/share/Universal Books), since libcef.so is found through $ORIGIN.
   postInstall = ''
     # Several plugins still enable tauri's default `wry` feature, so the wry
     # runtime is compiled in even though nothing uses it under CEF. Distro
@@ -229,27 +229,27 @@ rustPlatform.buildRustPackage (finalAttrs: {
     # uses bmalloc, whose static initializer starts a scavenger thread in every
     # process, and Chromium's zygote refuses to run multi-threaded. Drop them,
     # after checking that nothing in the executable refers to them.
-    if $NM -D --undefined-only $out/bin/readest | grep -Eq ' (webkit_|jsc_|JS[A-Z]|soup_)'; then
-      echo "readest references WebKitGTK/libsoup symbols; cannot drop the libraries" >&2
+    if $NM -D --undefined-only $out/bin/universalbooks | grep -Eq ' (webkit_|jsc_|JS[A-Z]|soup_)'; then
+      echo "universalbooks references WebKitGTK/libsoup symbols; cannot drop the libraries" >&2
       exit 1
     fi
     patchelf --remove-needed libwebkit2gtk-4.1.so.0 --remove-needed libjavascriptcoregtk-4.1.so.0 \
-      --remove-needed libsoup-3.0.so.0 $out/bin/readest
-    mkdir -p $out/lib/readest
-    mv $out/bin/readest $out/lib/readest/readest
-    ln -s ../lib/readest/readest $out/bin/readest
+      --remove-needed libsoup-3.0.so.0 $out/bin/universalbooks
+    mkdir -p $out/lib/universalbooks
+    mv $out/bin/universalbooks $out/lib/universalbooks/universalbooks
+    ln -s ../lib/universalbooks/universalbooks $out/bin/universalbooks
     for file in libcef.so libEGL.so libGLESv2.so libvk_swiftshader.so libvulkan.so.1 \
       vk_swiftshader_icd.json chrome_100_percent.pak chrome_200_percent.pak \
       resources.pak icudtl.dat v8_context_snapshot.bin; do
-      cp "$CEF_PATH/$file" $out/lib/readest/
+      cp "$CEF_PATH/$file" $out/lib/universalbooks/
     done
-    cp -r "$CEF_PATH/locales" $out/lib/readest/
+    cp -r "$CEF_PATH/locales" $out/lib/universalbooks/
   '';
 
   tursoPluginDeps = fetchPnpmDeps {
     pname = "tauri-plugin-turso";
     version = finalAttrs.version;
-    src = "${finalAttrs.src}/apps/readest-app/src-tauri/plugins/tauri-plugin-turso";
+    src = "${finalAttrs.src}/apps/universalbooks-app/src-tauri/plugins/tauri-plugin-turso";
     pnpm = pnpm_11;
     fetcherVersion = 4;
     hash = "sha256-quVUYsT3u4UBhuJ75QQ4SEuW8MhGQ0vGhtwtUj/eKHs=";
@@ -258,7 +258,7 @@ rustPlatform.buildRustPackage (finalAttrs: {
   tursoPlugin = stdenv.mkDerivation {
     pname = "tauri-plugin-turso";
     version = finalAttrs.version;
-    src = "${finalAttrs.src}/apps/readest-app/src-tauri/plugins/tauri-plugin-turso";
+    src = "${finalAttrs.src}/apps/universalbooks-app/src-tauri/plugins/tauri-plugin-turso";
 
     nativeBuildInputs = [
       pnpm_11
@@ -276,8 +276,8 @@ rustPlatform.buildRustPackage (finalAttrs: {
 
   meta = {
     description = "Modern, feature-rich ebook reader";
-    homepage = "https://github.com/readest/readest";
-    mainProgram = "readest";
+    homepage = "https://github.com/universalbooks/universalbooks";
+    mainProgram = "universalbooks";
     license = lib.licenses.agpl3Plus;
     platforms = lib.platforms.linux;
   };

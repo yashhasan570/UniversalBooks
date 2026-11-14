@@ -1,11 +1,11 @@
 [workspace]
-# The readest forks under packages/ are pulled in through [patch.crates-io]
+# The universalbooks forks under packages/ are pulled in through [patch.crates-io]
 # below, not listed as members: the Linux CEF build (see
-# apps/readest-app/src-tauri/.cargo/cef.toml) patches tauri and the plugins to
+# apps/universalbooks-app/src-tauri/.cargo/cef.toml) patches tauri and the plugins to
 # upstream git instead, and a member fork would still sit in the graph and
 # clash on `links` with the git copy.
 members = [
-  "apps/readest-app/src-tauri"
+  "apps/universalbooks-app/src-tauri"
 ]
 exclude = [
   "packages/qcms",
@@ -38,9 +38,9 @@ glib = "0.20.0"
 
 [workspace.package]
 authors = ["Bilingify LLC"]
-homepage = "https://readest.com"
+homepage = "https://universalbooks.app"
 license = "AGPL-3.0"
-repository = "https://github.com/readest/readest"
+repository = "https://github.com/universalbooks/universalbooks"
 categories = []
 edition = "2021"
 rust-version = "1.90"

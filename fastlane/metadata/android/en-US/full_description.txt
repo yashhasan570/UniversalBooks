@@ -30,5 +30,5 @@ Open EPUB, PDF, MOBI, AZW3, FB2, CBZ, TXT and Markdown, and tune the reading exp
 • KOReader sync keeps your progress in step with your e-reader
 • Android, iOS, macOS, Windows, Linux and the web
 
-Universal Books is open source. Questions or ideas: support@readest.com
-Privacy policy: https://readest.com/privacy-policy
+Universal Books is open source. Questions or ideas: support@universalbooks.app
+Privacy policy: https://__READ__universalbooks.app/privacy-policy

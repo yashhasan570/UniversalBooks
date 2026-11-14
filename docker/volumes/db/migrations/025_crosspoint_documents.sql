@@ -1,4 +1,4 @@
--- Copies of Readest books on CrossPoint readers that hash differently from the
+-- Copies of Universal Books books on CrossPoint readers that hash differently from the
 -- book: CrossPoint's "Optimize EPUB" upload rewrites the file, so the KOSync
 -- document id (the file's partial MD5) matches no book_hash. The first progress
 -- upload links the copy to the library book by title and author; later syncs

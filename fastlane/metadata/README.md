@@ -103,7 +103,7 @@ Editing these files now changes the live listings on the next release run.
 
 Dry-run the Play listing without committing anything (from the repo root):
 
-    set -a && source apps/readest-app/.env.google-play.local && set +a
+    set -a && source apps/universalbooks-app/.env.google-play.local && set +a
     fastlane supply \
       --metadata_path fastlane/metadata-play/android \
       --track production \
@@ -193,7 +193,7 @@ Rebuild it with `pnpm tauri ios dev` before attempting iPad captures.
 ### Play panels
 
 Seeded from the **live listing**, not from local promo folders. That matters:
-the copies under `readest-promotions/screenshots/google-play/` were an unused
+the copies under `universalbooks-promotions/screenshots/google-play/` were an unused
 revision — panels 1 and 2 there carry review cards that are not on the live
 listing (6-8% pixel difference), while panels 3-5 matched exactly. Pull the real
 assets before editing:

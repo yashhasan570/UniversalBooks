@@ -3,7 +3,7 @@
 version = 3
 
 [[package]]
-name = "Readest"
+name = "Universal Books"
 version = "0.2.2"
 dependencies = [
  "anyhow",
@@ -4705,7 +4705,7 @@ dependencies = [
 [[package]]
 name = "localsend"
 version = "0.1.0"
-source = "git+https://github.com/readest/localsend?rev=1609ca7cd5689e10cc4703e7ce178513e5d95b11#1609ca7cd5689e10cc4703e7ce178513e5d95b11"
+source = "git+https://github.com/universalbooks/localsend?rev=1609ca7cd5689e10cc4703e7ce178513e5d95b11#1609ca7cd5689e10cc4703e7ce178513e5d95b11"
 dependencies = [
  "anyhow",
  "base64 0.23.1",
@@ -8930,7 +8930,7 @@ checksum = "adb6935a6f5c20170eeceb1a3835a49e12e19d792f6dd344ccc76a985ca5a6ca"
 [[package]]
 name = "tauri"
 version = "2.11.5"
-source = "git+https://github.com/readest/tauri?branch=feat/cef#d6ef6e4c755228713e7358a27794a89cfd30969f"
+source = "git+https://github.com/universalbooks/tauri?branch=feat/cef#d6ef6e4c755228713e7358a27794a89cfd30969f"
 dependencies = [
  "anyhow",
  "bytes",
@@ -8978,7 +8978,7 @@ dependencies = [
 [[package]]
 name = "tauri-build"
 version = "2.6.3"
-source = "git+https://github.com/readest/tauri?branch=feat/cef#d6ef6e4c755228713e7358a27794a89cfd30969f"
+source = "git+https://github.com/universalbooks/tauri?branch=feat/cef#d6ef6e4c755228713e7358a27794a89cfd30969f"
 dependencies = [
  "anyhow",
  "cargo_toml",
@@ -8998,7 +8998,7 @@ dependencies = [
 [[package]]
 name = "tauri-codegen"
 version = "2.6.3"
-source = "git+https://github.com/readest/tauri?branch=feat/cef#d6ef6e4c755228713e7358a27794a89cfd30969f"
+source = "git+https://github.com/universalbooks/tauri?branch=feat/cef#d6ef6e4c755228713e7358a27794a89cfd30969f"
 dependencies = [
  "base64 0.22.1",
  "brotli",
@@ -9024,7 +9024,7 @@ dependencies = [
 [[package]]
 name = "tauri-macros"
 version = "2.6.3"
-source = "git+https://github.com/readest/tauri?branch=feat/cef#d6ef6e4c755228713e7358a27794a89cfd30969f"
+source = "git+https://github.com/universalbooks/tauri?branch=feat/cef#d6ef6e4c755228713e7358a27794a89cfd30969f"
 dependencies = [
  "heck 0.5.0",
  "proc-macro2",
@@ -9037,7 +9037,7 @@ dependencies = [
 [[package]]
 name = "tauri-plugin"
 version = "2.6.3"
-source = "git+https://github.com/readest/tauri?branch=feat/cef#d6ef6e4c755228713e7358a27794a89cfd30969f"
+source = "git+https://github.com/universalbooks/tauri?branch=feat/cef#d6ef6e4c755228713e7358a27794a89cfd30969f"
 dependencies = [
  "anyhow",
  "glob",
@@ -9052,7 +9052,7 @@ dependencies = [
 [[package]]
 name = "tauri-plugin-biometric"
 version = "2.3.2"
-source = "git+https://github.com/readest/tauri-plugins-workspace?branch=feat/cef#835adce473e8f059f6ba84660dd07bcb19fb9030"
+source = "git+https://github.com/universalbooks/tauri-plugins-workspace?branch=feat/cef#835adce473e8f059f6ba84660dd07bcb19fb9030"
 dependencies = [
  "log",
  "serde",
@@ -9066,7 +9066,7 @@ dependencies = [
 [[package]]
 name = "tauri-plugin-cli"
 version = "2.4.1"
-source = "git+https://github.com/readest/tauri-plugins-workspace?branch=feat/cef#835adce473e8f059f6ba84660dd07bcb19fb9030"
+source = "git+https://github.com/universalbooks/tauri-plugins-workspace?branch=feat/cef#835adce473e8f059f6ba84660dd07bcb19fb9030"
 dependencies = [
  "clap",
  "log",
@@ -9080,7 +9080,7 @@ dependencies = [
 [[package]]
 name = "tauri-plugin-clipboard-manager"
 version = "2.3.2"
-source = "git+https://github.com/readest/tauri-plugins-workspace?branch=feat/cef#835adce473e8f059f6ba84660dd07bcb19fb9030"
+source = "git+https://github.com/universalbooks/tauri-plugins-workspace?branch=feat/cef#835adce473e8f059f6ba84660dd07bcb19fb9030"
 dependencies = [
  "arboard",
  "log",
@@ -9094,7 +9094,7 @@ dependencies = [
 [[package]]
 name = "tauri-plugin-deep-link"
 version = "2.4.9"
-source = "git+https://github.com/readest/tauri-plugins-workspace?branch=feat/cef#835adce473e8f059f6ba84660dd07bcb19fb9030"
+source = "git+https://github.com/universalbooks/tauri-plugins-workspace?branch=feat/cef#835adce473e8f059f6ba84660dd07bcb19fb9030"
 dependencies = [
  "dunce",
  "plist",
@@ -9135,7 +9135,7 @@ dependencies = [
 [[package]]
 name = "tauri-plugin-dialog"
 version = "2.7.1"
-source = "git+https://github.com/readest/tauri-plugins-workspace?branch=feat/cef#835adce473e8f059f6ba84660dd07bcb19fb9030"
+source = "git+https://github.com/universalbooks/tauri-plugins-workspace?branch=feat/cef#835adce473e8f059f6ba84660dd07bcb19fb9030"
 dependencies = [
  "log",
  "raw-window-handle",
@@ -9152,7 +9152,7 @@ dependencies = [
 [[package]]
 name = "tauri-plugin-fs"
 version = "2.5.1"
-source = "git+https://github.com/readest/tauri-plugins-workspace?branch=feat/cef#835adce473e8f059f6ba84660dd07bcb19fb9030"
+source = "git+https://github.com/universalbooks/tauri-plugins-workspace?branch=feat/cef#835adce473e8f059f6ba84660dd07bcb19fb9030"
 dependencies = [
  "anyhow",
  "dunce",
@@ -9173,7 +9173,7 @@ dependencies = [
 [[package]]
 name = "tauri-plugin-haptics"
 version = "2.3.2"
-source = "git+https://github.com/readest/tauri-plugins-workspace?branch=feat/cef#835adce473e8f059f6ba84660dd07bcb19fb9030"
+source = "git+https://github.com/universalbooks/tauri-plugins-workspace?branch=feat/cef#835adce473e8f059f6ba84660dd07bcb19fb9030"
 dependencies = [
  "log",
  "serde",
@@ -9186,7 +9186,7 @@ dependencies = [
 [[package]]
 name = "tauri-plugin-http"
 version = "2.5.9"
-source = "git+https://github.com/readest/tauri-plugins-workspace?branch=feat/cef#835adce473e8f059f6ba84660dd07bcb19fb9030"
+source = "git+https://github.com/universalbooks/tauri-plugins-workspace?branch=feat/cef#835adce473e8f059f6ba84660dd07bcb19fb9030"
 dependencies = [
  "bytes",
  "cookie_store",
@@ -9209,7 +9209,7 @@ dependencies = [
 [[package]]
 name = "tauri-plugin-log"
 version = "2.8.0"
-source = "git+https://github.com/readest/tauri-plugins-workspace?branch=feat/cef#835adce473e8f059f6ba84660dd07bcb19fb9030"
+source = "git+https://github.com/universalbooks/tauri-plugins-workspace?branch=feat/cef#835adce473e8f059f6ba84660dd07bcb19fb9030"
 dependencies = [
  "android_logger",
  "fern",
@@ -9293,7 +9293,7 @@ dependencies = [
 [[package]]
 name = "tauri-plugin-opener"
 version = "2.5.4"
-source = "git+https://github.com/readest/tauri-plugins-workspace?branch=feat/cef#835adce473e8f059f6ba84660dd07bcb19fb9030"
+source = "git+https://github.com/universalbooks/tauri-plugins-workspace?branch=feat/cef#835adce473e8f059f6ba84660dd07bcb19fb9030"
 dependencies = [
  "dunce",
  "glob",
@@ -9314,7 +9314,7 @@ dependencies = [
 [[package]]
 name = "tauri-plugin-os"
 version = "2.3.2"
-source = "git+https://github.com/readest/tauri-plugins-workspace?branch=feat/cef#835adce473e8f059f6ba84660dd07bcb19fb9030"
+source = "git+https://github.com/universalbooks/tauri-plugins-workspace?branch=feat/cef#835adce473e8f059f6ba84660dd07bcb19fb9030"
 dependencies = [
  "gethostname",
  "log",
@@ -9331,7 +9331,7 @@ dependencies = [
 [[package]]
 name = "tauri-plugin-persisted-scope"
 version = "2.3.7"
-source = "git+https://github.com/readest/tauri-plugins-workspace?branch=feat/cef#835adce473e8f059f6ba84660dd07bcb19fb9030"
+source = "git+https://github.com/universalbooks/tauri-plugins-workspace?branch=feat/cef#835adce473e8f059f6ba84660dd07bcb19fb9030"
 dependencies = [
  "aho-corasick",
  "bincode",
@@ -9346,7 +9346,7 @@ dependencies = [
 [[package]]
 name = "tauri-plugin-process"
 version = "2.3.1"
-source = "git+https://github.com/readest/tauri-plugins-workspace?branch=feat/cef#835adce473e8f059f6ba84660dd07bcb19fb9030"
+source = "git+https://github.com/universalbooks/tauri-plugins-workspace?branch=feat/cef#835adce473e8f059f6ba84660dd07bcb19fb9030"
 dependencies = [
  "tauri",
  "tauri-plugin",
@@ -9391,7 +9391,7 @@ dependencies = [
 [[package]]
 name = "tauri-plugin-shell"
 version = "2.3.5"
-source = "git+https://github.com/readest/tauri-plugins-workspace?branch=feat/cef#835adce473e8f059f6ba84660dd07bcb19fb9030"
+source = "git+https://github.com/universalbooks/tauri-plugins-workspace?branch=feat/cef#835adce473e8f059f6ba84660dd07bcb19fb9030"
 dependencies = [
  "encoding_rs",
  "log",
@@ -9423,7 +9423,7 @@ dependencies = [
 [[package]]
 name = "tauri-plugin-single-instance"
 version = "2.4.2"
-source = "git+https://github.com/readest/tauri-plugins-workspace?branch=feat/cef#835adce473e8f059f6ba84660dd07bcb19fb9030"
+source = "git+https://github.com/universalbooks/tauri-plugins-workspace?branch=feat/cef#835adce473e8f059f6ba84660dd07bcb19fb9030"
 dependencies = [
  "serde",
  "serde_json",
@@ -9453,7 +9453,7 @@ dependencies = [
 [[package]]
 name = "tauri-plugin-updater"
 version = "2.10.1"
-source = "git+https://github.com/readest/tauri-plugins-workspace?branch=feat/cef#835adce473e8f059f6ba84660dd07bcb19fb9030"
+source = "git+https://github.com/universalbooks/tauri-plugins-workspace?branch=feat/cef#835adce473e8f059f6ba84660dd07bcb19fb9030"
 dependencies = [
  "base64 0.22.1",
  "dirs",
@@ -9518,7 +9518,7 @@ dependencies = [
 [[package]]
 name = "tauri-plugin-websocket"
 version = "2.4.2"
-source = "git+https://github.com/readest/tauri-plugins-workspace?branch=feat/cef#835adce473e8f059f6ba84660dd07bcb19fb9030"
+source = "git+https://github.com/universalbooks/tauri-plugins-workspace?branch=feat/cef#835adce473e8f059f6ba84660dd07bcb19fb9030"
 dependencies = [
  "futures-util",
  "http",
@@ -9545,7 +9545,7 @@ dependencies = [
 [[package]]
 name = "tauri-plugin-window-state"
 version = "2.4.1"
-source = "git+https://github.com/readest/tauri-plugins-workspace?branch=feat/cef#835adce473e8f059f6ba84660dd07bcb19fb9030"
+source = "git+https://github.com/universalbooks/tauri-plugins-workspace?branch=feat/cef#835adce473e8f059f6ba84660dd07bcb19fb9030"
 dependencies = [
  "bitflags 2.13.0",
  "log",
@@ -9559,7 +9559,7 @@ dependencies = [
 [[package]]
 name = "tauri-runtime"
 version = "2.11.3"
-source = "git+https://github.com/readest/tauri?branch=feat/cef#d6ef6e4c755228713e7358a27794a89cfd30969f"
+source = "git+https://github.com/universalbooks/tauri?branch=feat/cef#d6ef6e4c755228713e7358a27794a89cfd30969f"
 dependencies = [
  "cookie",
  "dpi",
@@ -9580,7 +9580,7 @@ dependencies = [
 [[package]]
 name = "tauri-runtime-cef"
 version = "0.1.0"
-source = "git+https://github.com/readest/tauri?branch=feat/cef#d6ef6e4c755228713e7358a27794a89cfd30969f"
+source = "git+https://github.com/universalbooks/tauri?branch=feat/cef#d6ef6e4c755228713e7358a27794a89cfd30969f"
 dependencies = [
  "base64 0.22.1",
  "cef",
@@ -9617,7 +9617,7 @@ dependencies = [
 [[package]]
 name = "tauri-utils"
 version = "2.9.3"
-source = "git+https://github.com/readest/tauri?branch=feat/cef#d6ef6e4c755228713e7358a27794a89cfd30969f"
+source = "git+https://github.com/universalbooks/tauri?branch=feat/cef#d6ef6e4c755228713e7358a27794a89cfd30969f"
 dependencies = [
  "anyhow",
  "brotli",

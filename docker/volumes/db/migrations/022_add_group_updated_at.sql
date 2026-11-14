@@ -35,7 +35,7 @@
 --     reported against WebDAV, whose rows live in library.json on each device
 --     and in the provider's own storage; no migration touches those. Legacy data
 --     has to be safe under the MERGE, not under a one-off UPDATE, or it is only
---     safe for Readest Cloud users.
+--     safe for Universal Books Cloud users.
 --
 -- The unstamped-tie rule above is what makes the legacy fleet safe, and it works
 -- identically on both backends: two unstamped rows tie, so the side that has a

@@ -3,15 +3,15 @@
 // The whitelist lives twice: as the Rust source of truth in
 // src-tauri/src/eink_identity.rs (driving the host app's e-ink device
 // paths) and as the Kotlin port inside the tauri-plugin-webview-upgrade
-// submodule (driving the plugin's night-mode pin, readest/
+// submodule (driving the plugin's night-mode pin, universalbooks/
 // tauri-plugin-webview-upgrade#4). The two must classify devices
 // identically; this script fails CI whenever one side changes without the
 // other.
 import { readFileSync } from 'node:fs';
 
-const RUST_PATH = 'apps/readest-app/src-tauri/src/eink_identity.rs';
+const RUST_PATH = 'apps/universalbooks-app/src-tauri/src/eink_identity.rs';
 const KOTLIN_PATH =
-  'apps/readest-app/src-tauri/plugins/tauri-plugin-webview-upgrade/android/src/main/java/com/readest/webview_upgrade/EinkIdentity.kt';
+  'apps/universalbooks-app/src-tauri/plugins/tauri-plugin-webview-upgrade/android/src/main/java/com/universalbooks/webview_upgrade/EinkIdentity.kt';
 
 const LISTS = ['EINK_MANUFACTURERS', 'EINK_MODELS', 'EINK_AMBIGUOUS_MODELS'];
 

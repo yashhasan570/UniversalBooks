@@ -67,7 +67,7 @@
   "lsp": {
     "rust-analyzer": {
       "settings": {
-        "linkedProjects": ["packages/tauri/Cargo.toml", "apps/readest-app/src-tauri/Cargo.toml"]
+        "linkedProjects": ["packages/tauri/Cargo.toml", "apps/universalbooks-app/src-tauri/Cargo.toml"]
       }
     },
     "biome": {

@@ -1,8 +1,8 @@
 packages:
   - apps/*
-  - apps/readest-app/workers/send-email
-  - apps/readest-app/workers/iap-reconcile
-  - apps/readest-app/extensions/*
+  - apps/universalbooks-app/workers/send-email
+  - apps/universalbooks-app/workers/iap-reconcile
+  - apps/universalbooks-app/extensions/*
   - packages/foliate-js
 
 allowBuilds:

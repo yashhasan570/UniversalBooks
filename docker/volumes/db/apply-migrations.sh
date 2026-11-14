@@ -8,14 +8,14 @@
 # uploads, replica sync and Send to Universal Books all failed (issue #5550).
 #
 # The supabase/postgres image runs `/docker-entrypoint-initdb.d/*` in glob order
-# on first boot. This script is mounted there as `zz-readest-migrations.sh`,
+# on first boot. This script is mounted there as `zz-universalbooks-migrations.sh`,
 # which sorts after the image's own `migrate.sh` — by the time it runs, the
 # Supabase core schema and `init-scripts/100-schema.sql` are in place.
 #
-# Applied files are recorded in `readest_meta.migrations`, so it is also safe to
+# Applied files are recorded in `universalbooks_meta.migrations`, so it is also safe to
 # run by hand after pulling a newer image (see docker/README.md):
 #
-#   docker compose exec db /docker-entrypoint-initdb.d/zz-readest-migrations.sh
+#   docker compose exec db /docker-entrypoint-initdb.d/zz-universalbooks-migrations.sh
 
 set -e
 
@@ -33,20 +33,20 @@ psql_admin() {
 
 # The ledger lives outside `public` on purpose: PostgREST exposes `public`, and
 # the default privileges there would hand anon full access to the table.
-psql_admin -c "CREATE SCHEMA IF NOT EXISTS readest_meta"
-psql_admin -c "CREATE TABLE IF NOT EXISTS readest_meta.migrations (
+psql_admin -c "CREATE SCHEMA IF NOT EXISTS universalbooks_meta"
+psql_admin -c "CREATE TABLE IF NOT EXISTS universalbooks_meta.migrations (
   name text PRIMARY KEY,
   applied_at timestamp with time zone NOT NULL DEFAULT now()
 )"
 
-for sql in /readest-migrations/*.sql; do
+for sql in /universalbooks-migrations/*.sql; do
   [ -f "$sql" ] || continue
   name="$(basename "$sql")"
-  if [ -n "$(psql_admin -tAc "SELECT 1 FROM readest_meta.migrations WHERE name = '$name'")" ]; then
-    echo "readest-migrations: $name already applied, skipping"
+  if [ -n "$(psql_admin -tAc "SELECT 1 FROM universalbooks_meta.migrations WHERE name = '$name'")" ]; then
+    echo "universalbooks-migrations: $name already applied, skipping"
     continue
   fi
-  echo "readest-migrations: applying $name"
+  echo "universalbooks-migrations: applying $name"
   psql_admin -f "$sql"
-  psql_admin -c "INSERT INTO readest_meta.migrations (name) VALUES ('$name')"
+  psql_admin -c "INSERT INTO universalbooks_meta.migrations (name) VALUES ('$name')"
 done

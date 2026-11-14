@@ -18,7 +18,7 @@ services:
     volumes:
       - ../:/app
       - /app/node_modules
-      - /app/apps/readest-app/node_modules
-      - /app/apps/readest-app/public/vendor
-      - /app/apps/readest-app/.next
+      - /app/apps/universalbooks-app/node_modules
+      - /app/apps/universalbooks-app/public/vendor
+      - /app/apps/universalbooks-app/.next
       - /app/packages/foliate-js/node_modules

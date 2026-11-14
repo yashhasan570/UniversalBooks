@@ -1,6 +1,6 @@
 // Render a store-panel caption to a transparent PNG using the app's own Inter webfont.
 // Usage: node render-caption.mjs <out.png> <width> <fontPx> <weight> "line one\nline two"
-import pw from '/Users/chrox/dev/readest/node_modules/.pnpm/playwright@1.60.0/node_modules/playwright/index.js';
+import pw from '/Users/chrox/dev/universalbooks/node_modules/.pnpm/playwright@1.60.0/node_modules/playwright/index.js';
 import { readFileSync } from 'node:fs';
 const { chromium } = pw;
 
@@ -10,7 +10,7 @@ const fontPx = Number(sizeArg);
 const weight = Number(weightArg);
 const lineHeight = lhArg ? Number(lhArg) : 1.22;
 
-const woff2 = readFileSync('/Users/chrox/dev/readest/apps/readest-app/public/fonts/InterVariable.woff2').toString('base64');
+const woff2 = readFileSync('/Users/chrox/dev/universalbooks/apps/universalbooks-app/public/fonts/InterVariable.woff2').toString('base64');
 
 const html = `<!doctype html><meta charset="utf-8"><style>
 @font-face {

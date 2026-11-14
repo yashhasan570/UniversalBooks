@@ -96,7 +96,7 @@ importers:
         specifier: ^5
         version: 5.9.3
 
-  apps/readest-app:
+  apps/universalbooks-app:
     dependencies:
       '@ai-sdk/openai-compatible':
         specifier: ^2.0.81
@@ -185,15 +185,15 @@ importers:
       '@radix-ui/react-tooltip':
         specifier: ^1.2.8
         version: 1.2.8(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
-      '@readest/turso-database-common':
-        specifier: 0.7.0-pre.3-readest.0
-        version: 0.7.0-pre.3-readest.0
-      '@readest/turso-database-wasm':
-        specifier: 0.7.0-pre.3-readest.0
-        version: 0.7.0-pre.3-readest.0
-      '@readest/turso-database-wasm-common':
-        specifier: 0.7.0-pre.3-readest.0
-        version: 0.7.0-pre.3-readest.0
+      '@universalbooks/turso-database-common':
+        specifier: 0.7.0-pre.3-universalbooks.0
+        version: 0.7.0-pre.3-universalbooks.0
+      '@universalbooks/turso-database-wasm':
+        specifier: 0.7.0-pre.3-universalbooks.0
+        version: 0.7.0-pre.3-universalbooks.0
+      '@universalbooks/turso-database-wasm-common':
+        specifier: 0.7.0-pre.3-universalbooks.0
+        version: 0.7.0-pre.3-universalbooks.0
       '@serwist/next':
         specifier: ^9.5.6
         version: 9.5.11(next@16.4.2(@babel/core@7.29.7)(@opentelemetry/api@1.9.1)(@playwright/test@1.60.0)(@types/node@22.19.19)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(typescript@7.0.2)(webpack@5.106.2(lightningcss@1.32.0)(postcss@8.5.25))
@@ -640,7 +640,7 @@ importers:
         specifier: ^4.85.0
         version: 4.90.0(@cloudflare/workers-types@4.20260518.1)(@types/node@22.19.19)
 
-  apps/readest-app/extensions/send-to-readest:
+  apps/universalbooks-app/extensions/send-to-universalbooks:
     dependencies:
       '@mozilla/readability':
         specifier: ^0.6.0
@@ -677,7 +677,7 @@ importers:
         specifier: ^5.1.4
         version: 5.1.4(webpack@5.106.2)
 
-  apps/readest-app/workers/iap-reconcile:
+  apps/universalbooks-app/workers/iap-reconcile:
     dependencies:
       '@supabase/supabase-js':
         specifier: ^2.45.0
@@ -693,7 +693,7 @@ importers:
         specifier: ^4.0.0
         version: 4.90.0(@cloudflare/workers-types@4.20260518.1)(@types/node@22.19.19)
 
-  apps/readest-app/workers/send-email:
+  apps/universalbooks-app/workers/send-email:
     dependencies:
       '@supabase/supabase-js':
         specifier: ^2.45.0
@@ -2760,13 +2760,13 @@ packages:
   '@radix-ui/rect@1.1.1':
     resolution: {integrity: sha512-HPwpGIzkl28mWyZqG52jiqDJ12waP11Pa1lGoiyUkIEuMLBP0oeK/C89esbXrxsky5we7dfd8U58nm0SgAWpVw==}
 
-  '@readest/turso-database-common@0.7.0-pre.3-readest.0':
+  '@universalbooks/turso-database-common@0.7.0-pre.3-universalbooks.0':
     resolution: {integrity: sha512-EEfV9QV/vSTAve1fLk81v4KwoT58zezUd0AaPAuYNUDmHfYgqDQB8mgAGuR8XpwnPFFENLZUJnfsFCyco7M6Ig==}
 
-  '@readest/turso-database-wasm-common@0.7.0-pre.3-readest.0':
+  '@universalbooks/turso-database-wasm-common@0.7.0-pre.3-universalbooks.0':
     resolution: {integrity: sha512-bC7T/CXkiduBULYHdwsjp+H63uzwzDi5WRdhoFpQ/YdJF+M2Yl2n0b3tbjHwe7eeA54BdBs9zwL9CPzlBBz4Vg==}
 
-  '@readest/turso-database-wasm@0.7.0-pre.3-readest.0':
+  '@universalbooks/turso-database-wasm@0.7.0-pre.3-universalbooks.0':
     resolution: {integrity: sha512-k3M5RjOBhUuk12B7F3LptzbQHsmtWmm6s1ZGb+Kf1hXF8369BD0QUQZDtEme2+9lr6jpxbqL3nLuNcu5/NK5zQ==}
 
   '@resvg/resvg-wasm@2.4.1':
@@ -11226,19 +11226,19 @@ snapshots:
 
   '@radix-ui/rect@1.1.1': {}
 
-  '@readest/turso-database-common@0.7.0-pre.3-readest.0': {}
+  '@universalbooks/turso-database-common@0.7.0-pre.3-universalbooks.0': {}
 
-  '@readest/turso-database-wasm-common@0.7.0-pre.3-readest.0':
+  '@universalbooks/turso-database-wasm-common@0.7.0-pre.3-universalbooks.0':
     dependencies:
       '@emnapi/core': 1.8.1
       '@emnapi/runtime': 1.8.1
       '@napi-rs/wasm-runtime': 1.0.7
-      '@readest/turso-database-common': 0.7.0-pre.3-readest.0
+      '@universalbooks/turso-database-common': 0.7.0-pre.3-universalbooks.0
 
-  '@readest/turso-database-wasm@0.7.0-pre.3-readest.0':
+  '@universalbooks/turso-database-wasm@0.7.0-pre.3-universalbooks.0':
     dependencies:
-      '@readest/turso-database-common': 0.7.0-pre.3-readest.0
-      '@readest/turso-database-wasm-common': 0.7.0-pre.3-readest.0
+      '@universalbooks/turso-database-common': 0.7.0-pre.3-universalbooks.0
+      '@universalbooks/turso-database-wasm-common': 0.7.0-pre.3-universalbooks.0
 
   '@resvg/resvg-wasm@2.4.1': {}
 

@@ -1,4 +1,4 @@
-name: readest
+name: universalbooks
 
 services:
   db:
@@ -13,8 +13,8 @@ services:
       # sorts after the image's own migrate.sh, so it runs once the Supabase
       # core schema and 100-schema.sql exist. It globs the mounted directory,
       # so a new migration file needs no compose edit (#5550).
-      - ./volumes/db/migrations:/readest-migrations:Z
-      - ./volumes/db/apply-migrations.sh:/docker-entrypoint-initdb.d/zz-readest-migrations.sh:Z
+      - ./volumes/db/migrations:/universalbooks-migrations:Z
+      - ./volumes/db/apply-migrations.sh:/docker-entrypoint-initdb.d/zz-universalbooks-migrations.sh:Z
       - db-data:/var/lib/postgresql/data:Z
       - db-config:/etc/postgresql-custom
     environment:
@@ -94,7 +94,7 @@ services:
     command: ["postgrest"]
 
   minio:
-    container_name: readest-minio
+    container_name: universalbooks-minio
     image: quay.io/minio/minio
     restart: unless-stopped
     ports:
@@ -124,8 +124,8 @@ services:
       "
 
   client:
-    container_name: readest-client
-    image: ${READEST_IMAGE:-ghcr.io/readest/readest:latest}
+    container_name: universalbooks-client
+    image: ${UNIVERSALBOOKS_IMAGE:-ghcr.io/universalbooks/universalbooks:latest}
     pull_policy: missing
     restart: unless-stopped
     ports:
@@ -147,7 +147,7 @@ services:
       S3_SECRET_ACCESS_KEY: ${MINIO_ROOT_PASSWORD}
       OBJECT_STORAGE_TYPE: ${OBJECT_STORAGE_TYPE:-s3}
       SELF_HOSTED: ${SELF_HOSTED:-true}
-      READEST_TRUSTED_PRIVATE_HOSTS: ${READEST_TRUSTED_PRIVATE_HOSTS:-}
+      UNIVERSALBOOKS_TRUSTED_PRIVATE_HOSTS: ${UNIVERSALBOOKS_TRUSTED_PRIVATE_HOSTS:-}
       STORAGE_FIXED_QUOTA: ${STORAGE_FIXED_QUOTA:-1073741824}
       TRANSLATION_FIXED_QUOTA: ${TRANSLATION_FIXED_QUOTA:-50000}
       FONT_BASE_URL: ${FONT_BASE_URL:-}

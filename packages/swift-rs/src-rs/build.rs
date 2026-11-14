@@ -251,7 +251,7 @@ impl SwiftLinker {
             let swift_target_triple = rust_target
                 .swift_target_triple(&self.macos_min_version, self.ios_min_version.as_deref());
 
-            // READEST PATCH (Xcode 26.2 / Swift 6.2): the upstream invocation
+            // UNIVERSALBOOKS PATCH (Xcode 26.2 / Swift 6.2): the upstream invocation
             // built with `--arch <host>` and overrode the target per-swiftc via
             // `-Xswiftc -target`. Swift 6.2's driver no longer honors that mix:
             // sources compile against the wrong platform's Swift overlays, so
