@@ -43,7 +43,7 @@ vi.mock('@/utils/access', () => ({
 
 import { GET, POST } from '@/pages/api/sync/vocabulary';
 
-const URL_BASE = 'https://__READ__web.__READ__universalbooks.app/api/sync/vocabulary';
+const URL_BASE = 'https://__READ__web.__READ__universalbooks.com/api/sync/vocabulary';
 const get = (qs: string) =>
   GET(
     new Request(`${URL_BASE}?${qs}`, {

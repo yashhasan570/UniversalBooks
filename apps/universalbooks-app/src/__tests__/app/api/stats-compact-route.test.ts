@@ -86,7 +86,7 @@ const dbRow = (updated_at: string, page = 1) => ({
 });
 const post = (token: string | null = 't') =>
   POST(
-    new Request('https://__READ__web.__READ__universalbooks.app/api/stats/compact', {
+    new Request('https://__READ__web.__READ__universalbooks.com/api/stats/compact', {
       method: 'POST',
       headers: token ? { 'x-compact-token': token } : {},
     }),
@@ -154,7 +154,7 @@ describe('POST /api/stats/compact targeted run ({ user_id })', () => {
   const UID = '00000000-0000-0000-0000-000000000001';
   const postUser = (user_id: unknown, token: string | null = 't') =>
     POST(
-      new Request('https://__READ__web.__READ__universalbooks.app/api/stats/compact', {
+      new Request('https://__READ__web.__READ__universalbooks.com/api/stats/compact', {
         method: 'POST',
         headers: {
           'content-type': 'application/json',
@@ -215,7 +215,7 @@ describe('POST /api/stats/compact targeted run ({ user_id })', () => {
     cfEnv = { ...cfEnv, STATS_COMPACT_ENABLED: 'true' };
     const raw = (body: string) =>
       POST(
-        new Request('https://__READ__web.__READ__universalbooks.app/api/stats/compact', {
+        new Request('https://__READ__web.__READ__universalbooks.com/api/stats/compact', {
           method: 'POST',
           headers: { 'x-compact-token': 't', 'content-type': 'application/json' },
           body,
@@ -284,7 +284,7 @@ describe('POST /api/stats/compact orphan sweep (account-deletion cleanup)', () =
   it('does not run the sweep for a targeted request', async () => {
     orphanRows = [{ user_id: A }];
     await POST(
-      new Request('https://__READ__web.__READ__universalbooks.app/api/stats/compact', {
+      new Request('https://__READ__web.__READ__universalbooks.com/api/stats/compact', {
         method: 'POST',
         headers: { 'x-compact-token': 't', 'content-type': 'application/json' },
         body: JSON.stringify({ user_id: '00000000-0000-0000-0000-000000000001' }),

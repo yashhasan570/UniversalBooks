@@ -31,7 +31,7 @@ Checkouts under `~/dev/crosspoint/` (updated 2026-10-02):
 - `e2e/sim.sh <run> '<ms:KEY;...>' '<ms:shot;...>' [timeout]` runs headless, writes 360px PNGs to
   `crosspoint-reader/qa-artifacts/<run>/`. `e2e/fake-universalbooks.mjs` = protocol double of `/api/crosspoint/*`
   (device code + `POST /__approve` hook, books, download hop, `/r2/`, sessions, KOSync), logs `requests.jsonl`.
-  Install the plugin on `fs_/.crosspoint/plugins/universalbooks/` with `https://__READ__web.universalbooks.app` sed-replaced by
+  Install the plugin on `fs_/.crosspoint/plugins/universalbooks/` with `https://__READ__web.universalbooks.com` sed-replaced by
   `http://127.0.0.1:8787`.
 
 **2026-10-03 rebuild on newer develop:** branch `sim/develop-1003` = origin/develop 1f77b83 + the CssParser
@@ -42,7 +42,7 @@ UNCOMMITTED simulator edits on `universalbooks-e2e-fixes`: `ESP_ERR_NVS_NOT_FOUN
 (nothing persists), `esp_fill_random`, `String::toLowerCase`. Device plugin list = Home RIGHT x3 + ENTER
 (`sim.sh list '3000:RIGHT;3400:RIGHT;3800:RIGHT;4400:ENTER;9000:QUIT' '7000:plugins' 30`). A local
 "release server" (`python3 -m http.server 8788` over `releases/latest.json` + `releases/v<v>/<zip>`) stands
-in for download.universalbooks.app when testing the plugin's self-update.
+in for download.universalbooks.com when testing the plugin's self-update.
 
 **2.0.0 rebuild (2026-11-04):** firmware branch `sim/v2.0.0` = tag 2.0.0, NO local commits (macOS 27 has float
 `from_chars`, so cad2246 isn't needed; upstream sim ships the wolfssl shims, so `-Isim-shims` is OFF). Simulator branch

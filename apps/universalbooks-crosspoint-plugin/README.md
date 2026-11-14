@@ -3,7 +3,7 @@
 An [SD-card plugin](https://github.com/crosspoint-reader/crosspoint-reader/blob/develop/docs/sd-plugins.md)
 for [CrossPoint](https://github.com/crosspoint-reader/crosspoint-reader) e-readers
 (Xteink X3/X4 and other FreeInk devices) that connects the reader to your
-[Universal Books](https://universalbooks.app) account:
+[Universal Books](https://universalbooks.com) account:
 
 - **Library**: browse and search the EPUBs in your Universal Books cloud library on the
   reader and download them to `/Universal Books/` on the SD card.

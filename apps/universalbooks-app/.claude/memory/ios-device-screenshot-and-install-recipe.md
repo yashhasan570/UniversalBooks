@@ -16,7 +16,7 @@ metadata:
 
 **`pnpm dev-ios` (tauri ios build + `ideviceinstaller install`):**
 - Takes several minutes (Next build + Xcode). Watch the log for `BUILD SUCCEEDED`, then `Install: Complete`.
-- The install step sometimes hangs at `Installing 'com.universalbooks.app'` with no progress although the new build is already running on the phone (seen with Universal Books open and playing TTS). Confirm via Mirroring, then kill the `ideviceinstaller` pid; don't wait on it.
+- The install step sometimes hangs at `Installing 'com.universalbooks.com'` with no progress although the new build is already running on the phone (seen with Universal Books open and playing TTS). Confirm via Mirroring, then kill the `ideviceinstaller` pid; don't wait on it.
 - Each `dev-ios` bakes the web bundle at the start of the build: changes made while it compiles are NOT in that install. Check the ipa mtime vs. the edit time before telling the user a fix is on the device.
 
 Related: [[ios-worktree-device-build-gotchas]], [[build-ci-recipes]].

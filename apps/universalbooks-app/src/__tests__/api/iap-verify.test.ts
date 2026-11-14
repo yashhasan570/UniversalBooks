@@ -50,8 +50,8 @@ describe.skipIf(SKIP_IAP_API_TESTS)('/api/google/iap-verify', () => {
         Authorization: 'Bearer test-token',
       },
       body: JSON.stringify({
-        packageName: 'com.universalbooks.app',
-        productId: 'com.universalbooks.app.monthly.pro',
+        packageName: 'com.universalbooks.com',
+        productId: 'com.universalbooks.com.monthly.pro',
         orderId: 'GPA.3388-4630-1043-97604',
         purchaseToken:
           'bhedilellajejnodjfcanjai.AO-J1Ow94pzeLM6e8pCJLT_tV-RnffT3HKMTcstovMNVlUTOwhx38SU5Seq3EO5qiQ0Le_VQU1ShN7nxaFQILY3UPX2nhdAKLBbekC_MxBnRf-Bpgegh_NA',

@@ -44,7 +44,7 @@ describe('widget group deep link', () => {
   });
 
   it('only accepts the universalbooks:// scheme, never the web host', () => {
-    expect(parseWidgetGroupDeepLink('https://__READ__web.universalbooks.app/o/widget-group/series/x')).toBeNull();
+    expect(parseWidgetGroupDeepLink('https://__READ__web.universalbooks.com/o/widget-group/series/x')).toBeNull();
   });
 });
 
@@ -60,7 +60,7 @@ describe('widget edit-shelf deep link', () => {
 
   it('only accepts the universalbooks:// scheme, never the web host', () => {
     expect(
-      parseWidgetEditShelfDeepLink('https://__READ__web.universalbooks.app/o/widget-edit-shelf/x'),
+      parseWidgetEditShelfDeepLink('https://__READ__web.universalbooks.com/o/widget-edit-shelf/x'),
     ).toBeNull();
   });
 });

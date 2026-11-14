@@ -172,9 +172,9 @@ function createSupabaseMock(state: {
   return { client, captures };
 }
 
-const PLUS_PRODUCT = 'com.universalbooks.app.plus.monthly';
-const STORAGE_PRODUCT = 'com.universalbooks.app.storage.5gb.purchase';
-const BUNDLE_ID = 'com.universalbooks.app';
+const PLUS_PRODUCT = 'com.universalbooks.com.plus.monthly';
+const STORAGE_PRODUCT = 'com.universalbooks.com.storage.5gb.purchase';
+const BUNDLE_ID = 'com.universalbooks.com';
 const ORIGINAL_TX = 'orig-tx-1';
 
 const buildTransaction = (overrides: Record<string, unknown> = {}) => ({

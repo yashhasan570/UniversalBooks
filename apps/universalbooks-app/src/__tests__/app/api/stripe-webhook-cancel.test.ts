@@ -71,7 +71,7 @@ vi.mock('@/utils/supabase', () => ({
 import { POST } from '@/app/api/stripe/webhook/route';
 
 const makeReq = () =>
-  new Request('https://__READ__web.__READ__universalbooks.app/api/stripe/webhook', {
+  new Request('https://__READ__web.__READ__universalbooks.com/api/stripe/webhook', {
     method: 'POST',
     headers: { 'stripe-signature': 'sig', 'content-type': 'application/json' },
     body: '{}',
@@ -105,7 +105,7 @@ describe('POST /api/stripe/webhook — subscription cancelled', () => {
     // The production incident: a user migrated from card billing to Google
     // Play, and cancelling the leftover Stripe subscription wiped their plan.
     hooks.getHighestActivePlan.mockResolvedValue('free');
-    hooks.googleRows = [{ product_id: 'com.universalbooks.app.monthly.pro', status: 'active' }];
+    hooks.googleRows = [{ product_id: 'com.universalbooks.com.monthly.pro', status: 'active' }];
 
     const res = await POST(makeReq());
 

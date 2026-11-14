@@ -12,7 +12,7 @@ import {
 } from './adb';
 import { CdpPage, forwardWebViewDevtools, listPages } from './cdp';
 
-export const APP_PKG = 'com.universalbooks.app';
+export const APP_PKG = 'com.universalbooks.com';
 const CDP_PORT = Number(process.env['UNIVERSALBOOKS_CDP_PORT'] ?? 9333);
 const REMOTE_FIXTURE_DIR = '/sdcard/Download';
 

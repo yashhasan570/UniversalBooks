@@ -25,15 +25,15 @@ const fill = (template: string, vars: Record<string, string>) =>
 const decodeBase64Json = (b64: string) =>
   JSON.parse(new TextDecoder().decode(Uint8Array.from(atob(b64), (c) => c.charCodeAt(0))));
 
-const API = 'https://__READ__web.__READ__universalbooks.app/api/crosspoint';
+const API = 'https://__READ__web.__READ__universalbooks.com/api/crosspoint';
 const TOKEN_FILE = deviceJson.token.file;
 const ACCOUNT_FILE = '/.crosspoint/universalbooks-account.json';
 const EMAIL = 'reader@example.com';
 const CODE = {
   device_code: 'dc',
   user_code: 'BCDF-GHJK',
-  verification_uri: 'https://__READ__web.__READ__universalbooks.app/link',
-  verification_uri_complete: 'https://__READ__web.__READ__universalbooks.app/link?code=BCDF-GHJK',
+  verification_uri: 'https://__READ__web.__READ__universalbooks.com/link',
+  verification_uri_complete: 'https://__READ__web.__READ__universalbooks.com/link?code=BCDF-GHJK',
   expires_in: 600,
   interval: 0.001,
 };
@@ -42,7 +42,7 @@ const KEY = { access_token: 'device-key', token_type: 'bearer', id: 'new-key-id'
 // Universal Books releases, as the release job publishes them: latest.json names the
 // version and each release carries the plugin zip, which holds the universalbooks/
 // folder that goes on the SD card.
-const RELEASES = 'https://download.universalbooks.app/releases';
+const RELEASES = 'https://download.universalbooks.com/releases';
 const ZIP_BYTES = new Uint8Array([0x50, 0x4b, 0x03, 0x04]);
 const RELEASE_ZIP: Record<string, string | null> = {
   'universalbooks/': null,

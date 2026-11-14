@@ -126,7 +126,7 @@ describe('QuoteCardDialog (#5830)', () => {
     await open();
     expect(screen.queryByRole('checkbox', { name: /QR Code/ })).toBeNull();
     cleanup();
-    await open('serif', { ...content, qrUrl: 'https://__READ__web.universalbooks.app/o/book/abc/annotation/def' });
+    await open('serif', { ...content, qrUrl: 'https://__READ__web.universalbooks.com/o/book/abc/annotation/def' });
     expect(lastStyle().showQr).toBe(true);
     await act(async () => fireEvent.click(screen.getByRole('checkbox', { name: /QR Code/ })));
     expect(lastStyle().showQr).toBe(false);

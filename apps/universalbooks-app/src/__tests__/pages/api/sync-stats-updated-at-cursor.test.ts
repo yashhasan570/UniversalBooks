@@ -46,7 +46,7 @@ vi.mock('@/utils/access', () => ({
 import { GET } from '@/pages/api/sync';
 
 const req = (qs: string) =>
-  new Request(`https://__READ__web.__READ__universalbooks.app/api/sync?${qs}`, {
+  new Request(`https://__READ__web.__READ__universalbooks.com/api/sync?${qs}`, {
     headers: { authorization: 'Bearer tok' },
   }) as unknown as NextRequest;
 

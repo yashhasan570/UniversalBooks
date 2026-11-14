@@ -39,7 +39,7 @@ effect-level guard is removed. Regression test
 
 **Browser A/B VERIFIED 2026-08-25 (Chrome, `pnpm dev-web` from the worktree, signed in as the test
 account):** in-page `fetch` wrapper adds N s latency to every `/api/sync` call (the local API is
-~0.7 s/leg, too fast to overlap; the desktop app via universalbooks.app is 2-3 s/leg) + a synthetic
+~0.7 s/leg, too fast to overlap; the desktop app via universalbooks.com is 2-3 s/leg) + a synthetic
 `DragEvent('drop')` on `.library-page` with a `DataTransfer` File; R2 PUT runs ~90 KB/s, so a
 2.4 MB EPUB takes ~25 s. FIX: 1.2 MB book + 8 s delay -> PUT ended inside the in-flight GET,
 re-push with uploadedAt 1 s after lock release, server `uploaded_at` set, book never opened.

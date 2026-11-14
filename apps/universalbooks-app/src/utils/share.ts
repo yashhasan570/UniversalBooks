@@ -18,7 +18,7 @@ export const buildShareUrl = (token: string): string => `${SHARE_BASE_URL}/${tok
 
 // Parses both the custom-scheme and HTTPS forms used by the deeplink ingress.
 //   universalbooks://share/{token}
-//   https://__READ__web.__READ__universalbooks.app/s/{token}
+//   https://__READ__web.__READ__universalbooks.com/s/{token}
 // Returns null on invalid input so callers can fall through to other parsers.
 export const parseShareDeepLink = (url: string): ShareDeepLink | null => {
   if (!url) return null;
@@ -113,8 +113,8 @@ export const shareSelectedText = async (
 
 const isWebUniversalBooksHost = (host: string): boolean => {
   // Matches the production host and any preview domain Universal Books may serve from.
-  // Conservative: accepts only the exact production host or a *.universalbooks.app
+  // Conservative: accepts only the exact production host or a *.universalbooks.com
   // subdomain so a third-party site cannot impersonate a share URL.
   if (host === new URL(UNIVERSALBOOKS_WEB_BASE_URL).host) return true;
-  return host.endsWith('.universalbooks.app');
+  return host.endsWith('.universalbooks.com');
 };

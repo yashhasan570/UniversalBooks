@@ -18,14 +18,14 @@ const supabaseAnonKey =
 const UNIVERSALBOOKS_CLOUD_HOSTS = [
   'universalbooks.supabase.co',
   'vbsyxfusjjqdxkjqlysc.supabase.co',
-  'auth.universalbooks.app',
+  'auth.universalbooks.com',
 ];
 
 // Some ISPs block *.supabase.co (#6416), so Universal Books Cloud sends password sign-in
-// and the calls that keep such a session alive through a Worker on universalbooks.app
+// and the calls that keep such a session alive through a Worker on universalbooks.com
 // (workers/auth-proxy). OAuth and email links stay on the Supabase host: their
 // callbacks land there, and a proxy can't change that.
-const AUTH_PROXY_URL = 'https://auth-cf.universalbooks.app';
+const AUTH_PROXY_URL = 'https://auth-cf.universalbooks.com';
 
 const isProxiedAuthRequest = ({ pathname, searchParams }: URL) =>
   pathname === '/auth/v1/logout' ||

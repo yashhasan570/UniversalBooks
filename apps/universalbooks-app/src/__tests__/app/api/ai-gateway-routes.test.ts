@@ -19,7 +19,7 @@ import { POST as chatPOST } from '@/app/api/ai/chat/route';
 import { POST as embedPOST } from '@/app/api/ai/embed/route';
 
 const post = (path: string, body: unknown) =>
-  new Request(`https://__READ__web.__READ__universalbooks.app/api/ai/${path}`, {
+  new Request(`https://__READ__web.__READ__universalbooks.com/api/ai/${path}`, {
     method: 'POST',
     headers: { authorization: 'Bearer tok', 'content-type': 'application/json' },
     body: JSON.stringify(body),

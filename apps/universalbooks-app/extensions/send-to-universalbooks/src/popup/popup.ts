@@ -16,7 +16,7 @@ import {
   isLocalFileUrl,
 } from '../lib/localPage';
 
-const LOGIN_URL = 'https://__READ__web.universalbooks.app/';
+const LOGIN_URL = 'https://__READ__web.universalbooks.com/';
 
 localizeDom();
 

@@ -171,9 +171,9 @@ re-applied on every deploy (that is why the kill switch lives there).
 
 ```bash
 TOKEN=...   # the value from step 2
-curl -s -o /dev/null -w '%{http_code}\n' -X POST https://__READ__web.__READ__universalbooks.app/api/stats/compact \
+curl -s -o /dev/null -w '%{http_code}\n' -X POST https://__READ__web.__READ__universalbooks.com/api/stats/compact \
   -H "x-compact-token: $TOKEN"                                            # 503 (disabled)
-curl -s -X POST https://__READ__web.__READ__universalbooks.app/api/stats/restore -H "x-compact-token: $TOKEN" \
+curl -s -X POST https://__READ__web.__READ__universalbooks.com/api/stats/restore -H "x-compact-token: $TOKEN" \
   -H 'content-type: application/json' -d '{"user_id":"00000000-0000-0000-0000-000000000000"}'
                                           # {"restored_segments":0,"rows":0}: restore path is live
 ```
@@ -196,7 +196,7 @@ from public.stat_pages where user_id = '<uid>' group by 1 order by 1;
 ```bash
 # 4c. targeted compaction: that user only, ignores the enabled flag and the batching
 #     thresholds, archives everything older than the window; repeat until users_archived = 0
-curl -s -X POST https://__READ__web.__READ__universalbooks.app/api/stats/compact -H "x-compact-token: $TOKEN" \
+curl -s -X POST https://__READ__web.__READ__universalbooks.com/api/stats/compact -H "x-compact-token: $TOKEN" \
   -H 'content-type: application/json' -d '{"user_id":"<uid>"}'
 # {"ok":true,"targeted":true,"users_claimed":1,"users_archived":1,"segments":N,"rows":R,...}
 ```
@@ -231,7 +231,7 @@ with email + password you can also pull through the API directly:
 ACCESS=$(curl -s "https://<project>.supabase.co/auth/v1/token?grant_type=password" \
   -H "apikey: $SUPABASE_ANON_KEY" -H 'content-type: application/json' \
   -d '{"email":"<you@example.com>","password":"..."}' | jq -r .access_token)
-curl -s "https://__READ__web.__READ__universalbooks.app/api/sync?type=stats&since=0&limit=1000" \
+curl -s "https://__READ__web.__READ__universalbooks.com/api/sync?type=stats&since=0&limit=1000" \
   -H "Authorization: Bearer $ACCESS" | jq '.statPages | length, (.[0] // empty)'
 ```
 
@@ -246,7 +246,7 @@ objects stay.
 `pnpm deploy`. The first run happens within 10 minutes; a manual run is identical:
 
 ```bash
-curl -s -X POST https://__READ__web.__READ__universalbooks.app/api/stats/compact -H "x-compact-token: $TOKEN"
+curl -s -X POST https://__READ__web.__READ__universalbooks.com/api/stats/compact -H "x-compact-token: $TOKEN"
 # {"ok":true,"users_claimed":50,"users_archived":N,"segments":...,"errors":0,"commit_mismatches":0,...}
 ```
 

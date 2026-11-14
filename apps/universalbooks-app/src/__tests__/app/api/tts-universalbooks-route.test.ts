@@ -33,7 +33,7 @@ const CATALOG = [
 ];
 
 const req = (method: 'GET' | 'POST', body?: unknown, query = '') =>
-  new NextRequest(`https://__READ__web.__READ__universalbooks.app/api/tts/universalbooks${query}`, {
+  new NextRequest(`https://__READ__web.__READ__universalbooks.com/api/tts/universalbooks${query}`, {
     method,
     headers: { authorization: 'Bearer tok', 'Content-Type': 'application/json' },
     body: body === undefined ? undefined : JSON.stringify(body),

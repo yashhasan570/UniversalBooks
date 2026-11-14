@@ -2,7 +2,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 const CLOUD_URL = 'https://vbsyxfusjjqdxkjqlysc.supabase.co';
-const PROXY_URL = 'https://auth-cf.universalbooks.app';
+const PROXY_URL = 'https://auth-cf.universalbooks.com';
 
 const fetchMock = vi.fn<typeof fetch>();
 

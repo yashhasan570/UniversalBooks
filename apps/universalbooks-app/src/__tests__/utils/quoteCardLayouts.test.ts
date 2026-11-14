@@ -36,7 +36,7 @@ const input = (overrides: Partial<QuoteCardInput> = {}): QuoteCardInput => ({
 });
 
 const QR_URL =
-  'https://__READ__web.universalbooks.app/o/book/75abe2d2e1c5116273d2116b6266114a/annotation/abc123?cfi=epubcfi(%2F6%2F248!%2F4%2F2%2C%2F1%3A0%2C%2F3%3A45)';
+  'https://__READ__web.universalbooks.com/o/book/75abe2d2e1c5116273d2116b6266114a/annotation/abc123?cfi=epubcfi(%2F6%2F248!%2F4%2F2%2C%2F1%3A0%2C%2F3%3A45)';
 
 const LAYOUTS = Object.keys(QUOTE_CARD_LAYOUTS) as QuoteCardLayoutId[];
 const SHAPES = Object.keys(QUOTE_CARD_SIZES) as QuoteCardShape[];

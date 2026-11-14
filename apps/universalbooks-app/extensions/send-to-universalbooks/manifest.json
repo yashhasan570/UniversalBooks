@@ -30,8 +30,8 @@
   "content_scripts": [
     {
       "matches": [
-        "https://__READ__web.universalbooks.app/*",
-        "https://*.universalbooks.app/*",
+        "https://__READ__web.universalbooks.com/*",
+        "https://*.universalbooks.com/*",
         "http://localhost:3000/*"
       ],
       "js": ["content/auth-bridge.js"],

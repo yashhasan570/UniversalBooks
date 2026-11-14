@@ -61,7 +61,7 @@ const nextConfig = {
     // makes this ceiling an unauthenticated memory budget on every /api/* route
     // — so only the self-hosted image, which may proxy whole book files through
     // the Node server, gets real headroom. `standaloneOutput` is the right gate
-    // because BUILD_STANDALONE is set by the Dockerfile alone: __READ__web.universalbooks.app
+    // because BUILD_STANDALONE is set by the Dockerfile alone: __READ__web.universalbooks.com
     // runs on Cloudflare/Vercel, never on that image. (This value is baked into
     // required-server-files.json at build time, so a runtime env var could not
     // do the same job.)

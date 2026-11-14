@@ -39,7 +39,7 @@ device web API (File Transfer mode: `POST http://<x4-ip>/api/settings {"koServer
 `GET /api/settings` first, restore after). Screenshots: `CMD:SCREENSHOT` over `/dev/cu.usbmodem*` with platformio's python
 (has pyserial+PIL); the port vanishes when the X4 sleeps. Traps: `pnpm dev-web` looped HMR reloads (cause not found) and an
 old prod service worker on localhost:3001 -> use `build-web` + `start-web`; a production web build syncs with
-__READ__web.universalbooks.app unless the server starts with `API_BASE_URL=http://localhost:<port>` (runtime-config.js); Chrome's
+__READ__web.universalbooks.com unless the server starts with `API_BASE_URL=http://localhost:<port>` (runtime-config.js); Chrome's
 localhost:3000 and :3001 origins were signed in to DIFFERENT accounts (compare sha of the JWT sub, never print it).
 Firmware: Smart Sync also GETs progress under the alternate match method's hash (filename md5 for Binary devices);
 clippings use the PRIMARY hash; applyRemote applies a tombstone whatever its revision. Filename-hash support
@@ -56,4 +56,4 @@ PR #7319 MERGED 6ab667bd2: a moved range clears xpointer0/1 + crosspoint as NULL
 for an unmatched document rescans the user's books (fix = indexed md5(original_filename) column or a negative cache).
 Cleanup 2026-11-04: both PRs merged, worktree + branches removed, local servers stopped. The X4 STILL points at the
 Mac (http://192.168.2.120:3001/api/crosspoint, Sync Clippings on) per chrox; its original settings are in the session
-scratchpad (koServerUrl https://__READ__web.__READ__universalbooks.app/api/crosspoint, koSyncClippings 0), restore after the web deploy.
+scratchpad (koServerUrl https://__READ__web.__READ__universalbooks.com/api/crosspoint, koSyncClippings 0), restore after the web deploy.

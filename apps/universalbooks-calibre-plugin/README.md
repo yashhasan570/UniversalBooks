@@ -1,7 +1,7 @@
 # Universal Books calibre plugin
 
 A [calibre](https://calibre-ebook.com) GUI plugin that pushes selected books —
-with their metadata — into your [Universal Books](https://universalbooks.app) cloud library.
+with their metadata — into your [Universal Books](https://universalbooks.com) cloud library.
 Re-pushing a book updates its existing entry instead of creating a duplicate,
 so you can edit metadata in calibre and re-send it any time.
 

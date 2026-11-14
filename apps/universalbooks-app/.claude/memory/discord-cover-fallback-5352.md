@@ -24,7 +24,7 @@ Investigated 2026-07-28. Findings:
   exactly `processDiscordCover` output (portrait cover drawn on a 512×512
   transparent canvas, then encoded as JPEG, which has no alpha). So they are
   signed in, uploads reach R2, and Discord does resolve external
-  `https://storage.universalbooks.app/...` URLs. The failure is a flaky link, not config.
+  `https://storage.universalbooks.com/...` URLs. The failure is a flaky link, not config.
 - **The fallback image is visually ambiguous.** `book_icon` is a real registered
   Discord art asset (id 1462683620484321403) *and* the Universal Books app icon is the same
   open-book artwork. So "icon shown" cannot distinguish

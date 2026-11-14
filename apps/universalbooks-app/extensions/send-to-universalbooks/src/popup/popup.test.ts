@@ -34,7 +34,7 @@ const POPUP_DOM = `
   </section>
   <section id="signed-out-view" class="sign-in hidden">
     <p>Sign in to Universal Books to start clipping pages.</p>
-    <button id="open-universalbooks" class="primary">Open __READ__web.universalbooks.app</button>
+    <button id="open-universalbooks" class="primary">Open __READ__web.universalbooks.com</button>
   </section>
 `;
 

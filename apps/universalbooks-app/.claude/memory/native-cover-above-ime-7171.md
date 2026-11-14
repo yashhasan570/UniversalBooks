@@ -12,7 +12,7 @@ metadata:
 the in-book settings. Cause: the native page cover (`NativePaperTurn` PopupWindow, and the
 turn-time page cover in `NativeBridgePlugin`) is not focusable, so Android stacks it ABOVE
 the InputMethod window. The keyboard is a different UID, so InputDispatcher logs
-"Dropping untrusted touch event due to com.universalbooks.app ... PopupWindow".
+"Dropping untrusted touch event due to com.universalbooks.com ... PopupWindow".
 Fix: `inputMethodMode = INPUT_METHOD_NEEDED` + `softInputMode = SOFT_INPUT_ADJUST_NOTHING`.
 MERGED #7191 as 1166393eb (2026-10-31, UNRELEASED); worktree removed; verified in the real app on the Xiaomi under both styles.
 

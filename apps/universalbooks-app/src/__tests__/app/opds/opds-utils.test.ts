@@ -33,8 +33,8 @@ vi.mock('@/services/environment', () => ({
   isTauriAppPlatform: vi.fn(() => false),
   getAPIBaseUrl: () => '/api',
   getNodeAPIBaseUrl: () => '/node-api',
-  getBaseUrl: () => 'https://__READ__web.universalbooks.app',
-  getNodeBaseUrl: () => 'https://node.universalbooks.app',
+  getBaseUrl: () => 'https://__READ__web.universalbooks.com',
+  getNodeBaseUrl: () => 'https://node.universalbooks.com',
   isWebDevMode: () => true,
 }));
 

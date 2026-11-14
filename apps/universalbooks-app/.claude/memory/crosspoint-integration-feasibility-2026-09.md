@@ -65,7 +65,7 @@ approval untested until the migration is live. Follow-ups: device list/revoke/ex
 web sign-in (one more in [[private-crosspoint-integration-feasibility-2026-09]], local only).
 
 **Self-update (2026-10-03, uncommitted on main when written):** web card shows the installed version
-(manifest.json via `api.pluginFile`) + Check for update (relay GET download.universalbooks.app/releases/latest.json,
+(manifest.json via `api.pluginFile`) + Check for update (relay GET download.universalbooks.com/releases/latest.json,
 13 KB under the 32 KB relay cap; relay does NOT follow redirects, so the GitHub URL can't be a fallback) +
 Update (`fetchToSd` the release zip to `<dir>/update.zip`, unzip with the device's own `/js/jszip.min.js`,
 `writeFile` each entry with manifest.json LAST, `/delete` the zip). `api.dir` only exists on develop >= 10-01;
@@ -107,9 +107,9 @@ from production 404s until the next release; the X4 still runs the 0.12.99 test 
 1.0.0 files in the session scratchpad only). Serial port = CMD:SCREENSHOT only, no input injection.
 
 **Release + landing (2026-10-04):** Universal Books-0.12.10.crosspoint-plugin.zip (built from main 349ac45ba, stamped
-0.12.10) uploaded to the v0.12.10 GitHub release AND R2 universalbooks-releases/releases/v0.12.10/ (download.universalbooks.app;
+0.12.10) uploaded to the v0.12.10 GitHub release AND R2 universalbooks-releases/releases/v0.12.10/ (download.universalbooks.com;
 the landing's buttons link there by NEXT_PUBLIC_APP_VERSION). Docs screenshots live in R2 bucket universalbooks-public
-under public/images/crosspoint/ -> https://assets.universalbooks.app/public/images/crosspoint/ (assets.universalbooks.app IS
+under public/images/crosspoint/ -> https://assets.universalbooks.com/public/images/crosspoint/ (assets.universalbooks.com IS
 attached to universalbooks-public). universalbooks-landing#44 MERGED (88fdfd411): /docs/crosspoint + Sync section, CrossPoint
 download tile (home drops the App Store tile via showAppStore), hero names CrossPoint, orbit node on the OUTER
 ring. GOTCHA: an 11th hub node makes the physics' resting layout a SADDLE (group slides to another layout after

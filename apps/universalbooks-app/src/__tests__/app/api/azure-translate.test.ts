@@ -29,11 +29,11 @@ const makeReq = (
   const headers: Record<string, string> = {
     authorization: init.authorization ?? 'Bearer test-token',
   };
-  if (init.origin !== null) headers['origin'] = init.origin ?? 'https://__READ__web.universalbooks.app';
+  if (init.origin !== null) headers['origin'] = init.origin ?? 'https://__READ__web.universalbooks.com';
   if (init.contentLength !== null) {
     headers['content-length'] = init.contentLength ?? String(new TextEncoder().encode(body).length);
   }
-  return new NextRequest(`https://__READ__web.__READ__universalbooks.app/api/azure-translate?${query}`, {
+  return new NextRequest(`https://__READ__web.__READ__universalbooks.com/api/azure-translate?${query}`, {
     method: 'POST',
     body,
     headers,

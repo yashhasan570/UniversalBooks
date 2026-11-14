@@ -13,7 +13,7 @@ Worked 2026-10-23 measuring narration start on PR #7019 (iPhone 17 Pro sim, iOS 
 - Inspector: `ios_webkit_debug_proxy -s unix:$(lsof -aUc launchd_sim | grep webinspectord_sim.socket | awk '{print $NF}') -F`; pages at `http://127.0.0.1:9222/json`. A second booted sim has its own socket: add `-c null:9321,:9322`.
 - curl needs `--noproxy '*'` (the shell exports an HTTP proxy; without it localhost returns "Empty reply").
 - WebKit `Runtime.evaluate` doesn't await promises: park the result on a window global and poll it. Messages go through `Target.sendMessageToTarget` once `Target.targetCreated` names the page.
-- Import with no UI: copy the book into the app's data container (`xcrun simctl get_app_container booted com.universalbooks.app data`), then `xcrun simctl openurl booted file://<path>`. Universal Books imports it and opens the reader.
+- Import with no UI: copy the book into the app's data container (`xcrun simctl get_app_container booted com.universalbooks.com data`), then `xcrun simctl openurl booted file://<path>`. Universal Books imports it and opens the reader.
 - Shortcuts dispatched as `window.dispatchEvent(new KeyboardEvent('keydown', {key:'t'}))`: `t` toggles Read Aloud, space play/pause, alt+ArrowDown next chapter.
 - `__TAURI_INTERNALS__.invoke` is non-writable. On iOS IPC is `fetch('ipc://localhost/<cmd>')`, so wrap `window.fetch` to log commands and timings. Memory: `ps -o rss= -p` for the Universal Books pid and the `WebContent` pid.
 - Backgrounding: `xcrun simctl launch booted com.apple.Preferences`. The sim doesn't suspend like a device, and it has no lock-screen controls from the CLI.

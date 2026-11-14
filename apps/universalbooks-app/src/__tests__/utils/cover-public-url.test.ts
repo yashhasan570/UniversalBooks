@@ -53,7 +53,7 @@ describe('isPublicImageUrl', () => {
 
 describe('getPublicCoverUrl', () => {
   it('reuses an already-public coverImageUrl without uploading', async () => {
-    const { service, uploadFileToCloud } = makeAppService('https://assets.universalbooks.app/x.png');
+    const { service, uploadFileToCloud } = makeAppService('https://assets.universalbooks.com/x.png');
     const book = makeBook('aaa1', { coverImageUrl: 'https://example.com/cover.jpg' });
 
     await expect(getPublicCoverUrl(book, service)).resolves.toBe('https://example.com/cover.jpg');
@@ -61,7 +61,7 @@ describe('getPublicCoverUrl', () => {
   });
 
   it('publishes the local cover named by its content hash', async () => {
-    const url = 'https://assets.__READ__universalbooks.app/media/book_covers/abcdef12/md5ofbbb2.png';
+    const url = 'https://assets.__READ__universalbooks.com/media/book_covers/abcdef12/md5ofbbb2.png';
     const { service, uploadFileToCloud } = makeAppService(url);
     const book = makeBook('bbb2', { coverImageUrl: 'https://asset.localhost/cover.png' });
 
@@ -78,7 +78,7 @@ describe('getPublicCoverUrl', () => {
   });
 
   it('caches a published URL for the session', async () => {
-    const url = 'https://assets.__READ__universalbooks.app/media/book_covers/abcdef12/md5ofccc3.png';
+    const url = 'https://assets.__READ__universalbooks.com/media/book_covers/abcdef12/md5ofccc3.png';
     const { service, uploadFileToCloud } = makeAppService(url);
     const book = makeBook('ccc3');
 

@@ -462,7 +462,7 @@ const ExportMarkdownDialog: React.FC<ExportMarkdownDialogProps> = ({
         .replace(/<a href=/g, '<a target="_blank" rel="noopener noreferrer" href=')
         // The web app is cross-origin isolated (COEP: require-corp, see
         // middleware.ts) and R2 attaches no CORP header, so a plain <img> to
-        // assets.universalbooks.app is blocked. Requesting it with CORS satisfies
+        // assets.universalbooks.com is blocked. Requesting it with CORS satisfies
         // COEP: the bucket allowlists the app origins for GET.
         .replace(/<img /g, '<img crossorigin="anonymous" ')
     );

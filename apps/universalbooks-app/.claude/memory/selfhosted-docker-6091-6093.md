@@ -42,7 +42,7 @@ so no production deployment reaches this code path except the Docker image. The
 config; the default build only has to beat Next's 10MB.
 
 **`standaloneOutput` (i.e. `BUILD_STANDALONE`) is the self-host discriminator at
-BUILD time**: the Dockerfile is the only thing that sets it, and __READ__web.universalbooks.app
+BUILD time**: the Dockerfile is the only thing that sets it, and __READ__web.universalbooks.com
 runs on Cloudflare/Vercel, never on that image. `SELF_HOSTED` cannot serve here —
 CI builds the image without it (it is a compose-time runtime var), and a
 standalone build bakes next.config into `required-server-files.json`, so a

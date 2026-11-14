@@ -32,7 +32,7 @@ vi.mock('@/utils/supabase', () => ({
 import { POST } from '@/app/api/stripe/checkout/route';
 
 const postReq = () =>
-  new NextRequest('https://__READ__web.__READ__universalbooks.app/api/stripe/checkout', {
+  new NextRequest('https://__READ__web.__READ__universalbooks.com/api/stripe/checkout', {
     method: 'POST',
     headers: {
       authorization: 'Bearer caller',

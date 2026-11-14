@@ -6,7 +6,7 @@ import AuthPage from '@/app/auth/page';
 
 vi.mock('@/services/environment', () => ({
   isTauriAppPlatform: () => true,
-  getBaseUrl: () => 'https://__READ__web.universalbooks.app',
+  getBaseUrl: () => 'https://__READ__web.universalbooks.com',
 }));
 
 vi.mock('@/context/AuthContext', () => ({

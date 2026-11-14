@@ -25,7 +25,7 @@ except NameError:
     def _(text):
         return text
 
-DEFAULT_API_BASE = 'https://__READ__web.__READ__universalbooks.app/api'
+DEFAULT_API_BASE = 'https://__READ__web.__READ__universalbooks.com/api'
 DEFAULT_SUPABASE_URL = 'https://vbsyxfusjjqdxkjqlysc.supabase.co'
 # Public anon key, same one universalbooks.koplugin ships (base64-encoded in main.lua).
 DEFAULT_ANON_KEY = (

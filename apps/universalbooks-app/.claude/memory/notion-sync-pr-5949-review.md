@@ -39,7 +39,7 @@ runs clean locally: 132 tests, 0 failures, in worktree `/Users/chrox/dev/univers
 Design now: `NotionSyncStore` (SQLite, schema `notion-sync`, migration
 `2026083001_notion_sync_mappings`) maps `(target_id, book_hash, note_id)` ->
 `payload_hash` + `block_ids` + `stale_block_ids`. PLUS marker URLs
-(`https://universalbooks.app/notion-sync/note/<book>/<note>/<hash>/<blockCount>`) embedded as
+(`https://universalbooks.com/notion-sync/note/<book>/<note>/<hash>/<blockCount>`) embedded as
 rich-text links on the "Added on" line, so a device with no local DB reconciles from the
 remote page. Batched appends (100 blocks / 450KB), 429+529 retry honouring Retry-After,
 2000-char splitting, module-level `syncQueue` + `navigator.locks`, migrated to the

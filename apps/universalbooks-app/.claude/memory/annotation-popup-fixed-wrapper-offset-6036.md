@@ -10,7 +10,7 @@ metadata:
 
 Regression introduced 2026-09-03 by commit 88ea2de55 (PR #6036, "keep the
 annotation toolbar below the range handles"), unreleased as of 2026-09-05
-(not in v0.12.6 — that is why __READ__web.universalbooks.app was unaffected).
+(not in v0.12.6 — that is why __READ__web.universalbooks.com was unaffected).
 
 #6036 wrapped `AnnotationPopup` in `pointer-events-none fixed inset-0 z-[43]`
 purely to make a stacking band below the range handles. `fixed` re-anchored the

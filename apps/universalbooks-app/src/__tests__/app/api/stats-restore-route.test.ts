@@ -82,7 +82,7 @@ const manifest = (id: number, to_ms: number) => ({
 });
 const post = (body: unknown, token: string | null = 't') =>
   POST(
-    new Request('https://__READ__web.__READ__universalbooks.app/api/stats/restore', {
+    new Request('https://__READ__web.__READ__universalbooks.com/api/stats/restore', {
       method: 'POST',
       headers: {
         'content-type': 'application/json',

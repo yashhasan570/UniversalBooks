@@ -5,15 +5,15 @@ import { AvailablePlan } from '@/types/quota';
 import { stubTranslation as _ } from '@/utils/misc';
 
 const IAP_PRODUCT_IDS = [
-  'com.universalbooks.app.monthly.plus',
-  'com.universalbooks.app.monthly.pro',
-  'com.universalbooks.app.yearly.plus',
-  'com.universalbooks.app.yearly.pro',
-  'com.universalbooks.app.storage.1gb.purchase',
-  'com.universalbooks.app.storage.2gb.purchase',
-  'com.universalbooks.app.storage.5gb.purchase',
-  'com.universalbooks.app.storage.10gb.purchase',
-  'com.universalbooks.app.customization.purchase',
+  'com.universalbooks.com.monthly.plus',
+  'com.universalbooks.com.monthly.pro',
+  'com.universalbooks.com.yearly.plus',
+  'com.universalbooks.com.yearly.pro',
+  'com.universalbooks.com.storage.1gb.purchase',
+  'com.universalbooks.com.storage.2gb.purchase',
+  'com.universalbooks.com.storage.5gb.purchase',
+  'com.universalbooks.com.storage.10gb.purchase',
+  'com.universalbooks.com.customization.purchase',
 ];
 
 interface UseAvailablePlansParams {

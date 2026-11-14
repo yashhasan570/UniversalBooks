@@ -10,7 +10,7 @@ metadata:
 
 Found while device-verifying PR #6684 (merged 2026-10-09). Both predate the PR and are UNFIXED.
 
-1. **Pushes fail on slow TLS.** Kindle PW3 TLS handshakes to __READ__web.universalbooks.app took 1–13.5s; SYNC_TIMEOUTS `{5,10}` gives the handshake 5s. Reads retry once with RETRY_TIMEOUTS, writes (pushChanges) never do, so ~half of pushes failed with `wantread` while pulls succeeded. Close-time is worst: 4 concurrent forked pushes (config, notes, stats, book) and no later retry.
+1. **Pushes fail on slow TLS.** Kindle PW3 TLS handshakes to __READ__web.universalbooks.com took 1–13.5s; SYNC_TIMEOUTS `{5,10}` gives the handshake 5s. Reads retry once with RETRY_TIMEOUTS, writes (pushChanges) never do, so ~half of pushes failed with `wantread` while pulls succeeded. Close-time is worst: 4 concurrent forked pushes (config, notes, stats, book) and no later retry.
 2. **Open-time push overwrites a newer remote position.** `onPageUpdate` fires on the first render and schedules a push 5s after open; on a slow link the open-time pull is still in flight, so the local (older) position reaches the server first and the pull reads it back. Observed live.
 
 **Why:** both make "read on iOS → Kindle picks it up on open" unreliable on slow Wi-Fi.

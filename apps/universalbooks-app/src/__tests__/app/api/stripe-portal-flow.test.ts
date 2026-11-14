@@ -39,12 +39,12 @@ vi.mock('@/utils/supabase', () => ({
 import { POST } from '@/app/api/stripe/portal/route';
 
 const postReq = (body?: Record<string, unknown>) =>
-  new NextRequest('https://__READ__web.__READ__universalbooks.app/api/stripe/portal', {
+  new NextRequest('https://__READ__web.__READ__universalbooks.com/api/stripe/portal', {
     method: 'POST',
     headers: {
       authorization: 'Bearer tok',
       'content-type': 'application/json',
-      origin: 'https://__READ__web.universalbooks.app',
+      origin: 'https://__READ__web.universalbooks.com',
     },
     ...(body ? { body: JSON.stringify(body) } : {}),
   });

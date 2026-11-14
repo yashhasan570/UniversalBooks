@@ -108,7 +108,7 @@ describe('takePage', () => {
 describe('guardArchiveRequest', () => {
   const bucket = {} as never;
   const req = (token?: string) =>
-    new Request('https://__READ__web.__READ__universalbooks.app/api/stats/compact', {
+    new Request('https://__READ__web.__READ__universalbooks.com/api/stats/compact', {
       method: 'POST',
       headers: token ? { 'x-compact-token': token } : {},
     });

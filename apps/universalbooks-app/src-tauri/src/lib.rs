@@ -524,7 +524,7 @@ type AppRuntime = tauri_runtime_cef::CefRuntime;
 type AppRuntime = tauri::Wry;
 
 #[cfg(desktop)]
-const SINGLE_INSTANCE_DBUS_ID: &str = "com.universalbooks.app";
+const SINGLE_INSTANCE_DBUS_ID: &str = "com.universalbooks.com";
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 #[cfg_attr(

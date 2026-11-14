@@ -45,7 +45,7 @@ vi.mock('@/utils/supabase', () => ({
 import { POST } from '@/app/api/stripe/webhook/route';
 
 const makeReq = () =>
-  new Request('https://__READ__web.__READ__universalbooks.app/api/stripe/webhook', {
+  new Request('https://__READ__web.__READ__universalbooks.com/api/stripe/webhook', {
     method: 'POST',
     headers: { 'stripe-signature': 'sig', 'content-type': 'application/json' },
     body: '{}',

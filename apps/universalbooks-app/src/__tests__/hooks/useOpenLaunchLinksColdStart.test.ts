@@ -360,7 +360,7 @@ describe('useOpenLaunchLinks — widget links', () => {
     ['a malformed edit-shelf link', ['universalbooks://widget-edit-shelf/']],
     [
       'links that are not widget links',
-      ['universalbooks://book/abc', 'https://__READ__web.universalbooks.app/o/widget-group/series/x'],
+      ['universalbooks://book/abc', 'https://__READ__web.universalbooks.com/o/widget-group/series/x'],
     ],
   ])('ignores %s', async (_label, urls) => {
     coldStartUrls = urls;

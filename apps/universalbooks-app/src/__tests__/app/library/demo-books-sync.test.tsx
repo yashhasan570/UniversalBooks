@@ -5,7 +5,7 @@ import { renderHook, waitFor } from '@testing-library/react';
 import type { Book } from '@/types/book';
 
 /**
- * Issue #5049 — "__READ__web.universalbooks.app after signing in retains the example books".
+ * Issue #5049 — "__READ__web.universalbooks.com after signing in retains the example books".
  *
  * The demo books are the sample shelf an anonymous web visitor gets. They are
  * imported as ordinary url-backed Book rows, so once the user signs in they are
@@ -23,7 +23,7 @@ import type { Book } from '@/types/book';
  * a cloud row must never write back over one.
  */
 
-const DEMO_URL = 'https://cdn.universalbooks.app/books/the-great-gatsby.epub';
+const DEMO_URL = 'https://cdn.universalbooks.com/books/the-great-gatsby.epub';
 
 const appService = vi.hoisted(() => ({
   saveLibraryBooks: vi.fn(async () => {}),

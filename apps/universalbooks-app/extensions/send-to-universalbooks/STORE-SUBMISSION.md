@@ -48,7 +48,7 @@ Paste each into the **Privacy practices → Permission justification** field.
 > images are sent only to the user's Universal Books account; nothing is sent to any
 > third party.
 
-**Content scripts on `*.universalbooks.app` / `localhost:3000`**
+**Content scripts on `*.universalbooks.com` / `localhost:3000`**
 > A content script runs only on Universal Books's own sites to copy the user's existing
 > Universal Books access token into the extension so uploads are authenticated to the
 > user's account. It never reads a password or refresh token.
@@ -78,7 +78,7 @@ Paste each into the **Privacy practices → Permission justification** field.
 - ☑ I do not use or transfer user data to determine creditworthiness or for
   lending purposes.
 
-**Privacy policy URL:** `https://www.universalbooks.app/send-to-universalbooks/privacy-policy`
+**Privacy policy URL:** `https://www.universalbooks.com/send-to-universalbooks/privacy-policy`
 (canonical; maintained in the `universalbooks-landing` repo at
 `src/app/[locale]/(legal)/send-to-universalbooks/privacy-policy/page.mdx`)
 

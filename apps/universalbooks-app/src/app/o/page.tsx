@@ -25,7 +25,7 @@ const detectPlatform = (): Platform => {
   return 'desktop';
 };
 
-const ANDROID_PACKAGE = 'com.universalbooks.app';
+const ANDROID_PACKAGE = 'com.universalbooks.com';
 const FALLBACK_TIMEOUT_MS = 1500;
 const DESKTOP_FALLBACK_DELAY_MS = 1000;
 
@@ -129,7 +129,7 @@ const OpenAnnotationLanding = () => {
                 'The annotation link is missing required information. The original link may have been truncated.',
               )}
             </p>
-            <a href='https://universalbooks.app' className='btn btn-ghost btn-block mt-6' rel='noopener'>
+            <a href='https://universalbooks.com' className='btn btn-ghost btn-block mt-6' rel='noopener'>
               {_('Go to Universal Books')}
             </a>
           </div>

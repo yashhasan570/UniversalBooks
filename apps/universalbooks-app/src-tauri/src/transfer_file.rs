@@ -583,17 +583,17 @@ mod tests {
     #[test]
     fn app_storage_does_not_authorize_brand_names_in_foreign_paths() {
         let roots = [PathBuf::from(
-            "/Users/victim/Library/Application Support/com.universalbooks.app",
+            "/Users/victim/Library/Application Support/com.universalbooks.com",
         )];
         for path in [
             "/Users/victim/Library/LaunchAgents/Universal Books-agent.plist",
-            "/Users/victim/Documents/com.universalbooks.app-secrets.txt",
-            "/Users/victim/Library/Application Support/com.universalbooks.app-other/file",
+            "/Users/victim/Documents/com.universalbooks.com-secrets.txt",
+            "/Users/victim/Library/Application Support/com.universalbooks.com-other/file",
         ] {
             assert!(!is_within_app_storage(Path::new(path), &roots));
         }
         assert!(is_within_app_storage(
-            Path::new("/Users/victim/Library/Application Support/com.universalbooks.app/Universal Books/Books/book.epub"),
+            Path::new("/Users/victim/Library/Application Support/com.universalbooks.com/Universal Books/Books/book.epub"),
             &roots,
         ));
     }

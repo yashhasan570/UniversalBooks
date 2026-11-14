@@ -21,7 +21,7 @@ interface ExecutionContextLike {
   waitUntil(promise: Promise<unknown>): void;
 }
 
-const COMPACT_URL = 'https://__READ__web.__READ__universalbooks.app/api/stats/compact';
+const COMPACT_URL = 'https://__READ__web.__READ__universalbooks.com/api/stats/compact';
 
 export default {
   fetch: handler.fetch,

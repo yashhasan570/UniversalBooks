@@ -12,5 +12,5 @@ Used for #6378 (reporter used unsupported `universalbooks://open/<hash>`; closed
 
 - Hundreds of stale `Universal Books.app` copies (mounted dmgs, sim builds, `target/*/bundle`) register `universalbooks:` in LaunchServices, with no per-user LSHandlers override. Use `open -a /Applications/Universal Books.app "universalbooks://..."` to pin the target. Plain `/usr/bin/open` happened to hit /Applications too.
 - Probe the result without screenshots: `osascript -e 'tell application "System Events" to get name of every window of (first process whose unix id is <pid>)'` gives "Universal Books - <book title>" in the reader.
-- Book hashes and titles: `~/Library/Application Support/com.universalbooks.app/Universal Books/Books/library.json`.
+- Book hashes and titles: `~/Library/Application Support/com.universalbooks.com/Universal Books/Books/library.json`.
 - Unknown `universalbooks://` routes are silently dropped (no toast). A toast was declined because the routes are owned by several separate hooks.

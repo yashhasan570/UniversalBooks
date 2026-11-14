@@ -9,7 +9,7 @@ const LegalLinks = () => {
   const termsUrl =
     appService?.isIOSApp || appService?.isMacOSApp
       ? 'https://www.apple.com/legal/internet-services/itunes/dev/stdeula/'
-      : 'https://__READ__universalbooks.app/terms-of-service';
+      : 'https://__READ__universalbooks.com/terms-of-service';
 
   return (
     <div className='my-2 flex flex-wrap justify-center gap-4 text-sm sm:text-xs'>
@@ -17,7 +17,7 @@ const LegalLinks = () => {
         {_('Terms of Service')}
       </Link>
       <Link
-        href='https://__READ__universalbooks.app/privacy-policy'
+        href='https://__READ__universalbooks.com/privacy-policy'
         className='text-blue-500 underline hover:text-blue-600'
       >
         {_('Privacy Policy')}

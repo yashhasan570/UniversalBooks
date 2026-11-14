@@ -9,11 +9,11 @@ local _ = require("universalbooks_i18n")
 local SelfUpdate = {}
 
 local UPDATE_URLS = {
-    "https://download.universalbooks.app/releases/latest.json",
+    "https://download.universalbooks.com/releases/latest.json",
     "https://github.com/universalbooks/universalbooks/releases/latest/download/latest.json",
 }
 local DOWNLOAD_URLS = {
-    "https://download.universalbooks.app/releases/%s/UniversalBooks-%s-1.koplugin.zip",
+    "https://download.universalbooks.com/releases/%s/UniversalBooks-%s-1.koplugin.zip",
     "https://github.com/universalbooks/universalbooks/releases/download/%s/UniversalBooks-%s-1.koplugin.zip",
 }
 

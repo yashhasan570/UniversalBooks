@@ -7,7 +7,7 @@ describe('parseBookDeepLink', () => {
     expect(parseBookDeepLink('universalbooks://book/abc123')).toEqual({ bookHash: 'abc123' });
   });
   it('parses the web form', () => {
-    expect(parseBookDeepLink('https://__READ__web.universalbooks.app/o/book/abc123')).toEqual({
+    expect(parseBookDeepLink('https://__READ__web.universalbooks.com/o/book/abc123')).toEqual({
       bookHash: 'abc123',
     });
   });

@@ -79,7 +79,7 @@ import {
   PUT as clippingsPUT,
 } from '@/app/api/crosspoint/api/v1/clippings/[document]/route';
 
-const BASE = 'https://__READ__web.__READ__universalbooks.app/api/crosspoint';
+const BASE = 'https://__READ__web.__READ__universalbooks.com/api/crosspoint';
 const NOW = '2026-10-02T00:00:00.000Z';
 const USER = '11111111-2222-4333-8444-555555555555';
 const EMAIL = 'reader@example.com';
@@ -134,9 +134,9 @@ describe('device sign-in', () => {
     expect(body.device_code).toMatch(/^[0-9a-f]{64}$/);
     expect(body.user_code).toMatch(/^[BCDFGHJKLMNPQRSTVWXZ]{4}-[BCDFGHJKLMNPQRSTVWXZ]{4}$/);
     expect(body).toMatchObject({
-      verification_uri: 'https://__READ__web.__READ__universalbooks.app/link',
+      verification_uri: 'https://__READ__web.__READ__universalbooks.com/link',
       // The reader renders this one as its QR code.
-      verification_uri_complete: `https://__READ__web.__READ__universalbooks.app/link?code=${body.user_code}`,
+      verification_uri_complete: `https://__READ__web.__READ__universalbooks.com/link?code=${body.user_code}`,
       expires_in: 600,
       interval: 5,
     });

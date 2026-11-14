@@ -15,7 +15,7 @@ vi.mock('@/utils/access', () => ({
 
 const params = (path: string[]) => ({ params: Promise.resolve({ path }) });
 const sameOriginHeaders = {
-  origin: 'https://__READ__web.universalbooks.app',
+  origin: 'https://__READ__web.universalbooks.com',
   authorization: UNIVERSALBOOKS_JWT,
   'x-notion-token': NOTION_SECRET,
 };
@@ -29,7 +29,7 @@ describe('Notion proxy', () => {
   });
 
   test('only forwards the exact Notion operations used by the client', async () => {
-    const request = new NextRequest('https://__READ__web.__READ__universalbooks.app/api/notion/databases/id/query', {
+    const request = new NextRequest('https://__READ__web.__READ__universalbooks.com/api/notion/databases/id/query', {
       method: 'POST',
       headers: sameOriginHeaders,
       body: '{}',
@@ -42,7 +42,7 @@ describe('Notion proxy', () => {
   });
 
   test('rejects a path segment that is not a plain Notion id', async () => {
-    const traversal = new NextRequest('https://__READ__web.__READ__universalbooks.app/api/notion/pages/..', {
+    const traversal = new NextRequest('https://__READ__web.__READ__universalbooks.com/api/notion/pages/..', {
       headers: sameOriginHeaders,
     });
 
@@ -52,16 +52,16 @@ describe('Notion proxy', () => {
   });
 
   test('requires an authenticated Universal Books user, not just a Notion-shaped token', async () => {
-    const anonymous = new NextRequest('https://__READ__web.__READ__universalbooks.app/api/notion/users/me', {
-      headers: { origin: 'https://__READ__web.universalbooks.app', 'x-notion-token': NOTION_SECRET },
+    const anonymous = new NextRequest('https://__READ__web.__READ__universalbooks.com/api/notion/users/me', {
+      headers: { origin: 'https://__READ__web.universalbooks.com', 'x-notion-token': NOTION_SECRET },
     });
     // A well-formed Notion secret in `authorization` must not stand in for the
     // Universal Books JWT: that was exactly the pre-auth relay hole.
     const notionSecretAsCallerAuth = new NextRequest(
-      'https://__READ__web.__READ__universalbooks.app/api/notion/users/me',
+      'https://__READ__web.__READ__universalbooks.com/api/notion/users/me',
       {
         headers: {
-          origin: 'https://__READ__web.universalbooks.app',
+          origin: 'https://__READ__web.universalbooks.com',
           authorization: NOTION_SECRET,
           'x-notion-token': NOTION_SECRET,
         },
@@ -74,16 +74,16 @@ describe('Notion proxy', () => {
   });
 
   test('requires a same-origin browser request and a well-formed Notion token', async () => {
-    const crossOrigin = new NextRequest('https://__READ__web.__READ__universalbooks.app/api/notion/users/me', {
+    const crossOrigin = new NextRequest('https://__READ__web.__READ__universalbooks.com/api/notion/users/me', {
       headers: { ...sameOriginHeaders, origin: 'https://evil.example' },
     });
-    const missingNotionToken = new NextRequest('https://__READ__web.__READ__universalbooks.app/api/notion/users/me', {
-      headers: { origin: 'https://__READ__web.universalbooks.app', authorization: UNIVERSALBOOKS_JWT },
+    const missingNotionToken = new NextRequest('https://__READ__web.__READ__universalbooks.com/api/notion/users/me', {
+      headers: { origin: 'https://__READ__web.universalbooks.com', authorization: UNIVERSALBOOKS_JWT },
     });
-    const notBearer = new NextRequest('https://__READ__web.__READ__universalbooks.app/api/notion/users/me', {
+    const notBearer = new NextRequest('https://__READ__web.__READ__universalbooks.com/api/notion/users/me', {
       headers: { ...sameOriginHeaders, 'x-notion-token': 'Basic nope' },
     });
-    const fakeBearer = new NextRequest('https://__READ__web.__READ__universalbooks.app/api/notion/users/me', {
+    const fakeBearer = new NextRequest('https://__READ__web.__READ__universalbooks.com/api/notion/users/me', {
       headers: { ...sameOriginHeaders, 'x-notion-token': 'Bearer not-a-notion-token' },
     });
 
@@ -98,7 +98,7 @@ describe('Notion proxy', () => {
     fetchMock.mockResolvedValue(new Response('{}', { status: 200 }));
     for (const secret of ['Bearer secret_test', 'Bearer ntn_test']) {
       fetchMock.mockClear();
-      const request = new NextRequest('https://__READ__web.__READ__universalbooks.app/api/notion/users/me', {
+      const request = new NextRequest('https://__READ__web.__READ__universalbooks.com/api/notion/users/me', {
         headers: { ...sameOriginHeaders, 'x-notion-token': secret },
       });
 
@@ -110,7 +110,7 @@ describe('Notion proxy', () => {
   });
 
   test('rejects oversized bodies before buffering them', async () => {
-    const request = new NextRequest('https://__READ__web.__READ__universalbooks.app/api/notion/pages', {
+    const request = new NextRequest('https://__READ__web.__READ__universalbooks.com/api/notion/pages', {
       method: 'POST',
       headers: { ...sameOriginHeaders, 'content-length': String(500 * 1024 + 1) },
       body: '{}',
@@ -123,7 +123,7 @@ describe('Notion proxy', () => {
   });
 
   test('also bounds chunked bodies without a Content-Length header', async () => {
-    const request = new NextRequest('https://__READ__web.__READ__universalbooks.app/api/notion/pages', {
+    const request = new NextRequest('https://__READ__web.__READ__universalbooks.com/api/notion/pages', {
       method: 'POST',
       headers: sameOriginHeaders,
       body: 'x'.repeat(500 * 1024 + 1),
@@ -138,7 +138,7 @@ describe('Notion proxy', () => {
   test('drops oversized pagination cursors before forwarding', async () => {
     fetchMock.mockResolvedValue(new Response('{}', { status: 200 }));
     const request = new NextRequest(
-      `https://__READ__web.__READ__universalbooks.app/api/notion/blocks/page-id/children?start_cursor=${'x'.repeat(513)}`,
+      `https://__READ__web.__READ__universalbooks.com/api/notion/blocks/page-id/children?start_cursor=${'x'.repeat(513)}`,
       { headers: sameOriginHeaders },
     );
 
@@ -153,7 +153,7 @@ describe('Notion proxy', () => {
     for (const pageSize of ['999', 'abc']) {
       fetchMock.mockClear();
       const request = new NextRequest(
-        `https://__READ__web.__READ__universalbooks.app/api/notion/blocks/page-id/children?page_size=${pageSize}`,
+        `https://__READ__web.__READ__universalbooks.com/api/notion/blocks/page-id/children?page_size=${pageSize}`,
         { headers: sameOriginHeaders },
       );
 
@@ -169,7 +169,7 @@ describe('Notion proxy', () => {
         headers: { 'content-type': 'application/json', 'retry-after': '2' },
       }),
     );
-    const request = new NextRequest('https://__READ__web.__READ__universalbooks.app/api/notion/blocks/block-id/children', {
+    const request = new NextRequest('https://__READ__web.__READ__universalbooks.com/api/notion/blocks/block-id/children', {
       method: 'PATCH',
       headers: { ...sameOriginHeaders, 'notion-version': '2022-06-28' },
       body: JSON.stringify({ children: [] }),
@@ -185,7 +185,7 @@ describe('Notion proxy', () => {
 
   test('reports an unreachable upstream as 502', async () => {
     fetchMock.mockRejectedValue(new TypeError('network down'));
-    const request = new NextRequest('https://__READ__web.__READ__universalbooks.app/api/notion/users/me', {
+    const request = new NextRequest('https://__READ__web.__READ__universalbooks.com/api/notion/users/me', {
       headers: sameOriginHeaders,
     });
 
@@ -195,9 +195,9 @@ describe('Notion proxy', () => {
   test('allows every operation the client actually issues', async () => {
     fetchMock.mockResolvedValue(new Response('{}', { status: 200 }));
     const get = (path: string) =>
-      new NextRequest(`https://__READ__web.__READ__universalbooks.app/api/notion/${path}`, { headers: sameOriginHeaders });
+      new NextRequest(`https://__READ__web.__READ__universalbooks.com/api/notion/${path}`, { headers: sameOriginHeaders });
     const send = (path: string, method: 'POST' | 'PATCH' | 'DELETE') =>
-      new NextRequest(`https://__READ__web.__READ__universalbooks.app/api/notion/${path}`, {
+      new NextRequest(`https://__READ__web.__READ__universalbooks.com/api/notion/${path}`, {
         method,
         headers: sameOriginHeaders,
         ...(method === 'DELETE' ? {} : { body: '{}' }),
@@ -228,7 +228,7 @@ describe('Notion proxy', () => {
     ).toBe(200);
 
     const lookup = new NextRequest(
-      'https://__READ__web.__READ__universalbooks.app/api/notion/blocks/page-id/children?page_size=100&start_cursor=next',
+      'https://__READ__web.__READ__universalbooks.com/api/notion/blocks/page-id/children?page_size=100&start_cursor=next',
       { headers: sameOriginHeaders },
     );
     expect((await GET(lookup, params(['blocks', 'page-id', 'children']))).status).toBe(200);

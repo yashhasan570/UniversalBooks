@@ -7,7 +7,7 @@
 // the only place to sign in: the firmware won't let a plugin set KOReader Sync
 // from the reader's own screen, so a sign-in there left progress sync off.
 CrossPoint.registerPlugin(async (container, api) => {
-  const API = 'https://__READ__web.__READ__universalbooks.app/api/crosspoint';
+  const API = 'https://__READ__web.__READ__universalbooks.com/api/crosspoint';
   // The key lives in a dotfile, which the device web server refuses to serve.
   // The account file records who is signed in and the ids of keys to revoke.
   const TOKEN_PATH = '/.crosspoint/.universalbooks-token.json';
@@ -206,7 +206,7 @@ CrossPoint.registerPlugin(async (container, api) => {
 
   // Updates come from Universal Books releases, like the KOReader plugin's: latest.json
   // names the version, and each release carries the plugin zip.
-  const RELEASES = 'https://download.universalbooks.app/releases';
+  const RELEASES = 'https://download.universalbooks.com/releases';
   // Firmware older than api.dir loads a plugin from /.crosspoint/plugins
   // before the other roots, so an update written there is the one it runs.
   const DIR = api.dir ?? `/.crosspoint/plugins/${api.name}`;

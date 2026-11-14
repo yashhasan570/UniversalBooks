@@ -130,7 +130,7 @@ Device-verified on the Boox (Test E): turn -> sleep -> kill +2s -> reopen KEEPS 
 **DEVICE REPRODUCED 2026-08-25 on a Boox Leaf5 (adb ec8fafd, ONYX, Android 13, WebView 148;
 dev APK with devtools installed over the 0.12.1 store build).** The driver is the LOCAL save
 window, not sync. Book "Demian" hash 1e8ec7e4a3e735fb75eceabc93f83923. Boox library root is
-DEFAULT `/data/user/0/com.universalbooks.app/Universal Books/Books` (no customRootDir -> read via fs
+DEFAULT `/data/user/0/com.universalbooks.com/Universal Books/Books` (no customRootDir -> read via fs
 plugin baseDir 14/13; the Xiaomi differs: customRootDir=/storage/emulated/0/Books, plain adb cat).
 
 **Root cause (confirmed by repro + code):** the per-book config.json disk write is debounced in

@@ -5,7 +5,7 @@ import type { BookOrbitSettings } from '@/types/settings';
 vi.mock('@tauri-apps/plugin-http', () => ({ fetch: vi.fn() }));
 vi.mock('@/services/environment', () => ({
   isTauriAppPlatform: () => false,
-  getAPIBaseUrl: () => 'https://__READ__web.__READ__universalbooks.app/api',
+  getAPIBaseUrl: () => 'https://__READ__web.__READ__universalbooks.com/api',
 }));
 
 import { BookOrbitClient, BookOrbitRequestError } from '@/services/bookorbit/BookOrbitClient';
@@ -125,7 +125,7 @@ describe('BookOrbitClient', () => {
 
     expect(version.capabilities).toEqual(['bookmarkSync']);
     const [url, init] = fetchMock.mock.calls[0] as [string, RequestInit];
-    expect(url).toBe('https://__READ__web.__READ__universalbooks.app/api/bookorbit');
+    expect(url).toBe('https://__READ__web.__READ__universalbooks.com/api/bookorbit');
     const payload = JSON.parse(init.body as string) as Record<string, unknown>;
     expect(payload['serverUrl']).toBe('https://books.example.com');
     expect(payload['endpoint']).toBe('/plugin/version');

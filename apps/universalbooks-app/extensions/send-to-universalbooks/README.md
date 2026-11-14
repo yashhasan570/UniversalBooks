@@ -104,7 +104,7 @@ next Universal Books open → drainer imports the EPUB → book in library on al
 ```
 
 A second always-on content script (`content/auth-bridge.ts`) runs only on
-`__READ__web.universalbooks.app` and copies the user's Supabase access token into the
+`__READ__web.universalbooks.com` and copies the user's Supabase access token into the
 extension's `chrome.storage.local` so the popup can authenticate to the
 inbox endpoint without prompting for credentials. The extension never
 stores a password or refresh token.
@@ -136,7 +136,7 @@ The build is webpack-based:
 2. Open `chrome://extensions`, enable **Developer mode**.
 3. **Load unpacked** → select this directory's `dist/` folder (not the
    project root).
-4. Visit <https://__READ__web.universalbooks.app> once and sign in so the auth-bridge
+4. Visit <https://__READ__web.universalbooks.com> once and sign in so the auth-bridge
    content script captures the access token.
 5. Click the extension's toolbar icon on any article page. The popup
    reflects each phase: capturing → fetching images → building EPUB →
@@ -145,7 +145,7 @@ The build is webpack-based:
 ### Pointing the extension at a local Universal Books
 
 The extension reads `chrome.storage.local.universalbooksApiBase` if set, falling
-back to `https://__READ__web.universalbooks.app`. From the DevTools console of the
+back to `https://__READ__web.universalbooks.com`. From the DevTools console of the
 extension's background page:
 
 ```js

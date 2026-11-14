@@ -9,7 +9,7 @@
 import type { ClipErrorCode } from '../lib/messages';
 import { translate as _ } from '../lib/i18n';
 
-const DEFAULT_API_BASE = 'https://__READ__web.universalbooks.app';
+const DEFAULT_API_BASE = 'https://__READ__web.universalbooks.com';
 const INBOX_FILE_PATH = '/api/send/inbox/file';
 
 /**

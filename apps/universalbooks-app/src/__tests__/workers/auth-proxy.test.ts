@@ -3,7 +3,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import worker from '../../../workers/auth-proxy/src/index';
 
 const SUPABASE_URL = 'https://project.supabase.co';
-const PROXY = 'https://auth-cf.universalbooks.app';
+const PROXY = 'https://auth-cf.universalbooks.com';
 const env = { SUPABASE_URL, SUPABASE_SECRET_KEY: 'sb_secret_test' };
 
 const upstreamFetch = vi.fn<typeof fetch>();
@@ -36,7 +36,7 @@ beforeEach(() => {
       status: 200,
       headers: {
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': 'https://__READ__web.universalbooks.app',
+        'Access-Control-Allow-Origin': 'https://__READ__web.universalbooks.com',
         'Access-Control-Allow-Credentials': 'true',
         'X-Supabase-Api-Version': '2024-01-01',
       },

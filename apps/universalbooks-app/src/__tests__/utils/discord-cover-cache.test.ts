@@ -40,7 +40,7 @@ const makeAppService = (): Svc =>
     resolveFilePath: vi.fn().mockResolvedValue('/books/cover.png'),
     getImageURL: vi.fn().mockResolvedValue('asset://cover.png'),
     writeFile: vi.fn().mockResolvedValue(undefined),
-    uploadFileToCloud: vi.fn().mockResolvedValue('https://storage.universalbooks.app/temp/img/u/c.jpg'),
+    uploadFileToCloud: vi.fn().mockResolvedValue('https://storage.universalbooks.com/temp/img/u/c.jpg'),
   }) as unknown as Svc;
 
 const loadDiscord = async () => {
@@ -109,7 +109,7 @@ describe('Discord cover URL cache', () => {
     await updateDiscordPresence(BOOK, Date.now(), appService);
 
     expect(appService.uploadFileToCloud).toHaveBeenCalledTimes(1);
-    expect(lastPresence()?.presence.coverUrl).toBe('https://storage.universalbooks.app/temp/img/u/c.jpg');
+    expect(lastPresence()?.presence.coverUrl).toBe('https://storage.universalbooks.com/temp/img/u/c.jpg');
   });
 
   it('retries soon after a transient upload failure instead of waiting an hour', async () => {
@@ -129,7 +129,7 @@ describe('Discord cover URL cache', () => {
     vi.setSystemTime(new Date('2026-07-28T12:01:00Z'));
     await updateDiscordPresence(BOOK, Date.now(), appService);
     expect(appService.uploadFileToCloud).toHaveBeenCalledTimes(2);
-    expect(lastPresence()?.presence.coverUrl).toBe('https://storage.universalbooks.app/temp/img/u/c.jpg');
+    expect(lastPresence()?.presence.coverUrl).toBe('https://storage.universalbooks.com/temp/img/u/c.jpg');
   });
 
   it('backs off when transient failures keep repeating', async () => {

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 const allowedOrigins = [
-  'https://__READ__web.universalbooks.app',
+  'https://__READ__web.universalbooks.com',
   'https://tauri.localhost',
   'http://tauri.localhost',
   'http://localhost:3000',

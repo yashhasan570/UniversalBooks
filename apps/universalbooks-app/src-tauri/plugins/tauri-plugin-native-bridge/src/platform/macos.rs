@@ -251,7 +251,7 @@ use crate::models::{
 };
 
 /// Resolve the app's default ubiquity container (nil identifier = the first
-/// container in the entitlements, iCloud.com.universalbooks.app) and make sure
+/// container in the entitlements, iCloud.com.universalbooks.com) and make sure
 /// its Documents/ folder exists. `URLForUbiquityContainerIdentifier:` may
 /// block and must not run on the main thread; the async command handler runs
 /// on the Tauri async runtime, which satisfies that.

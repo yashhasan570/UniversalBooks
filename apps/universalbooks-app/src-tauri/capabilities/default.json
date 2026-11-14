@@ -85,7 +85,7 @@
       "identifier": "http:default",
       "allow": [
         {
-          "url": "https://*.universalbooks.app"
+          "url": "https://*.universalbooks.com"
         },
         {
           "url": "https://github.com/universalbooks/*"

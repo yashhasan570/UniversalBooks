@@ -30,8 +30,8 @@ import { GoogleIAPVerifier } from '@/libs/payment/iap/google/verifier';
 const params = {
   orderId: 'order-1',
   purchaseToken: 'token-1',
-  productId: 'com.universalbooks.app.plus.monthly',
-  packageName: 'com.universalbooks.app',
+  productId: 'com.universalbooks.com.plus.monthly',
+  packageName: 'com.universalbooks.com',
 };
 
 describe('GoogleIAPVerifier.verifyPurchase', () => {
@@ -97,12 +97,12 @@ describe('GoogleIAPVerifier.consumeProductPurchase', () => {
 
     await new GoogleIAPVerifier().consumeProductPurchase({
       ...params,
-      productId: 'com.universalbooks.app.purchase.storage.1gb',
+      productId: 'com.universalbooks.com.purchase.storage.1gb',
     });
 
     expect(apiMocks.productsConsume).toHaveBeenCalledWith({
-      packageName: 'com.universalbooks.app',
-      productId: 'com.universalbooks.app.purchase.storage.1gb',
+      packageName: 'com.universalbooks.com',
+      productId: 'com.universalbooks.com.purchase.storage.1gb',
       token: 'token-1',
     });
   });

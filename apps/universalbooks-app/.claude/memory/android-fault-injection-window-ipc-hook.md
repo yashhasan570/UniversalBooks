@@ -48,7 +48,7 @@ Confirm the native side really was skipped with an independent count (gallery
 file count unchanged), not just the log. `am force-stop` drops the hook.
 
 Driving it: `scripts/cdp.mjs` works against a device with
-`adb forward tcp:9223 localabstract:webview_devtools_remote_$(adb shell pidof com.universalbooks.app)`
+`adb forward tcp:9223 localabstract:webview_devtools_remote_$(adb shell pidof com.universalbooks.com)`
 + `CDP_PORT=9223`. See [[android-cdp-e2e-lane]] for the fixture VIEW-intent open,
 and [[computer-use-tauri-dev-binary-no-bundle-id]] for screenshots.
 

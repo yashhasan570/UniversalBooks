@@ -26,7 +26,7 @@ vi.mock('@/utils/access', () => ({
 import { POST } from '@/app/api/stripe/check/route';
 
 const postReq = (sessionId: string) =>
-  new Request('https://__READ__web.__READ__universalbooks.app/api/stripe/check', {
+  new Request('https://__READ__web.__READ__universalbooks.com/api/stripe/check', {
     method: 'POST',
     headers: { authorization: 'Bearer caller', 'content-type': 'application/json' },
     body: JSON.stringify({ sessionId }),

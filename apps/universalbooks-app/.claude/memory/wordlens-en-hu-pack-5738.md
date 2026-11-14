@@ -28,7 +28,7 @@ lemmatizer and michmech publishes no Hungarian list. Neither language is blocked
 **MERGING DOES NOT PUBLISH.** Checked the live CDN right after #5737 merged: it still listed 14
 packs, so `en-vi` was merged but invisible to clients. Packs live in R2, not the bundle. Always
 run `WORDLENS_R2_BUCKET=<bucket> pnpm wordlens:sync` after a pack PR merges, and verify with
-`curl -s https://cdn.universalbooks.app/wordlens/manifest.json | jq '.packs[].pair'`.
+`curl -s https://cdn.universalbooks.com/wordlens/manifest.json | jq '.packs[].pair'`.
 
 **PUBLISHED 2026-08-20 ~16:33 UTC** (four days after merge). A reporter on #5738 said "I can't select
 Hungarian" on the nightly; the live manifest still had 14 packs. The user ran
@@ -36,7 +36,7 @@ Hungarian" on the nightly; the live manifest still had 14 packs. The user ran
 "already up to date" (the script's own remote check is trustworthy). Verified: R2 object and CDN both
 list 16 packs, `en-hu.json`/`en-vi.json` bytes on the CDN match their manifest sha256.
 
-**Bucket name is `cdn-universalbooks-com`.** Diagnose with `curl -sS https://cdn.universalbooks.app/wordlens/manifest.json | jq '[.packs[].pair]'`
+**Bucket name is `cdn-universalbooks-com`.** Diagnose with `curl -sS https://cdn.universalbooks.com/wordlens/manifest.json | jq '[.packs[].pair]'`
 (curl honours `https_proxy=127.0.0.1:8118`, Node's fetch in the sync script does NOT — both saw the
 same data here, but keep that in mind if they ever disagree).
 

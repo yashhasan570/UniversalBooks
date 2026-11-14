@@ -1,6 +1,6 @@
 ---
 name: export-cover-media-bucket-5424
-description: "#5424 cover in md export + Readwise: Readwise takes only a fetchable image_url (max 2047, never base64); covers publish to media/book_covers via assets.universalbooks.app"
+description: "#5424 cover in md export + Readwise: Readwise takes only a fetchable image_url (max 2047, never base64); covers publish to media/book_covers via assets.universalbooks.com"
 metadata: 
   node_type: memory
   type: project
@@ -27,22 +27,22 @@ export):
   endpoints call the field `cover_image_url`.
 
 VERIFIED in Chrome 2026-08-02 (dev-web, signed in): checkbox -> real upload ->
-`https://assets.__READ__universalbooks.app/media/book_covers/b3d61257/bb02...png` serves 200
+`https://assets.__READ__universalbooks.com/media/book_covers/b3d61257/bb02...png` serves 200
 and renders. GOTCHA (looked like a 503, was NOT): the web app is cross-origin
 isolated (`COEP: require-corp` in middleware.ts for Turso SharedArrayBuffer;
 only `/s` gets credentialless) and R2 sends no CORP header, so a plain <img>
-to assets.universalbooks.app is BLOCKED — the extension's network log misreports it
+to assets.universalbooks.com is BLOCKED — the extension's network log misreports it
 as status 503 while curl gets 200. Fix: preview <img> gets
 `crossorigin="anonymous"`; the universalbooks-public bucket CORS allowlists the app
-origins (localhost:3000/3001/8787/8788, tauri://localhost, __READ__web.universalbooks.app...)
+origins (localhost:3000/3001/8787/8788, tauri://localhost, __READ__web.universalbooks.com...)
 for GET so the CORS request satisfies COEP. Proved in-page: plain img BLOCKED,
 cors img LOADED 333x512. Tauri + external md readers never affected (no COEP).
 Optional infra hardening: a Cloudflare Transform Rule adding
-`Cross-Origin-Resource-Policy: cross-origin` on assets.universalbooks.app would make
+`Cross-Origin-Resource-Policy: cross-origin` on assets.universalbooks.com would make
 plain embeds work everywhere.
 
 Implementation decisions:
-- `universalbooks-public` bucket is now ALSO served at `https://assets.universalbooks.app`
+- `universalbooks-public` bucket is now ALSO served at `https://assets.universalbooks.com`
   (`UNIVERSALBOOKS_PUBLIC_ASSETS_BASE_URL`). `media/` prefix = durable objects (unlike
   `temp/` which has bucket retention); upload API branch validates against a
   `PUBLIC_MEDIA_KINDS` allowlist and keys as

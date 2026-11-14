@@ -10,7 +10,7 @@ const productionStage = dockerfile.slice(dockerfile.indexOf('AS production-stage
 
 describe('Docker image runtime defaults', () => {
   /**
-   * The published image is the self-hosted artifact — __READ__web.universalbooks.app runs on
+   * The published image is the self-hosted artifact — __READ__web.universalbooks.com runs on
    * Cloudflare/Vercel, never on this image — so it defaults `SELF_HOSTED` on
    * itself instead of relying on the operator's compose file. `compose.yaml`
    * passes `SELF_HOSTED: ${SELF_HOSTED:-true}`, but that line only landed in

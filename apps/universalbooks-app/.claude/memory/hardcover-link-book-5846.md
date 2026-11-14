@@ -47,7 +47,7 @@ false "rides cloud sync" claim.
   `hardcover-link-book` event -> `HardcoverLinkDialog` hosted by ReaderContent.
 - 13 i18n keys added to all 34 locales via a node script (not the scanner).
 
-**NOT verified live.** Desktop settings.json and the __READ__web.universalbooks.app session both
+**NOT verified live.** Desktop settings.json and the __READ__web.universalbooks.com session both
 have Hardcover disconnected (no token), so the GraphQL shapes were only checked
 against billiam/hardcoverapp.koplugin's production queries. The one construct
 not literally in the koplugin is the nested `editions(...)` under `books`

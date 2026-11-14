@@ -53,7 +53,7 @@ beforeEach(() => {
 describe('updateUserStorage — purchased features', () => {
   it('grants customization from an IAP purchase, identified by product id', async () => {
     paymentsRows.current = [
-      { storage_gb: 0, product_id: 'com.universalbooks.app.customization.purchase', metadata: null },
+      { storage_gb: 0, product_id: 'com.universalbooks.com.customization.purchase', metadata: null },
     ];
 
     await updateUserStorage('user-1');
@@ -89,7 +89,7 @@ describe('updateUserStorage — purchased features', () => {
 
   it('still returns the purchased storage total', async () => {
     paymentsRows.current = [
-      { storage_gb: 2, product_id: 'com.universalbooks.app.storage.2gb.purchase', metadata: null },
+      { storage_gb: 2, product_id: 'com.universalbooks.com.storage.2gb.purchase', metadata: null },
     ];
 
     await expect(updateUserStorage('user-1')).resolves.toBe(2);
@@ -103,7 +103,7 @@ describe('updateUserStorage — purchased features', () => {
 describe('updateUserStorage — grandfathered storage buyers', () => {
   const grandfatherRow = {
     storage_gb: 0,
-    product_id: 'com.universalbooks.app.customization.grandfathered',
+    product_id: 'com.universalbooks.com.customization.grandfathered',
     metadata: { feature: 'customization', grandfathered: true },
   };
 
@@ -120,7 +120,7 @@ describe('updateUserStorage — grandfathered storage buyers', () => {
   it('survives a later storage purchase that reruns the recompute', async () => {
     paymentsRows.current = [
       grandfatherRow,
-      { storage_gb: 5, product_id: 'com.universalbooks.app.storage.5gb.purchase', metadata: null },
+      { storage_gb: 5, product_id: 'com.universalbooks.com.storage.5gb.purchase', metadata: null },
     ];
 
     await updateUserStorage('user-1');
@@ -164,7 +164,7 @@ describe('storage grace grant', () => {
 
   it('gives a storage buyer space and nothing else now the grace period is over', async () => {
     paymentsRows.current = [
-      { storage_gb: 5, product_id: 'com.universalbooks.app.storage.5gb.purchase', metadata: null },
+      { storage_gb: 5, product_id: 'com.universalbooks.com.storage.5gb.purchase', metadata: null },
     ];
 
     await updateUserStorage('user-1');
@@ -176,10 +176,10 @@ describe('storage grace grant', () => {
 
   it('does not write a second row for a buyer who already holds the grant', async () => {
     paymentsRows.current = [
-      { storage_gb: 5, product_id: 'com.universalbooks.app.storage.5gb.purchase', metadata: null },
+      { storage_gb: 5, product_id: 'com.universalbooks.com.storage.5gb.purchase', metadata: null },
       {
         storage_gb: 0,
-        product_id: 'com.universalbooks.app.customization.grandfathered',
+        product_id: 'com.universalbooks.com.customization.grandfathered',
         metadata: { feature: 'customization', grandfathered: true },
       },
     ];

@@ -25,9 +25,9 @@ derived from the OneDrive translations (zh uses Apple's official
 "iCloud 云盘"/"iCloud 雲碟").
 
 **Apple portal DONE (2026-08-06, verified in Chrome):** iCloud capability
-(CloudKit-support mode) enabled on App ID `com.universalbooks.app`
+(CloudKit-support mode) enabled on App ID `com.universalbooks.com`
 (record id in [[private-icloud-sync-provider]]); account has exactly ONE container,
-`iCloud.com.universalbooks.app` — matches the entitlements pin and the
+`iCloud.com.universalbooks.com` — matches the entitlements pin and the
 code's nil-identifier default-container resolution. Side effect: the
 capability change INVALIDATED most provisioning profiles
 (iOS-AppStore-251202, iOS-universalbooks-260531, Mac-AppStore-251202,
@@ -78,7 +78,7 @@ needs-sync-up/last-sync-was-up = daemon replicating. ~1.3GB and growing —
 SEPARATE pre-existing issue found: the SANDBOXED appstore-dev app renders a
 BLANK window (unsandboxed same binary renders fine; last sandboxed run was
 2025-08-20; suspect stale container state in
-~/Library/Containers/com.universalbooks.app). Investigate before next Mac
+~/Library/Containers/com.universalbooks.com). Investigate before next Mac
 App Store submission — NOT caused by the iCloud change (blank persists with
 iCloud entitlements stripped).
 **ROOT-CAUSED + WORKED AROUND 2026-08-19 — see

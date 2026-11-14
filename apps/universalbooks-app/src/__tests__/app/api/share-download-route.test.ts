@@ -30,7 +30,7 @@ describe('GET /api/share/[token]/download', () => {
   // own fetch on web) follows it to R2 without tripping CORS.
   it('302-redirects to the presigned URL', async () => {
     const res = await GET(
-      new Request('https://__READ__web.__READ__universalbooks.app/api/share/tok/download'),
+      new Request('https://__READ__web.__READ__universalbooks.com/api/share/tok/download'),
       params('tok'),
     );
     expect(res.status).toBe(302);
@@ -40,7 +40,7 @@ describe('GET /api/share/[token]/download', () => {
   it('propagates rejection status without presigning', async () => {
     resolveActiveShareMock.mockResolvedValue({ ok: false, reason: { kind: 'expired' } });
     const res = await GET(
-      new Request('https://__READ__web.__READ__universalbooks.app/api/share/tok/download'),
+      new Request('https://__READ__web.__READ__universalbooks.com/api/share/tok/download'),
       params('tok'),
     );
     expect(res.status).toBe(410);

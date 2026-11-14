@@ -54,7 +54,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
       const response = await publicFetch(currentUrl, {
         signal: controller.signal,
-        headers: { 'User-Agent': 'UniversalBooksBot/1.0 (+https://universalbooks.app)' },
+        headers: { 'User-Agent': 'UniversalBooksBot/1.0 (+https://universalbooks.com)' },
       });
       if (response.status >= 300 && response.status < 400) {
         const location = response.headers.get('location');

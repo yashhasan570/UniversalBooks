@@ -164,7 +164,7 @@ describe('ReadwiseClient base URL', () => {
   test('sends a resolved public cover URL as image_url', async () => {
     fetchMock.mockResolvedValue(new Response(null, { status: 200 }));
     const client = new ReadwiseClient(makeSettings());
-    const url = 'https://assets.__READ__universalbooks.app/media/book_covers/abcdef12/c0ffee.png';
+    const url = 'https://assets.__READ__universalbooks.com/media/book_covers/abcdef12/c0ffee.png';
     await client.pushHighlights([makeNote()], makeBook(), url);
     expect(pushedHighlight().image_url).toBe(url);
   });

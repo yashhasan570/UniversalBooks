@@ -8,7 +8,7 @@ metadata:
   modified: 2026-11-04T16:46:06.575Z
 ---
 
-Found 2026-11-05 on a local web build talking to __READ__web.universalbooks.app, which was still pre-#7317
+Found 2026-11-05 on a local web build talking to __READ__web.universalbooks.com, which was still pre-#7317
 (clippings route 404, older crosspoint route 401). Introduced by 045beb4d1 (#7317). ce04bbec2 (#6802)
 is the carrier: its trailing call fires from a stale throttle with the old cursor.
 

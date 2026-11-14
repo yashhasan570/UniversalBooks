@@ -22,7 +22,7 @@ const hl = (id: string, patch: Partial<VaultHighlight> = {}): VaultHighlight => 
   note: '',
   color: 'yellow',
   chapter: 'Chapter 1',
-  url: `https://__READ__web.universalbooks.app/o/book/bookhash1/annotation/${id}`,
+  url: `https://__READ__web.universalbooks.com/o/book/bookhash1/annotation/${id}`,
   deleted: false,
   ...patch,
 });
@@ -63,7 +63,7 @@ describe('renderHighlight', () => {
       renderHighlight(hl('a1', { text: 'line one\n\nline two', note: 'my\nthought' }), 'T'),
     ).toBe(
       [
-        '> [!quote|yellow] [Chapter 1](https://__READ__web.universalbooks.app/o/book/bookhash1/annotation/a1)',
+        '> [!quote|yellow] [Chapter 1](https://__READ__web.universalbooks.com/o/book/bookhash1/annotation/a1)',
         '> line one',
         '>',
         '> line two',
@@ -88,7 +88,7 @@ describe('renderHighlight', () => {
   it('keeps a multi-line chapter label on the callout line and escapes backslashes', () => {
     const out = renderHighlight(hl('a1', { chapter: ' Part One\n  C:\\ Two ' }), 'T');
     expect(out.split('\n')[0]).toBe(
-      '> [!quote|yellow] [Part One C:\\\\ Two](https://__READ__web.universalbooks.app/o/book/bookhash1/annotation/a1)',
+      '> [!quote|yellow] [Part One C:\\\\ Two](https://__READ__web.universalbooks.com/o/book/bookhash1/annotation/a1)',
     );
   });
 });

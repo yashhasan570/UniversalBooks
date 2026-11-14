@@ -59,7 +59,7 @@ FROM docker.io/library/node:24-slim@sha256:55fb5f5a527ea2c5c4a95f963e48ef90aa38c
 ENV NODE_ENV=production
 ENV PORT=3000
 ENV HOSTNAME=0.0.0.0
-# This image is the self-hosted artifact — __READ__web.universalbooks.app runs on
+# This image is the self-hosted artifact — __READ__web.readest.com runs on
 # Cloudflare/Vercel, never on it — so premium features are unlocked by default
 # rather than left to the operator's compose file. `compose.yaml` passes
 # `SELF_HOSTED: ${SELF_HOSTED:-true}`, but that line only landed in #5996: a

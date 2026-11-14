@@ -2,7 +2,7 @@
   "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
   "productName": "Universal Books",
   "mainBinaryName": "universalbooks",
-  "identifier": "com.universalbooks.app",
+  "identifier": "com.universalbooks.com",
   "version": "../package.json",
   "build": {
     "frontendDist": "../out",
@@ -16,11 +16,11 @@
       "capabilities": ["default", "desktop-capability"],
       "csp": {
         "default-src": "'self' 'unsafe-inline' blob: data: customprotocol: asset: http://asset.localhost http://rangefile.localhost ipc: http://ipc.localhost",
-        "connect-src": "'self' blob: data: asset: http://asset.localhost http://rangefile.localhost ipc: http://ipc.localhost http://*:* https://*:* https://*.sentry.io https://*.posthog.com https://*.deepl.com https://*.wikipedia.org https://*.wiktionary.org https://*.supabase.co https://*.universalbooks.app wss://api.msedgeservices.com https://*.cloudflarestorage.com https://translate.googleapis.com https://translate.toil.cc https://*.microsofttranslator.com https://edge.microsoft.com https://*.googleusercontent.com https://graph.microsoft.com https://login.microsoftonline.com",
+        "connect-src": "'self' blob: data: asset: http://asset.localhost http://rangefile.localhost ipc: http://ipc.localhost http://*:* https://*:* https://*.sentry.io https://*.posthog.com https://*.deepl.com https://*.wikipedia.org https://*.wiktionary.org https://*.supabase.co https://*.universalbooks.com wss://api.msedgeservices.com https://*.cloudflarestorage.com https://translate.googleapis.com https://translate.toil.cc https://*.microsofttranslator.com https://edge.microsoft.com https://*.googleusercontent.com https://graph.microsoft.com https://login.microsoftonline.com",
         "img-src": "'self' blob: data: asset: http://asset.localhost https://* https://*:* http://* http://*:*",
         "media-src": "'self' blob: data: asset: http://asset.localhost https://* https://*:* http://* http://*:*",
-        "style-src": "'self' 'unsafe-inline' blob: asset: http://asset.localhost https://cdn.jsdelivr.net https://fonts.googleapis.com https://cdnjs.cloudflare.com https://storage.universalbooks.app",
-        "font-src": "'self' blob: data: asset: http://asset.localhost tauri: https://db.onlinewebfonts.com https://cdn.jsdelivr.net https://fonts.gstatic.com https://cdnjs.cloudflare.com  https://storage.universalbooks.app",
+        "style-src": "'self' 'unsafe-inline' blob: asset: http://asset.localhost https://cdn.jsdelivr.net https://fonts.googleapis.com https://cdnjs.cloudflare.com https://storage.universalbooks.com",
+        "font-src": "'self' blob: data: asset: http://asset.localhost tauri: https://db.onlinewebfonts.com https://cdn.jsdelivr.net https://fonts.gstatic.com https://cdnjs.cloudflare.com  https://storage.universalbooks.com",
         "frame-src": "'self' blob: asset: http://asset.localhost https://*.stripe.com",
         "script-src": "'self' 'unsafe-inline' 'unsafe-eval' data: blob: asset: http://asset.localhost https://*.sentry.io https://*.posthog.com  https://*.stripe.com"
       },
@@ -227,7 +227,7 @@
       "mobile": [
         {
           "scheme": ["https"],
-          "host": "__READ__web.universalbooks.app",
+          "host": "__READ__web.universalbooks.com",
           "appLink": true
         },
         {
@@ -254,7 +254,7 @@
     "updater": {
       "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEJFMEQ1QjE2OEU1NEIzNTEKUldSUnMxU09GbHNOdmpEaWFMT1crRFpEV2VORzQ2MklxaFc0M1R0ci9xY2c1bENXS0xhM1R1L2sK",
       "endpoints": [
-        "https://download.universalbooks.app/releases/latest.json",
+        "https://download.universalbooks.com/releases/latest.json",
         "https://github.com/universalbooks/universalbooks/releases/latest/download/latest.json"
       ]
     },

@@ -31,7 +31,7 @@ const sampleEpub = new Blob([new Uint8Array([0x50, 0x4b, 0x03, 0x04])], {
   type: 'application/epub+zip',
 });
 
-const DEFAULT_ENDPOINT = 'https://__READ__web.__READ__universalbooks.app/api/send/inbox/file';
+const DEFAULT_ENDPOINT = 'https://__READ__web.__READ__universalbooks.com/api/send/inbox/file';
 
 const sampleArgs = {
   endpoint: DEFAULT_ENDPOINT,
@@ -43,7 +43,7 @@ const sampleArgs = {
 
 describe('resolveUploadEndpoint', () => {
   test('defaults to the production endpoint when no override is set', async () => {
-    expect(await resolveUploadEndpoint()).toBe('https://__READ__web.__READ__universalbooks.app/api/send/inbox/file');
+    expect(await resolveUploadEndpoint()).toBe('https://__READ__web.__READ__universalbooks.com/api/send/inbox/file');
   });
 
   test('honours universalbooksApiBase in chrome.storage.local', async () => {
@@ -58,7 +58,7 @@ describe('resolveUploadEndpoint', () => {
 
   test('ignores universalbooksApiBase when it is not http(s)', async () => {
     await chromeMock.storage.local.set({ universalbooksApiBase: 'javascript:alert(1)' });
-    expect(await resolveUploadEndpoint()).toBe('https://__READ__web.__READ__universalbooks.app/api/send/inbox/file');
+    expect(await resolveUploadEndpoint()).toBe('https://__READ__web.__READ__universalbooks.com/api/send/inbox/file');
   });
 
   test('falls back to default when chrome.storage is unavailable', async () => {
@@ -67,7 +67,7 @@ describe('resolveUploadEndpoint', () => {
     const realStorage = chromeMock.storage;
     (chromeMock as unknown as { storage: undefined }).storage = undefined;
     try {
-      expect(await resolveUploadEndpoint()).toBe('https://__READ__web.__READ__universalbooks.app/api/send/inbox/file');
+      expect(await resolveUploadEndpoint()).toBe('https://__READ__web.__READ__universalbooks.com/api/send/inbox/file');
     } finally {
       (chromeMock as unknown as { storage: typeof realStorage }).storage = realStorage;
     }
@@ -82,7 +82,7 @@ describe('uploadEpub', () => {
     expect(result).toEqual({ ok: true, id: 'inbox-1' });
     expect(fetchSpy).toHaveBeenCalledTimes(1);
     const [url, init] = fetchSpy.mock.calls[0]!;
-    expect(url).toBe('https://__READ__web.__READ__universalbooks.app/api/send/inbox/file');
+    expect(url).toBe('https://__READ__web.__READ__universalbooks.com/api/send/inbox/file');
     expect(init?.method).toBe('POST');
     const headers = init?.headers as Record<string, string>;
     expect(headers['Authorization']).toBe('Bearer tok-abc');
@@ -178,7 +178,7 @@ describe('uploadEpub', () => {
       expect(result.code).toBe('network-error');
       // The message now includes the target host so the user can tell at
       // a glance whether the override pointed at a dead local server.
-      expect(result.message).toContain('__READ__web.universalbooks.app');
+      expect(result.message).toContain('__READ__web.universalbooks.com');
       expect(result.message).toContain('Failed to fetch');
     }
   });

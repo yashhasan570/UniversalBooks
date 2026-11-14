@@ -37,6 +37,6 @@ Sync
 
 Universal Books is open source.
 
-Support: support@universalbooks.app
-Privacy Policy: https://__READ__universalbooks.app/privacy-policy
+Support: support@universalbooks.com
+Privacy Policy: https://__READ__universalbooks.com/privacy-policy
 Terms of Service: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/

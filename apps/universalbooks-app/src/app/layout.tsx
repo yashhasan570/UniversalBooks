@@ -7,14 +7,14 @@ import Providers from '@/components/Providers';
 
 import '../styles/globals.css';
 
-const url = 'https://__READ__web.universalbooks.app/';
+const url = 'https://__READ__web.universalbooks.com/';
 const title = 'Universal Books — Where You Read, Digest and Get Insight';
 const description =
   'Discover Universal Books, the ultimate online ebook reader for immersive and organized reading. ' +
   'Enjoy seamless access to your digital library, powerful tools for highlighting, bookmarking, ' +
   'and note-taking, and support for multiple book views. ' +
   'Perfect for deep reading, analysis, and understanding. Explore now!';
-const previewImage = 'https://cdn.universalbooks.app/images/open_graph_preview_read_now.png';
+const previewImage = 'https://cdn.universalbooks.com/images/open_graph_preview_read_now.png';
 
 export const metadata: Metadata = {
   metadataBase: new URL(url),
@@ -56,7 +56,7 @@ export const metadata: Metadata = {
   },
   other: {
     'apple-mobile-web-app-capable': 'yes',
-    'twitter:domain': '__READ__web.universalbooks.app',
+    'twitter:domain': '__READ__web.universalbooks.com',
     'twitter:url': url,
   },
 };

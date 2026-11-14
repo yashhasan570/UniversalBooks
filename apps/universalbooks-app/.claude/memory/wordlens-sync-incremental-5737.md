@@ -11,7 +11,7 @@ metadata:
 PR #5737 (2026-08-16) made `pnpm wordlens:sync` incremental. It used to re-upload all 15 packs
 (~20 MB) on every run even when one pair changed.
 
-The published manifest at `https://cdn.universalbooks.app/wordlens/manifest.json` already carries every
+The published manifest at `https://cdn.universalbooks.com/wordlens/manifest.json` already carries every
 pack's `sha256`, so the script fetches it and diffs. Adding `en-vi` uploads 652 KB, not 20 MB.
 
 - `planSync(local, remote, {force})` is pure and unit tested — that is the seam to change.

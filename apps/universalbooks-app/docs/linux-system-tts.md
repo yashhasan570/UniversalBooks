@@ -44,11 +44,11 @@ Flatpak manifest needs this entry in `finish-args`:
 ```
 
 The manifest is maintained separately in
-[flathub/com.universalbooks.app](https://github.com/flathub/com.universalbooks.app).
+[flathub/com.universalbooks.com](https://github.com/flathub/com.universalbooks.com).
 For a package whose manifest has not yet added the permission:
 
 ```sh
-flatpak override --user --filesystem=xdg-run/speech-dispatcher:ro com.universalbooks.app
+flatpak override --user --filesystem=xdg-run/speech-dispatcher:ro com.universalbooks.com
 ```
 
 The read-only directory mount allows connecting to the socket. Universal Books does not

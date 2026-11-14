@@ -32,7 +32,7 @@ let coldStartConsumed = false;
  *
  * Supported URL shapes (see src/utils/share.ts):
  *   universalbooks://share/{token}
- *   https://__READ__web.__READ__universalbooks.app/s/{token}
+ *   https://__READ__web.__READ__universalbooks.com/s/{token}
  *
  * Auth-gated paths:
  *   - Logged-in: POST /api/share/[token]/import (server-side R2 byte-copy),

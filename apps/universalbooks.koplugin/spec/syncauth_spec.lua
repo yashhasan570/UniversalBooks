@@ -696,8 +696,8 @@ describe("SyncAuth:loginWithCode", function()
     end
     local code = {
         device_code = "secret", user_code = "BCDF-GHJK",
-        verification_uri = "https://__READ__web.__READ__universalbooks.app/link",
-        verification_uri_complete = "https://__READ__web.__READ__universalbooks.app/link?code=BCDF-GHJK",
+        verification_uri = "https://__READ__web.__READ__universalbooks.com/link",
+        verification_uri_complete = "https://__READ__web.__READ__universalbooks.com/link?code=BCDF-GHJK",
         expires_in = 600, interval = 5,
     }
 
@@ -752,7 +752,7 @@ describe("SyncAuth:loginWithCode", function()
 
         local message = codeMessage()
         assert.truthy(message, "the code is shown")
-        assert.truthy(message.text:find("https://__READ__web.__READ__universalbooks.app/link", 1, true))
+        assert.truthy(message.text:find("https://__READ__web.__READ__universalbooks.com/link", 1, true))
         assert.are.equal(0, #polls) -- the first poll waits one interval
         assert.are.equal(5, scheduled[1].delay)
 

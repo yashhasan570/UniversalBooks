@@ -23,9 +23,9 @@ regardless of the header.
 **How to check universalbooks-web CF metrics** (no API token in .env files needed):
 - wrangler OAuth token from `~/.wrangler/config/default.toml` (`oauth_token = "..."`) works as a
   Bearer token for `https://api.cloudflare.com/client/v4/graphql` and REST.
-- Account `69a7e6e1c1cf4ecba13b6eb603210dfe` (Universal Books), zone universalbooks.app =
-  `f697810279605f42c6588e1abb3273b4`; worker `universalbooks-web` serves __READ__web.universalbooks.app,
-  web-cf.universalbooks.app, api-cf.universalbooks.app.
+- Account `69a7e6e1c1cf4ecba13b6eb603210dfe` (Universal Books), zone universalbooks.com =
+  `f697810279605f42c6588e1abb3273b4`; worker `universalbooks-web` serves __READ__web.universalbooks.com,
+  web-cf.universalbooks.com, api-cf.universalbooks.com.
 - Dataset `httpRequestsAdaptiveGroups` with `clientRequestHTTPMethodName` + `datetimeHour`/
   `datetimeMinute` dimensions; estimate = `count * avg.sampleInterval`. The zone plan rejects
   time ranges wider than **1 day** per query — window the queries.

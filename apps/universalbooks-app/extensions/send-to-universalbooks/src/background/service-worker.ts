@@ -153,7 +153,7 @@ async function runClip(tabId: number): Promise<void> {
 
     const stored = await readToken();
     if (!stored) {
-      return emitError('not-signed-in', _('Sign in at __READ__web.universalbooks.app first'));
+      return emitError('not-signed-in', _('Sign in at __READ__web.universalbooks.com first'));
     }
 
     setBadge('cap');

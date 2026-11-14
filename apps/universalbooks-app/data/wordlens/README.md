@@ -2,7 +2,7 @@
 
 **Model:** the committed `data/wordlens/*.json` + `manifest.json` are the source of
 truth. They are **not** bundled into the app — `pnpm wordlens:sync` mirrors them to the
-`cdn.universalbooks.app` R2 bucket, and the app downloads each pack on demand and **re-downloads
+`cdn.readest.com` R2 bucket, and the app downloads each pack on demand and **re-downloads
 it automatically whenever its `sha256` changes in the manifest**. So updating data is:
 regenerate → sync → commit. No app release required.
 

@@ -43,7 +43,7 @@ beforeEach(() => {
 
 describe('POST /api/apple/notifications', () => {
   it('rejects a request without a signedPayload', async () => {
-    const res = await applePOST(jsonReq('https://__READ__web.__READ__universalbooks.app/api/apple/notifications', {}));
+    const res = await applePOST(jsonReq('https://__READ__web.__READ__universalbooks.com/api/apple/notifications', {}));
     expect(res.status).toBe(400);
     expect(hooks.handleAppleNotification).not.toHaveBeenCalled();
     expect(telemetry.recordIapWebhook).toHaveBeenCalledWith(
@@ -57,7 +57,7 @@ describe('POST /api/apple/notifications', () => {
 
   it('processes a signed payload and records the outcome', async () => {
     const res = await applePOST(
-      jsonReq('https://__READ__web.__READ__universalbooks.app/api/apple/notifications', { signedPayload: 'jws' }),
+      jsonReq('https://__READ__web.__READ__universalbooks.com/api/apple/notifications', { signedPayload: 'jws' }),
     );
     expect(res.status).toBe(200);
     expect(hooks.handleAppleNotification).toHaveBeenCalledWith('jws');
@@ -69,7 +69,7 @@ describe('POST /api/apple/notifications', () => {
   it('returns 500 when processing throws so Apple retries', async () => {
     hooks.handleAppleNotification.mockRejectedValue(new Error('db down'));
     const res = await applePOST(
-      jsonReq('https://__READ__web.__READ__universalbooks.app/api/apple/notifications', { signedPayload: 'jws' }),
+      jsonReq('https://__READ__web.__READ__universalbooks.com/api/apple/notifications', { signedPayload: 'jws' }),
     );
     expect(res.status).toBe(500);
   });
@@ -79,7 +79,7 @@ describe('POST /api/google/notifications', () => {
   it('rejects a request with an invalid verification token', async () => {
     process.env['GOOGLE_RTDN_VERIFICATION_TOKEN'] = 'secret';
     const res = await googlePOST(
-      jsonReq('https://__READ__web.__READ__universalbooks.app/api/google/notifications?token=wrong', {
+      jsonReq('https://__READ__web.__READ__universalbooks.com/api/google/notifications?token=wrong', {
         message: { data: 'abc' },
       }),
     );
@@ -93,7 +93,7 @@ describe('POST /api/google/notifications', () => {
   it('processes a message when the token matches', async () => {
     process.env['GOOGLE_RTDN_VERIFICATION_TOKEN'] = 'secret';
     const res = await googlePOST(
-      jsonReq('https://__READ__web.__READ__universalbooks.app/api/google/notifications?token=secret', {
+      jsonReq('https://__READ__web.__READ__universalbooks.com/api/google/notifications?token=secret', {
         message: { data: 'abc' },
       }),
     );
@@ -103,7 +103,7 @@ describe('POST /api/google/notifications', () => {
 
   it('acknowledges an empty Pub/Sub message without processing', async () => {
     const res = await googlePOST(
-      jsonReq('https://__READ__web.__READ__universalbooks.app/api/google/notifications', { message: {} }),
+      jsonReq('https://__READ__web.__READ__universalbooks.com/api/google/notifications', { message: {} }),
     );
     expect(res.status).toBe(200);
     expect(hooks.handleGoogleNotification).not.toHaveBeenCalled();

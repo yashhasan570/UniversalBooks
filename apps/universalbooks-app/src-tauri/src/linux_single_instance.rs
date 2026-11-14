@@ -46,9 +46,9 @@ mod tests {
     #[test]
     fn matches_the_single_instance_plugin_naming() {
         assert_eq!(
-            dbus_name_and_path("com.universalbooks.app"),
+            dbus_name_and_path("com.universalbooks.com"),
             (
-                "com.universalbooks.app.SingleInstance".to_string(),
+                "com.universalbooks.com.SingleInstance".to_string(),
                 "/com/bilingify/universalbooks/SingleInstance".to_string()
             )
         );

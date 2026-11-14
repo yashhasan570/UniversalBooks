@@ -38,7 +38,7 @@ glib = "0.20.0"
 
 [workspace.package]
 authors = ["Bilingify LLC"]
-homepage = "https://universalbooks.app"
+homepage = "https://universalbooks.com"
 license = "AGPL-3.0"
 repository = "https://github.com/universalbooks/universalbooks"
 categories = []

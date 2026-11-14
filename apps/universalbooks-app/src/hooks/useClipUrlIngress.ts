@@ -64,7 +64,7 @@ async function convertSharedHtml(url: string, htmlFile: string): Promise<Convert
  *
  *   2. iOS Share-Extension App Group queue — the extension writes
  *      `{url, groupId?, groupName?, htmlFile?}` payloads into the shared
- *      NSUserDefaults at `group.com.universalbooks.app`, and the host
+ *      NSUserDefaults at `group.com.universalbooks.com`, and the host
  *      plugin (NativeBridgePlugin) drains them on foreground by calling
  *      `window.__universalbooksOnShareExtensionPending(saves)`. Same ingest
  *      pipeline, but the chosen library group is preserved. When the
@@ -206,7 +206,7 @@ export function useClipUrlIngress() {
       // we can share the http(s) clip path with the Android side:
       //
       //   - Universal Link (primary):
-      //       https://__READ__web.universalbooks.app/clip?url=<encoded>
+      //       https://__READ__web.universalbooks.com/clip?url=<encoded>
       //   - Custom URL scheme (fallback):
       //       universalbooks://clip?url=<encoded>
       const isClipUrl =
@@ -228,15 +228,15 @@ export function useClipUrlIngress() {
       // Only act on http(s). file://, content://, blob: and data: belong
       // to other consumers (or aren't shareable URLs).
       if (!/^https?:\/\//i.test(url)) return;
-      // Annotation deep links can come over https (__READ__web.universalbooks.app).
+      // Annotation deep links can come over https (__READ__web.universalbooks.com).
       // Skip them — useOpenLaunchLinks owns that path.
       if (parseAnnotationDeepLink(url)) return;
-      // Share links (https://__READ__web.__READ__universalbooks.app/s/{token}) also arrive over https.
+      // Share links (https://__READ__web.__READ__universalbooks.com/s/{token}) also arrive over https.
       // Skip them — useOpenShareLink owns that path. Without this guard the
       // share landing URL is run through the article clipper instead of
       // importing the shared book.
       if (parseShareDeepLink(url)) return;
-      // Reader sign-in links (https://__READ__web.__READ__universalbooks.app/link?code=…) open the
+      // Reader sign-in links (https://__READ__web.__READ__universalbooks.com/link?code=…) open the
       // /link page; useOpenDeviceLink owns that path.
       if (parseDeviceLinkDeepLink(url)) return;
       void clipAndImport(url);

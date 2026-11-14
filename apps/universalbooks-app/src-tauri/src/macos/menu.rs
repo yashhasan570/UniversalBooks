@@ -57,11 +57,11 @@ pub fn handle_menu_event(app: &AppHandle, event: &MenuEvent) {
     if event.id() == "open_file" {
         handle_open_file(app);
     } else if event.id() == "privacy_policy" {
-        let _ = opener.open_url("https://__READ__universalbooks.app/privacy-policy", None::<&str>);
+        let _ = opener.open_url("https://__READ__universalbooks.com/privacy-policy", None::<&str>);
     } else if event.id() == "report_issue" {
         let _ = opener.open_url("https://github.com/universalbooks/universalbooks/issues", None::<&str>);
     } else if event.id() == "universalbooks_help" {
-        let _ = opener.open_url("https://universalbooks.app/support", None::<&str>);
+        let _ = opener.open_url("https://universalbooks.com/support", None::<&str>);
     }
 }
 

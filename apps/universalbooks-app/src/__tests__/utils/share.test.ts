@@ -5,7 +5,7 @@ import { buildShareUrl, parseShareDeepLink } from '@/utils/share';
 describe('buildShareUrl', () => {
   it('builds the canonical https URL for a token', () => {
     expect(buildShareUrl('aBcDeFgHiJkLmNoPqRsTuV')).toBe(
-      'https://__READ__web.__READ__universalbooks.app/s/aBcDeFgHiJkLmNoPqRsTuV',
+      'https://__READ__web.__READ__universalbooks.com/s/aBcDeFgHiJkLmNoPqRsTuV',
     );
   });
 });
@@ -17,14 +17,14 @@ describe('parseShareDeepLink', () => {
     expect(parseShareDeepLink(`universalbooks://share/${VALID_TOKEN}`)).toEqual({ token: VALID_TOKEN });
   });
 
-  it('parses https://__READ__web.__READ__universalbooks.app/s/{token}', () => {
-    expect(parseShareDeepLink(`https://__READ__web.__READ__universalbooks.app/s/${VALID_TOKEN}`)).toEqual({
+  it('parses https://__READ__web.__READ__universalbooks.com/s/{token}', () => {
+    expect(parseShareDeepLink(`https://__READ__web.__READ__universalbooks.com/s/${VALID_TOKEN}`)).toEqual({
       token: VALID_TOKEN,
     });
   });
 
-  it('parses *.universalbooks.app subdomains for preview deploys', () => {
-    expect(parseShareDeepLink(`https://staging.__READ__universalbooks.app/s/${VALID_TOKEN}`)).toEqual({
+  it('parses *.universalbooks.com subdomains for preview deploys', () => {
+    expect(parseShareDeepLink(`https://staging.__READ__universalbooks.com/s/${VALID_TOKEN}`)).toEqual({
       token: VALID_TOKEN,
     });
   });
@@ -50,13 +50,13 @@ describe('parseShareDeepLink', () => {
   });
 
   it('rejects nested or extra path segments', () => {
-    expect(parseShareDeepLink(`https://__READ__web.__READ__universalbooks.app/s/${VALID_TOKEN}/extra`)).toBeNull();
-    expect(parseShareDeepLink(`https://__READ__web.universalbooks.app/extra/s/${VALID_TOKEN}`)).toBeNull();
+    expect(parseShareDeepLink(`https://__READ__web.__READ__universalbooks.com/s/${VALID_TOKEN}/extra`)).toBeNull();
+    expect(parseShareDeepLink(`https://__READ__web.universalbooks.com/extra/s/${VALID_TOKEN}`)).toBeNull();
   });
 
   it('returns null for malformed input', () => {
     expect(parseShareDeepLink('')).toBeNull();
     expect(parseShareDeepLink('not-a-url')).toBeNull();
-    expect(parseShareDeepLink('ftp://__READ__web.__READ__universalbooks.app/s/' + VALID_TOKEN)).toBeNull();
+    expect(parseShareDeepLink('ftp://__READ__web.__READ__universalbooks.com/s/' + VALID_TOKEN)).toBeNull();
   });
 });

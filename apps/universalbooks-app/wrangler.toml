@@ -21,18 +21,18 @@ crons = ["*/10 * * * *"]
 mode = "smart"
 
 [[routes]]
-pattern = "web-cf.universalbooks.app"
-zone_name = "universalbooks.app"
+pattern = "web-cf.universalbooks.com"
+zone_name = "universalbooks.com"
 custom_domain = true
 
 [[routes]]
-pattern = "api-cf.universalbooks.app"
-zone_name = "universalbooks.app"
+pattern = "api-cf.universalbooks.com"
+zone_name = "universalbooks.com"
 custom_domain = true
 
 [[routes]]
-pattern = "__READ__web.universalbooks.app"
-zone_name = "universalbooks.app"
+pattern = "__READ__web.universalbooks.com"
+zone_name = "universalbooks.com"
 custom_domain = true
 
 [vars]

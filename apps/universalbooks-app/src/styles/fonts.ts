@@ -37,7 +37,7 @@ const getAdditionalBasicFontLinks = () => `
 `;
 
 // CJK bundles Universal Books serves itself. The default CDN only answers CORS for
-// universalbooks.app origins, so a self-hosted deployment on a custom domain gets each
+// universalbooks.com origins, so a self-hosted deployment on a custom domain gets each
 // of these blocked unless it points FONT_BASE_URL at a host it controls (#5550).
 const hostedCJKFonts = [
   'Huiwen-MinchoGBK',
@@ -46,7 +46,7 @@ const hostedCJKFonts = [
   'GuanKiapTsingKhai-T',
 ];
 
-const DEFAULT_FONT_BASE_URL = 'https://storage.universalbooks.app/public/font/dist';
+const DEFAULT_FONT_BASE_URL = 'https://storage.universalbooks.com/public/font/dist';
 
 const getFontBaseUrl = () =>
   (getRuntimeConfig()?.fontBaseUrl || DEFAULT_FONT_BASE_URL).replace(/\/+$/, '');

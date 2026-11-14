@@ -37,7 +37,7 @@ in-app `BookContextMenuPopup`.
 `CFBundleIdentifier`, so ScreenCaptureKit filters it out — screenshots show the desktop and
 the window looks missing. Fix: `pnpm dev` for the Next server, then wrap
 `target/debug/Universal Books` in a throwaway `.app` (Contents/Info.plist with
-`CFBundleIdentifier=com.universalbooks.app` + `CFBundleExecutable=Universal Books`, binary symlinked
+`CFBundleIdentifier=com.universalbooks.com` + `CFBundleExecutable=Universal Books`, binary symlinked
 into Contents/MacOS) and `open` that. Clicks are gated on the frontmost window, so
 `osascript -e 'tell application "System Events" to set visible of process "iTerm2" to false'`
 before each interaction burst.

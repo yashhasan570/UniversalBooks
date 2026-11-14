@@ -17,7 +17,7 @@ multiple targets:
 - a **desktop app** (Windows / macOS / Linux) via Tauri v2
 - a **mobile app** (Android / iOS) via Tauri v2 mobile
 - a **web app** running on Next.js / Cloudflare Workers (OpenNext) at
-  [__READ__web.universalbooks.app](https://__READ__web.universalbooks.app)
+  [__READ__web.universalbooks.com](https://__READ__web.universalbooks.com)
 - two **side surfaces**: a "Send to Universal Books" browser extension
   (`apps/universalbooks-app/extension/send-to-universalbooks`) and a Windows thumbnail
   shell extension (`apps/universalbooks-app/extensions/windows-thumbnail`)
@@ -585,7 +585,7 @@ flowchart LR
     end
 
     subgraph DeployTargets
-        DCloudflare["Cloudflare Workers<br/>(__READ__web.universalbooks.app)"]
+        DCloudflare["Cloudflare Workers<br/>(__READ__web.universalbooks.com)"]
         DDocker["Docker image<br/>(ghcr.io/universalbooks/universalbooks)"]
         DDesktop["dmg / nsis / appimage"]
         DMobile["aab / ipa"]

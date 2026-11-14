@@ -386,7 +386,7 @@ describe('NotionClient note sync', () => {
     const createBody = JSON.parse((fetchMock.mock.calls[1]![1] as RequestInit).body as string);
     const appendBody = JSON.parse((fetchMock.mock.calls[2]![1] as RequestInit).body as string);
     expect(createBody.children[0].paragraph.rich_text[0].text.link.url).toBe(
-      'https://__READ__web.universalbooks.app/reader/book-hash',
+      'https://__READ__web.universalbooks.com/reader/book-hash',
     );
     const noteLink = appendBody.children[1].paragraph.rich_text[0].text.link.url as string;
     expect(noteLink).toMatch(
@@ -424,11 +424,11 @@ describe('NotionClient note sync', () => {
     const noteLink = new URL(appendBody.children[1].paragraph.rich_text[0].text.link.url);
     const [payloadHash, blockCount] = noteLink.searchParams.get('notion')!.split('.');
     const remoteChildren = [
-      withLink(createBody.children[0], 'https://universalbooks.app/notion-sync/book/book-hash'),
+      withLink(createBody.children[0], 'https://universalbooks.com/notion-sync/book/book-hash'),
       appendBody.children[0],
       withLink(
         appendBody.children[1],
-        `https://universalbooks.app/notion-sync/note/book-hash/note-1/${payloadHash}/${blockCount}`,
+        `https://universalbooks.com/notion-sync/note/book-hash/note-1/${payloadHash}/${blockCount}`,
       ),
       ...appendBody.children.slice(2),
     ].map((block, index) => ({ ...block, id: `block-${index}` }));

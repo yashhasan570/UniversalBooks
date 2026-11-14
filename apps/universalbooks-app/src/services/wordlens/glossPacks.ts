@@ -6,7 +6,7 @@ import { webDownload } from '@/utils/transfer';
 import { GlossIndex } from './glossIndex';
 import type { GlossIndexData } from './types';
 
-export const WORDLENS_CDN_BASE = 'https://cdn.universalbooks.app/wordlens';
+export const WORDLENS_CDN_BASE = 'https://cdn.universalbooks.com/wordlens';
 const STORE_DIR = 'wordlens'; // relative dir under BaseDir 'Data'
 const MANIFEST_FILE = 'manifest.json';
 
@@ -66,7 +66,7 @@ type DownloadFileFn = (params: {
  * the OPDS auto-download idiom in `services/opds/autoDownload.ts`. Routing
  * through Rust (rather than a webview fetch) avoids cross-origin/CORS concerns
  * on the webview — CSP itself is fine, since tauri.conf's connect-src
- * whitelists https://*.universalbooks.app.
+ * whitelists https://*.universalbooks.com.
  */
 export const downloadViaTempFile = async (
   appService: AppService,
@@ -94,7 +94,7 @@ export const downloadViaTempFile = async (
 // Default cross-platform downloader. On web a plain fetch to the CDN works and
 // gives streaming progress; on Tauri we route through the Rust download path to
 // avoid cross-origin/CORS concerns on the webview (CSP is fine — tauri.conf's
-// connect-src whitelists https://*.universalbooks.app), writing to a temp file and
+// connect-src whitelists https://*.universalbooks.com), writing to a temp file and
 // reading the bytes back for hashing.
 export const defaultDownloader = async (
   appService: AppService,

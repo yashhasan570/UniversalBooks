@@ -8,8 +8,8 @@ vi.mock('@/services/environment', () => ({
   isTauriAppPlatform: vi.fn(() => false),
   getAPIBaseUrl: () => '/api',
   getNodeAPIBaseUrl: () => '/node-api',
-  getBaseUrl: () => 'https://__READ__web.universalbooks.app',
-  getNodeBaseUrl: () => 'https://node.universalbooks.app',
+  getBaseUrl: () => 'https://__READ__web.universalbooks.com',
+  getNodeBaseUrl: () => 'https://node.universalbooks.com',
   isWebDevMode: () => true,
 }));
 
@@ -117,7 +117,7 @@ describe('opdsReq', () => {
         'CF-Access-Client-Id': 'client-id',
         'CF-Access-Client-Secret': 'secret',
       });
-      const params = new URL(proxied, 'https://__READ__web.universalbooks.app').searchParams;
+      const params = new URL(proxied, 'https://__READ__web.universalbooks.com').searchParams;
 
       expect(deserializeCustomHeaders(params.get('headers'))).toEqual({
         'CF-Access-Client-Id': 'client-id',
@@ -193,7 +193,7 @@ describe('opdsReq', () => {
 
       expect(fetchMock).toHaveBeenCalledTimes(1);
       const proxyUrl = fetchMock.mock.calls[0]![0] as string;
-      expect(new URL(proxyUrl, 'https://__READ__web.universalbooks.app').searchParams.get('auth')).toBeNull();
+      expect(new URL(proxyUrl, 'https://__READ__web.universalbooks.com').searchParams.get('auth')).toBeNull();
       const headers = (fetchMock.mock.calls[0]![1] as RequestInit).headers as Record<
         string,
         string
@@ -255,7 +255,7 @@ describe('opdsReq', () => {
       expect(headersOf(2)['Authorization']).toMatch(/^Digest /);
       for (const [url] of fetchMock.mock.calls) {
         expect(
-          new URL(url as string, 'https://__READ__web.universalbooks.app').searchParams.get('auth'),
+          new URL(url as string, 'https://__READ__web.universalbooks.com').searchParams.get('auth'),
         ).toBeNull();
       }
       expect(res.status).toBe(200);

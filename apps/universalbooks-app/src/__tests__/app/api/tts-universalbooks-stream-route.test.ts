@@ -46,7 +46,7 @@ const B = [{ offset: 0, duration: 5_000_000, text: 'Hello' }];
 const seg = (id: string, text = 'Hello world.', voice = 'kokoro:af_heart') => ({ id, text, voice });
 
 const post = (body: unknown, signal?: AbortSignal) =>
-  new NextRequest('https://__READ__web.__READ__universalbooks.app/api/tts/universalbooks/stream', {
+  new NextRequest('https://__READ__web.__READ__universalbooks.com/api/tts/universalbooks/stream', {
     method: 'POST',
     headers: { authorization: 'Bearer tok', 'Content-Type': 'application/json' },
     body: JSON.stringify(body),

@@ -53,7 +53,7 @@ const download = (...segments: ReturnType<typeof seg>[]) => ({
 });
 
 const request = (method: string, path: string, body?: unknown) =>
-  new NextRequest(`https://__READ__web.__READ__universalbooks.app/api/tts/universalbooks/jobs${path}`, {
+  new NextRequest(`https://__READ__web.__READ__universalbooks.com/api/tts/universalbooks/jobs${path}`, {
     method,
     headers: { authorization: 'Bearer tok', 'Content-Type': 'application/json' },
     body: body === undefined ? undefined : JSON.stringify(body),

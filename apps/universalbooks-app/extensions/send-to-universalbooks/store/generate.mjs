@@ -3,7 +3,7 @@
  * Generate Chrome Web Store screenshots for the Send to UniversalBooks extension.
  *
  * Composites the popup capture (store/popup.png) onto an on-brand background
- * (matching universalbooks.app) with a headline, renders it with headless Chromium,
+ * (matching universalbooks.com) with a headline, renders it with headless Chromium,
  * and writes 24-bit PNGs (no alpha) at the two Web Store sizes into store/out/.
  *
  *   pnpm store:screenshots        # from extensions/send-to-universalbooks/

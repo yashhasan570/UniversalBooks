@@ -46,7 +46,7 @@ event loop, not hung.
 
 ## Confirming experiment (done, verified)
 Removed `customRootDir` from
-`~/Library/Containers/com.universalbooks.app/Data/Library/Application Support/com.universalbooks.app/settings.json`,
+`~/Library/Containers/com.universalbooks.com/Data/Library/Application Support/com.universalbooks.com/settings.json`,
 relaunched: the `Universal Books-Test` deny is gone from the kernel log and the app
 renders the full "Start your library" empty state. `localBooksDir` self-heals
 — `settingsService.loadSettings` line 165 recomputes it from

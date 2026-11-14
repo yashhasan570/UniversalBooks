@@ -96,7 +96,7 @@ describe('renderQuoteCard (browser)', () => {
       shape: 'fit' as const,
       showBookInfo: true,
     };
-    const qrUrl = 'https://__READ__web.universalbooks.app/o/book/abc/annotation/def?cfi=epubcfi(%2F6%2F4)';
+    const qrUrl = 'https://__READ__web.universalbooks.com/o/book/abc/annotation/def?cfi=epubcfi(%2F6%2F4)';
     // Night's foreground is #e9dfc8; nothing on the card is pure white or black.
     const count = (data: Uint8ClampedArray, [r, g, b]: number[]) => {
       let n = 0;

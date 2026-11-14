@@ -105,7 +105,7 @@ const MAX_APPEND_BODY_BYTES = 450 * 1024;
 const MAX_RATE_LIMIT_RETRIES = 3;
 // Earlier releases wrote markers under this path, which opens nothing. They
 // are still read so pages synced by those releases are recognized.
-const LEGACY_MARKER_ORIGIN = 'https://universalbooks.app';
+const LEGACY_MARKER_ORIGIN = 'https://universalbooks.com';
 const LEGACY_MARKER_ROOT = '/notion-sync';
 // The sync state a note marker adds to the annotation's web link.
 const NOTE_MARKER_PARAM = 'notion';

@@ -3,8 +3,8 @@ import { describe, test, expect, beforeEach, vi } from 'vitest';
 
 // ── Mocks for constants ──────────────────────────────────────────
 vi.mock('@/services/constants', () => ({
-  UNIVERSALBOOKS_WEB_BASE_URL: 'https://__READ__web.universalbooks.app',
-  UNIVERSALBOOKS_NODE_BASE_URL: 'https://node.universalbooks.app',
+  UNIVERSALBOOKS_WEB_BASE_URL: 'https://__READ__web.universalbooks.com',
+  UNIVERSALBOOKS_NODE_BASE_URL: 'https://node.universalbooks.com',
 }));
 
 // We need to reset modules between tests to pick up env var changes,
@@ -133,7 +133,7 @@ describe('environment', () => {
     test('falls back to UNIVERSALBOOKS_WEB_BASE_URL when env var not set', async () => {
       delete env['NEXT_PUBLIC_API_BASE_URL'];
       const { getBaseUrl } = await import('@/services/environment');
-      expect(getBaseUrl()).toBe('https://__READ__web.universalbooks.app');
+      expect(getBaseUrl()).toBe('https://__READ__web.universalbooks.com');
     });
   });
 
@@ -148,7 +148,7 @@ describe('environment', () => {
     test('falls back to UNIVERSALBOOKS_NODE_BASE_URL when env var not set', async () => {
       delete env['NEXT_PUBLIC_NODE_BASE_URL'];
       const { getNodeBaseUrl } = await import('@/services/environment');
-      expect(getNodeBaseUrl()).toBe('https://node.universalbooks.app');
+      expect(getNodeBaseUrl()).toBe('https://node.universalbooks.com');
     });
   });
 
@@ -220,7 +220,7 @@ describe('environment', () => {
       env['NEXT_PUBLIC_APP_PLATFORM'] = 'web';
       delete env['NEXT_PUBLIC_API_BASE_URL'];
       const { getAPIBaseUrl } = await import('@/services/environment');
-      expect(getAPIBaseUrl()).toBe('https://__READ__web.__READ__universalbooks.app/api');
+      expect(getAPIBaseUrl()).toBe('https://__READ__web.__READ__universalbooks.com/api');
     });
 
     test('returns full URL for tauri platform even in development', async () => {
@@ -228,7 +228,7 @@ describe('environment', () => {
       env['NEXT_PUBLIC_APP_PLATFORM'] = 'tauri';
       delete env['NEXT_PUBLIC_API_BASE_URL'];
       const { getAPIBaseUrl } = await import('@/services/environment');
-      expect(getAPIBaseUrl()).toBe('https://__READ__web.__READ__universalbooks.app/api');
+      expect(getAPIBaseUrl()).toBe('https://__READ__web.__READ__universalbooks.com/api');
     });
   });
 
@@ -239,7 +239,7 @@ describe('environment', () => {
       env['NEXT_PUBLIC_APP_PLATFORM'] = 'web';
       delete env['NEXT_PUBLIC_API_BASE_URL'];
       const { getUniversalBooksVoiceAPIBaseUrl } = await import('@/services/environment');
-      expect(getUniversalBooksVoiceAPIBaseUrl()).toBe('https://__READ__web.__READ__universalbooks.app/api');
+      expect(getUniversalBooksVoiceAPIBaseUrl()).toBe('https://__READ__web.__READ__universalbooks.com/api');
     });
   });
 
@@ -257,7 +257,7 @@ describe('environment', () => {
       env['NEXT_PUBLIC_APP_PLATFORM'] = 'web';
       delete env['NEXT_PUBLIC_NODE_BASE_URL'];
       const { getNodeAPIBaseUrl } = await import('@/services/environment');
-      expect(getNodeAPIBaseUrl()).toBe('https://node.__READ__universalbooks.app/api');
+      expect(getNodeAPIBaseUrl()).toBe('https://node.__READ__universalbooks.com/api');
     });
 
     test('returns full node URL for tauri platform even in development', async () => {
@@ -265,7 +265,7 @@ describe('environment', () => {
       env['NEXT_PUBLIC_APP_PLATFORM'] = 'tauri';
       delete env['NEXT_PUBLIC_NODE_BASE_URL'];
       const { getNodeAPIBaseUrl } = await import('@/services/environment');
-      expect(getNodeAPIBaseUrl()).toBe('https://node.__READ__universalbooks.app/api');
+      expect(getNodeAPIBaseUrl()).toBe('https://node.__READ__universalbooks.com/api');
     });
   });
 

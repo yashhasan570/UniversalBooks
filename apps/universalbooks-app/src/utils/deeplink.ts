@@ -15,7 +15,7 @@ export type AnnotationLinkType = 'app' | 'web';
 const ANNOTATION_PATH_PREFIX = '/o/book/';
 
 /**
- * Shared universalbooks:// / https://__READ__web.universalbooks.app URL parsing: validates the
+ * Shared universalbooks:// / https://__READ__web.universalbooks.com URL parsing: validates the
  * scheme and returns a uniform path-segment list, or null if neither
  * matches. Pass `allowWebHost: false` for links only ever sent natively
  * (widget group taps).
@@ -39,7 +39,7 @@ const parseUniversalBooksUrl = (
   } else if (
     allowWebHost &&
     (parsed.protocol === 'https:' || parsed.protocol === 'http:') &&
-    parsed.host === '__READ__web.universalbooks.app'
+    parsed.host === '__READ__web.universalbooks.com'
   ) {
     segments = parsed.pathname.split('/').filter(Boolean);
 
@@ -55,7 +55,7 @@ const parseUniversalBooksUrl = (
 
 /**
  * Build the canonical HTTPS URL for an annotation. Used in markdown export
- * and Readwise sync. Mobile App Links (__READ__web.universalbooks.app) intercept this URL
+ * and Readwise sync. Mobile App Links (__READ__web.universalbooks.com) intercept this URL
  * and open the native app; on desktop browsers it resolves to the smart
  * landing page at /o/book/{hash}/annotation/{id}.
  */
@@ -83,7 +83,7 @@ export const buildAnnotationUrl = (
 ): string => (linkType === 'app' ? buildAnnotationAppUrl(link) : buildAnnotationWebUrl(link));
 
 /**
- * Parse an incoming universalbooks:// or https://__READ__web.universalbooks.app annotation URL.
+ * Parse an incoming universalbooks:// or https://__READ__web.universalbooks.com annotation URL.
  * Accepts the new hierarchical form (book/{hash}/annotation/{id}) and the
  * legacy flat form (annotation/{hash}/{id}) emitted by older Readwise syncs.
  * Returns null if the URL doesn't match.
@@ -110,7 +110,7 @@ export const parseAnnotationDeepLink = (url: string): AnnotationDeepLink | null 
 };
 
 /**
- * Parse an incoming universalbooks:// or https://__READ__web.universalbooks.app book-open URL.
+ * Parse an incoming universalbooks:// or https://__READ__web.universalbooks.com book-open URL.
  * Matches only the bare form `book/{hash}` (the widget tap target); the
  * 4-segment annotation form `book/{hash}/annotation/{id}` is handled by
  * parseAnnotationDeepLink and must NOT match here.
@@ -133,7 +133,7 @@ export const parseBookDeepLink = (url: string): { bookHash: string; autoplay?: b
 };
 
 /**
- * Parse a CrossPoint reader sign-in link: `https://__READ__web.__READ__universalbooks.app/link?code=…`
+ * Parse a CrossPoint reader sign-in link: `https://__READ__web.__READ__universalbooks.com/link?code=…`
  * (from the Universal Books card on the reader's web Settings page) or
  * `universalbooks://link?code=…` (from the web /link page). The code may be empty.
  */
@@ -148,7 +148,7 @@ export const parseDeviceLinkDeepLink = (url: string): { code: string } | null =>
   const isAppLink = parsed.protocol === 'universalbooks:' && parsed.host === 'link' && path === '';
   const isWebLink =
     (parsed.protocol === 'https:' || parsed.protocol === 'http:') &&
-    parsed.host === '__READ__web.universalbooks.app' &&
+    parsed.host === '__READ__web.universalbooks.com' &&
     path === '/link';
   if (!isAppLink && !isWebLink) return null;
   return { code: parsed.searchParams.get('code') ?? '' };

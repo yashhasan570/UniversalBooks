@@ -11,7 +11,7 @@ const coep = (path: string) =>
 describe('middleware CORS preflight', () => {
   const preflight = (requestedHeaders?: string) =>
     middleware(
-      new NextRequest('https://__READ__web.__READ__universalbooks.app/api/sync', {
+      new NextRequest('https://__READ__web.__READ__universalbooks.com/api/sync', {
         method: 'OPTIONS',
         headers: {
           origin: 'http://tauri.localhost',

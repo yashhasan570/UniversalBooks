@@ -178,7 +178,7 @@ describe('importBook BookDoc lifecycle', () => {
       new File(['pdf content'], 'test.pdf', { type: 'application/pdf' }),
       {
         getNativeLocation: () => ({
-          path: '/data/user/0/com.universalbooks.app/cache/import-test.pdf',
+          path: '/data/user/0/com.universalbooks.com/cache/import-test.pdf',
         }),
       },
     );

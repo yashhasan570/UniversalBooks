@@ -25,7 +25,7 @@ import { POST } from '@/pages/api/sync';
 
 const post = (body: unknown) =>
   POST(
-    new Request('https://__READ__web.__READ__universalbooks.app/api/sync', {
+    new Request('https://__READ__web.__READ__universalbooks.com/api/sync', {
       method: 'POST',
       headers: { authorization: 'Bearer tok', 'content-type': 'application/json' },
       body: JSON.stringify(body),

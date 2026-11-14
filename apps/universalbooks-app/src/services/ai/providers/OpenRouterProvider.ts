@@ -49,7 +49,7 @@ export class OpenRouterProvider implements AIProvider {
       // Optional OpenRouter app attribution. Harmless for other OpenAI-
       // compatible backends (they ignore unknown headers).
       headers: {
-        'HTTP-Referer': 'https://universalbooks.app',
+        'HTTP-Referer': 'https://universalbooks.com',
         'X-Title': 'Universal Books',
       },
       // Route chat completions / embeddings through our environment-aware

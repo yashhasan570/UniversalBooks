@@ -54,7 +54,7 @@ export const shouldGrantGraceCustomization = (
 const graceCustomizationRow = (userId: string) => ({
   user_id: userId,
   provider: 'universalbooks',
-  product_id: 'com.universalbooks.app.customization.grandfathered',
+  product_id: 'com.universalbooks.com.customization.grandfathered',
   storage_gb: 0,
   status: 'completed',
   metadata: {

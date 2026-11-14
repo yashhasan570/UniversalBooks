@@ -60,10 +60,10 @@ describe('renderNoteTemplate', () => {
     it('renders the cover image before the title when a URL is present', () => {
       const result = renderNoteTemplate(template, {
         ...sampleData,
-        coverImageUrl: 'https://assets.__READ__universalbooks.app/media/book_covers/abcdef12/c0ffee.png',
+        coverImageUrl: 'https://assets.__READ__universalbooks.com/media/book_covers/abcdef12/c0ffee.png',
       });
       expect(result).toBe(
-        '![cover|300](https://assets.__READ__universalbooks.app/media/book_covers/abcdef12/c0ffee.png)\n\n## The Great Gatsby',
+        '![cover|300](https://assets.__READ__universalbooks.com/media/book_covers/abcdef12/c0ffee.png)\n\n## The Great Gatsby',
       );
     });
 
@@ -556,9 +556,9 @@ describe('renderNoteTemplate', () => {
           annotations: [
             {
               text: 'quote',
-              webLink: 'https://__READ__web.universalbooks.app/o/book/abc/annotation/n1',
+              webLink: 'https://__READ__web.universalbooks.com/o/book/abc/annotation/n1',
               appLink: 'universalbooks://book/abc/annotation/n1',
-              link: 'https://__READ__web.universalbooks.app/o/book/abc/annotation/n1',
+              link: 'https://__READ__web.universalbooks.com/o/book/abc/annotation/n1',
             },
           ],
         },
@@ -568,7 +568,7 @@ describe('renderNoteTemplate', () => {
     it('should render annotation.webLink', () => {
       const template = '{{ chapters[0].annotations[0].webLink }}';
       const result = renderNoteTemplate(template, linkData);
-      expect(result).toBe('https://__READ__web.universalbooks.app/o/book/abc/annotation/n1');
+      expect(result).toBe('https://__READ__web.universalbooks.com/o/book/abc/annotation/n1');
     });
 
     it('should render annotation.appLink with universalbooks:// scheme', () => {
@@ -580,7 +580,7 @@ describe('renderNoteTemplate', () => {
     it('should still render legacy annotation.link', () => {
       const template = '{{ chapters[0].annotations[0].link }}';
       const result = renderNoteTemplate(template, linkData);
-      expect(result).toBe('https://__READ__web.universalbooks.app/o/book/abc/annotation/n1');
+      expect(result).toBe('https://__READ__web.universalbooks.com/o/book/abc/annotation/n1');
     });
   });
 
@@ -741,7 +741,7 @@ describe('buildAnnotationCopyMarkdown', () => {
   });
 
   it('should pass the web link form through unchanged', () => {
-    const webUrl = 'https://__READ__web.universalbooks.app/o/book/abc/annotation/n1';
+    const webUrl = 'https://__READ__web.universalbooks.com/o/book/abc/annotation/n1';
     const result = buildAnnotationCopyMarkdown({
       text: 'quote',
       noteLabel: 'Note',

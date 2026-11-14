@@ -37,23 +37,23 @@ describe('verifyGooglePurchaseProducts', () => {
     const purchases: IAPPurchase[] = [
       {
         platform: 'android',
-        productId: 'com.universalbooks.app.purchase.storage.1gb',
+        productId: 'com.universalbooks.com.purchase.storage.1gb',
         orderId: 'GPA.1',
         purchaseToken: 'tok-1',
-        packageName: 'com.universalbooks.app',
+        packageName: 'com.universalbooks.com',
         purchaseDate,
       },
       {
         platform: 'android',
-        productId: 'com.universalbooks.app.plus.monthly',
+        productId: 'com.universalbooks.com.plus.monthly',
         orderId: 'GPA.2',
         purchaseToken: 'tok-2',
-        packageName: 'com.universalbooks.app',
+        packageName: 'com.universalbooks.com',
         purchaseDate,
       },
       {
         platform: 'ios',
-        productId: 'com.universalbooks.app.purchase.storage.1gb',
+        productId: 'com.universalbooks.com.purchase.storage.1gb',
         transactionId: 't1',
         originalTransactionId: 't0',
         purchaseDate,
@@ -67,8 +67,8 @@ describe('verifyGooglePurchaseProducts', () => {
     expect(url).toBe('https://node.test/api/google/iap-verify');
     expect(init.headers['Authorization']).toBe('Bearer jwt');
     expect(JSON.parse(init.body)).toEqual({
-      packageName: 'com.universalbooks.app',
-      productId: 'com.universalbooks.app.purchase.storage.1gb',
+      packageName: 'com.universalbooks.com',
+      productId: 'com.universalbooks.com.purchase.storage.1gb',
       orderId: 'GPA.1',
       purchaseToken: 'tok-1',
     });
@@ -81,10 +81,10 @@ describe('verifyGooglePurchaseProducts', () => {
     await verifyGooglePurchaseProducts([
       {
         platform: 'android',
-        productId: 'com.universalbooks.app.plus.monthly',
+        productId: 'com.universalbooks.com.plus.monthly',
         orderId: 'GPA.2',
         purchaseToken: 'tok-2',
-        packageName: 'com.universalbooks.app',
+        packageName: 'com.universalbooks.com',
         purchaseDate,
       },
     ]);

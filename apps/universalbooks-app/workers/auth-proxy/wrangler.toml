@@ -5,10 +5,10 @@ workers_dev = false
 
 # Password sign-in for readers whose ISP blocks *.supabase.co (#6416). The
 # clients call this host instead of Supabase for the requests listed in
-# src/index.ts; auth.universalbooks.app stays reserved for the Supabase custom domain.
+# src/index.ts; auth.universalbooks.com stays reserved for the Supabase custom domain.
 [[routes]]
-pattern = "auth-cf.universalbooks.app"
-zone_name = "universalbooks.app"
+pattern = "auth-cf.universalbooks.com"
+zone_name = "universalbooks.com"
 custom_domain = true
 
 [vars]

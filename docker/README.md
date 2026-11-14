@@ -225,9 +225,9 @@ are truncated.
 ### CJK fonts on a custom domain
 
 the reader loads a few CJK webfont bundles from Universal Books's CDN, which only sends
-`Access-Control-Allow-Origin` for universalbooks.app origins, so the browser blocks them
+`Access-Control-Allow-Origin` for universalbooks.com origins, so the browser blocks them
 on a self-hosted domain. mirror
-`https://storage.universalbooks.app/public/font/dist/<Family>/` (and the `.woff2` files it
+`https://storage.universalbooks.com/public/font/dist/<Family>/` (and the `.woff2` files it
 references) onto a path your proxy serves, then point the client at it:
 
 ```env

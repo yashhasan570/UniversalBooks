@@ -1,5 +1,5 @@
 /**
- * Runs on `__READ__web.universalbooks.app` (and the dev host). Reads Universal Books's Supabase
+ * Runs on `__READ__web.universalbooks.com` (and the dev host). Reads Universal Books's Supabase
  * session token out of the page's localStorage and copies it into
  * `chrome.storage.local`, so the extension popup can authenticate to
  * `/api/send/inbox` without prompting the user for credentials.

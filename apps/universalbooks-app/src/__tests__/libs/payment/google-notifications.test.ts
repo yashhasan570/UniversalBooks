@@ -120,8 +120,8 @@ function createSupabaseMock(state: {
   return { client, captures };
 }
 
-const PLUS_PRODUCT = 'com.universalbooks.app.plus.monthly';
-const PACKAGE = 'com.universalbooks.app';
+const PLUS_PRODUCT = 'com.universalbooks.com.plus.monthly';
+const PACKAGE = 'com.universalbooks.com';
 const TOKEN = 'purchase-token-1';
 
 const subRow = {

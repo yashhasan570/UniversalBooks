@@ -10,7 +10,7 @@ metadata:
 
 # #5307 — RSS feeds only show in the browser where they were added
 
-Reported on __READ__web.universalbooks.app 0.11.20, two laptops, same account. Two symptoms, one cause:
+Reported on __READ__web.universalbooks.com 0.11.20, two laptops, same account. Two symptoms, one cause:
 manual "upload to cloud" fails immediately, and the feed never appears on the other browser.
 
 **A feed subscription is a fileless Book row.** `createFeedBook` (`src/services/rss/feedBook.ts`)

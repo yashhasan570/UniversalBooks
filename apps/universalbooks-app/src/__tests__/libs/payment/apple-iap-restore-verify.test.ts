@@ -39,24 +39,24 @@ describe('verifyApplePurchaseProducts', () => {
     const purchases: IAPPurchase[] = [
       {
         platform: 'ios',
-        productId: 'com.universalbooks.app.storage.1gb.purchase',
+        productId: 'com.universalbooks.com.storage.1gb.purchase',
         transactionId: '450003083195506',
         originalTransactionId: '450003083195506',
         purchaseDate,
       },
       {
         platform: 'ios',
-        productId: 'com.universalbooks.app.plus.monthly',
+        productId: 'com.universalbooks.com.plus.monthly',
         transactionId: 't2',
         originalTransactionId: 't2',
         purchaseDate,
       },
       {
         platform: 'android',
-        productId: 'com.universalbooks.app.purchase.storage.1gb',
+        productId: 'com.universalbooks.com.purchase.storage.1gb',
         orderId: 'GPA.1',
         purchaseToken: 'tok-1',
-        packageName: 'com.universalbooks.app',
+        packageName: 'com.universalbooks.com',
         purchaseDate,
       },
     ];
@@ -80,7 +80,7 @@ describe('verifyApplePurchaseProducts', () => {
     await verifyApplePurchaseProducts([
       {
         platform: 'ios',
-        productId: 'com.universalbooks.app.plus.monthly',
+        productId: 'com.universalbooks.com.plus.monthly',
         transactionId: 't2',
         originalTransactionId: 't2',
         purchaseDate,

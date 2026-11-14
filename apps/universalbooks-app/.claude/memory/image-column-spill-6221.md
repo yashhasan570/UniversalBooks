@@ -40,7 +40,7 @@ else "Empty reply". Universal Books Android keeps bfcache'd reader pages as extr
 target whose `document.visibilityState` is visible (screenshots on a hidden one hang). Open a book by
 navigating the visible target to `/reader?ids=<hash>`; the hash comes from the library tile's React fiber
 (`memoizedProps.book.hash`). Synthetic taps/clicks through CDP did NOT open a tile. Another session on
-this Mac runs `adb shell am force-stop com.universalbooks.app` every ~15 min (shared device), so never
+this Mac runs `adb shell am force-stop com.universalbooks.com` every ~15 min (shared device), so never
 `adb forward --remove-all`; use a private port (9333). Live proof: set `--available-width` + the inline
 `max-width !important` to `renderer.size - paddings` and the strip vanishes.
 

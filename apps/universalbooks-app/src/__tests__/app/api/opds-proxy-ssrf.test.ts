@@ -9,7 +9,7 @@ import { GET, HEAD } from '@/app/api/opds/proxy/route';
 
 const proxyReq = (target: string) =>
   new NextRequest(
-    `https://__READ__web.__READ__universalbooks.app/api/opds/proxy?url=${encodeURIComponent(target)}&stream=false`,
+    `https://__READ__web.__READ__universalbooks.com/api/opds/proxy?url=${encodeURIComponent(target)}&stream=false`,
   );
 
 let fetchSpy: ReturnType<typeof vi.fn>;

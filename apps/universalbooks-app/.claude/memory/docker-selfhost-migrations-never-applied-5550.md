@@ -49,7 +49,7 @@ from the old `schema.sql` still succeeds, because every `CREATE POLICY` belongs 
 a table that schema.sql never created.
 
 Second half of the same issue: `src/styles/fonts.ts` hardcoded
-`storage.universalbooks.app/public/font/dist`, which only answers CORS for universalbooks.app
+`storage.universalbooks.com/public/font/dist`, which only answers CORS for universalbooks.com
 origins. Now read from `getRuntimeConfig()?.fontBaseUrl` (`FONT_BASE_URL`), joining
 [[stale-format-gates-in-settings]]-style config plumbing through
 `src/services/runtimeConfig.ts` -> `/runtime-config.js`. Use `||` not `??` there:

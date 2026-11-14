@@ -16,7 +16,7 @@ vi.mock('@/utils/access', () => accessMocks);
 import { purchaseIAPProduct } from '@/libs/payment/iap/client';
 
 const USER_ID = 'e22f3863-a874-4e09-9524-f1c1810ec0d1';
-const PRODUCT = 'com.universalbooks.app.storage.5gb.purchase';
+const PRODUCT = 'com.universalbooks.com.storage.5gb.purchase';
 
 const payloadOf = (call: unknown[]) => (call[1] as { payload: Record<string, unknown> }).payload;
 

@@ -9,9 +9,18 @@ ROOT = Path(__file__).resolve().parent.parent
 def main():
     REPL = [
         ('com.bilingify.readest','com.universalbooks.app'),
-        ('Readest','Universal Books'),
+        ('github.com/readest-app/readest','github.com/yashhasan570/UniversalBooks'),
+        ('readestVoice','universalbooksVoice'),
+        ('READEST_','UNIVERSALBOOKS_'),
+        ('readest-app','universalbooks-app'),
+        ('send-to-readest','send-to-universalbooks'),
+        ('readest.koplugin','universalbooks.koplugin'),
+        ('readest-calibre-plugin','universalbooks-calibre-plugin'),
+        ('readest-crosspoint-plugin','universalbooks-crosspoint-plugin'),
+        ('Readest','UniversalBooks'),
+        ('readest','universalbooks'),
     ]
-    TEXT_EXTS = {'.ts','.tsx','.js','.jsx','.json','.rs','.toml','.md','.xml','.yml','.yaml','.css','.html','.sh','.txt','.desktop','.snap'}
+    TEXT_EXTS = {'.ts','.tsx','.js','.jsx','.json','.rs','.toml','.md','.xml','.yml','.yaml','.css','.html','.sh','.txt','.desktop','.snap','.kts','.gradle','.properties','.lua','.kt','.java','.py','.mjs','.swift'}
     SKIP = {'.git','node_modules','scripts','data'}
     changed = 0
     for dirpath, dirnames, filenames in os.walk(ROOT):
@@ -29,7 +38,7 @@ def main():
     n = 0
     if badge.exists():
         img = Image.open(badge).convert('RGBA')
-        targets = glob.glob(str(ROOT/'apps/readest-app/src-tauri/icons/*')) + glob.glob(str(ROOT/'apps/readest-app/public/*.png')) + glob.glob(str(ROOT/'apps/readest-app/public/*.ico'))
+        targets = glob.glob(str(ROOT/'apps/universalbooks-app/src-tauri/icons/*')) + glob.glob(str(ROOT/'apps/universalbooks-app/public/*.png')) + glob.glob(str(ROOT/'apps/universalbooks-app/public/*.ico'))
         for t in targets:
             p = Path(t)
             if not p.is_file() or 'badge' in p.name.lower(): continue

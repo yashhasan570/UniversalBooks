@@ -53,7 +53,7 @@ Router** (`src/pages/api/kosync.ts`, `src/pages/api/bookorbit.ts`), NOT
 wrongly concluded they weren't in this repo at all. Both do
 `headers: {...clientHeaders, Accept, 'Content-Type'}`, so arbitrary custom headers
 pass through. Verified live against production: a probe header sent through
-`https://__READ__web.__READ__universalbooks.app/api/kosync` arrived at the target server.
+`https://__READ__web.__READ__universalbooks.com/api/kosync` arrived at the target server.
 
 Probe gotcha: do NOT diagnose header forwarding with a `CF-*` name. Cloudflare
 consumes those at the edge, so an echo service behind Cloudflare reports them

@@ -2,7 +2,7 @@
 
 Generates the Chrome Web Store listing screenshots for the **Send to Universal Books**
 extension — the popup composited onto an on-brand background (matching
-universalbooks.app) with a headline.
+universalbooks.com) with a headline.
 
 ## Run
 

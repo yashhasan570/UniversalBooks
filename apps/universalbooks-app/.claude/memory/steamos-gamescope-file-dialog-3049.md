@@ -12,7 +12,7 @@ Issue #3049 (open, reported 2026-01-24, researched 2026-08-04): Universal Books 
 
 **Root cause (not a Universal Books bug per se):**
 - Dialog chain: `useFileSelector.ts` `selectFileTauri` → `nativeAppService.ts:757` `openDialog()` → tauri-plugin-dialog 2.7.1 → rfd 0.16 **gtk3 backend** (`GtkFileChooserNative`; no ashpd in Cargo.lock — the `xdg-portal` feature is NOT enabled).
-- Flathub manifest (sibling checkout `/Users/chrox/dev/com.universalbooks.app/com.universalbooks.app.yml`) has **no `--filesystem=` entries** — all host file access flows through the FileChooser portal (GtkFileChooserNative auto-delegates to portal when sandboxed).
+- Flathub manifest (sibling checkout `/Users/chrox/dev/com.universalbooks.com/com.universalbooks.com.yml`) has **no `--filesystem=` entries** — all host file access flows through the FileChooser portal (GtkFileChooserNative auto-delegates to portal when sandboxed).
 - Gaming Mode's gamescope session runs no portal backend → `org.freedesktop.portal.FileChooser` interface absent (same wall UnleashedRecomp PR #1437 hit). Dialog yields nothing; JS gets `null` = **indistinguishable from user cancel** (`page.tsx:1206` silently no-ops). So env detection, not error handling, is the trigger.
 
 **Dead end:** falling back to `selectFileWeb` (`<input type=file>`) does NOT dodge it — WebKitGTK's file chooser is also GtkFileChooserNative → same portal → same failure.

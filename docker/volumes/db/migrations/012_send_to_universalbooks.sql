@@ -6,7 +6,7 @@
 -- DEFINER RPCs below — clients have SELECT but no write policy, so a client
 -- cannot forge `done`/`failed` or reset another device's claim.
 
--- Per-user inbound email address (the local part of `<address>@send.universalbooks.app`).
+-- Per-user inbound email address (the local part of `<address>@send.readest.com`).
 CREATE TABLE IF NOT EXISTS public.send_addresses (
   user_id uuid NOT NULL,
   address text NOT NULL,

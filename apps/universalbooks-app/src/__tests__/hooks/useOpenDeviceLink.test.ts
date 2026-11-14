@@ -56,7 +56,7 @@ describe('useOpenDeviceLink', () => {
     renderHook(() => useOpenDeviceLink());
     await flush();
     await eventDispatcher.dispatch('app-incoming-url', {
-      urls: ['https://__READ__web.__READ__universalbooks.app/link?code=RQGF-WDCF'],
+      urls: ['https://__READ__web.__READ__universalbooks.com/link?code=RQGF-WDCF'],
     });
     expect(routerPushMock).toHaveBeenCalledWith('/link?code=RQGF-WDCF');
   });
@@ -83,7 +83,7 @@ describe('useOpenDeviceLink', () => {
     renderHook(() => useOpenDeviceLink());
     await flush();
     await eventDispatcher.dispatch('app-incoming-url', {
-      urls: ['https://__READ__web.__READ__universalbooks.app/s/abc123', 'universalbooks://book/abc123'],
+      urls: ['https://__READ__web.__READ__universalbooks.com/s/abc123', 'universalbooks://book/abc123'],
     });
     expect(routerPushMock).not.toHaveBeenCalled();
   });

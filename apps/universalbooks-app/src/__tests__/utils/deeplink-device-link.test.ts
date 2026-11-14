@@ -10,7 +10,7 @@ import { parseDeviceLinkDeepLink } from '@/utils/deeplink';
 // the page opens in the app, which is already signed in.
 describe('parseDeviceLinkDeepLink', () => {
   it('parses the web link the reader’s Universal Books card opens', () => {
-    expect(parseDeviceLinkDeepLink('https://__READ__web.__READ__universalbooks.app/link?code=RQGF-WDCF')).toEqual({
+    expect(parseDeviceLinkDeepLink('https://__READ__web.__READ__universalbooks.com/link?code=RQGF-WDCF')).toEqual({
       code: 'RQGF-WDCF',
     });
   });
@@ -22,13 +22,13 @@ describe('parseDeviceLinkDeepLink', () => {
   });
 
   it('keeps a link without a code, for the user to type it in', () => {
-    expect(parseDeviceLinkDeepLink('https://__READ__web.__READ__universalbooks.app/link')).toEqual({ code: '' });
+    expect(parseDeviceLinkDeepLink('https://__READ__web.__READ__universalbooks.com/link')).toEqual({ code: '' });
   });
 
   it('rejects other pages and other hosts', () => {
     for (const url of [
-      'https://__READ__web.__READ__universalbooks.app/linked?code=RQGF-WDCF',
-      'https://__READ__web.universalbooks.app/o/link?code=RQGF-WDCF',
+      'https://__READ__web.__READ__universalbooks.com/linked?code=RQGF-WDCF',
+      'https://__READ__web.universalbooks.com/o/link?code=RQGF-WDCF',
       'https://example.com/link?code=RQGF-WDCF',
       'universalbooks://book/abc123',
       'not a url',

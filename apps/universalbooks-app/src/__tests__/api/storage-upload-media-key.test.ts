@@ -4,7 +4,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 
 // Issue #5424: exported annotations and Readwise pushes need a durable, public
 // cover URL. Covers are published to media/book_covers/<user-seg>/<coverHash>.png
-// in the public bucket and served from https://assets.universalbooks.app — the key is
+// in the public bucket and served from https://assets.universalbooks.com — the key is
 // content-addressed so re-uploads are idempotent and the URL never rotates.
 
 const validateUserAndTokenMock = vi.fn();
@@ -73,7 +73,7 @@ describe('POST /api/storage/upload — media book cover key', () => {
     expect(status).toHaveBeenCalledWith(200);
     expect(json).toHaveBeenCalledWith({
       uploadUrl: 'https://r2/upload',
-      downloadUrl: 'https://assets.__READ__universalbooks.app/media/book_covers/abcdef12/c0ffee42.png',
+      downloadUrl: 'https://assets.__READ__universalbooks.com/media/book_covers/abcdef12/c0ffee42.png',
     });
   });
 

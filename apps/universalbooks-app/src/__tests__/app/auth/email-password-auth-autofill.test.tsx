@@ -72,7 +72,7 @@ describe('EmailPasswordAuth autofill (#5499)', () => {
     const { container, getByText } = render(
       <EmailPasswordAuth
         supabaseClient={client}
-        redirectTo='https://__READ__web.universalbooks.app/auth/callback'
+        redirectTo='https://__READ__web.universalbooks.com/auth/callback'
       />,
     );
 
@@ -90,7 +90,7 @@ describe('EmailPasswordAuth autofill (#5499)', () => {
       expect(auth.signUp).toHaveBeenCalledWith({
         email: 'new@example.com',
         password: 'freshpassw0rd',
-        options: { emailRedirectTo: 'https://__READ__web.universalbooks.app/auth/callback' },
+        options: { emailRedirectTo: 'https://__READ__web.universalbooks.com/auth/callback' },
       });
     });
   });
@@ -101,7 +101,7 @@ describe('EmailPasswordAuth autofill (#5499)', () => {
       <EmailPasswordAuth
         supabaseClient={client}
         magicLink={true}
-        redirectTo='https://__READ__web.universalbooks.app/auth/callback'
+        redirectTo='https://__READ__web.universalbooks.com/auth/callback'
       />,
     );
 
@@ -112,7 +112,7 @@ describe('EmailPasswordAuth autofill (#5499)', () => {
     await waitFor(() => {
       expect(auth.signInWithOtp).toHaveBeenCalledWith({
         email: 'magic@example.com',
-        options: { emailRedirectTo: 'https://__READ__web.universalbooks.app/auth/callback' },
+        options: { emailRedirectTo: 'https://__READ__web.universalbooks.com/auth/callback' },
       });
     });
 
@@ -123,7 +123,7 @@ describe('EmailPasswordAuth autofill (#5499)', () => {
     fireEvent.submit(container.querySelector('form') as HTMLFormElement);
     await waitFor(() => {
       expect(auth.resetPasswordForEmail).toHaveBeenCalledWith('forgot@example.com', {
-        redirectTo: 'https://__READ__web.universalbooks.app/auth/callback',
+        redirectTo: 'https://__READ__web.universalbooks.com/auth/callback',
       });
     });
   });

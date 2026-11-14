@@ -35,7 +35,7 @@ export const getGoogleClientId = (): string | undefined =>
 
 /**
  * The official Universal Books **Web-type** Google OAuth client id used by the browser
- * GIS flow (its authorized JavaScript origins are `__READ__web.universalbooks.app` + the
+ * GIS flow (its authorized JavaScript origins are `__READ__web.universalbooks.com` + the
  * localhost dev origin). Separate from the iOS-type
  * {@link OFFICIAL_GOOGLE_CLIENT_ID}, which can't drive a browser token client.
  * Not a secret — it ships in the web bundle. A forker overrides it via

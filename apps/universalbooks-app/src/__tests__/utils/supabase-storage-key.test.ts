@@ -23,7 +23,7 @@ describe('supabase session storage key', () => {
   it.each([
     'https://universalbooks.supabase.co',
     'https://vbsyxfusjjqdxkjqlysc.supabase.co',
-    'https://auth.universalbooks.app',
+    'https://auth.universalbooks.com',
   ])('keeps the original session key for Universal Books Cloud at %s', async (url) => {
     expect(await loadStorageKey(url)).toBe('sb-universalbooks-auth-token');
   });

@@ -43,11 +43,11 @@ const purchase = (userCancellationTimeMillis: string | null): VerifiedPurchase =
   subscriptionId: 'GPA.0000-0000-0000-00000',
   planName: 'Plus',
   planType: 'subscription',
-  productId: 'com.universalbooks.app.yearly.plus',
+  productId: 'com.universalbooks.com.yearly.plus',
   purchaseToken: 'token',
   quantity: 1,
   environment: 'production',
-  packageName: 'com.universalbooks.app',
+  packageName: 'com.universalbooks.com',
   userCancellationTimeMillis,
 });
 

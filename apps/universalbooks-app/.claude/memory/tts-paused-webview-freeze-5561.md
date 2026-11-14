@@ -22,12 +22,12 @@ metadata:
 
 ## Instrumentation that actually worked (Xiaomi 13, Android 16, release APK)
 
-- **`adb shell input keyevent 126/127/85` is NOT equivalent to a Bluetooth AVRCP button on MIUI.** Logcat shows `D/SmartPower: com.universalbooks.app/...: press media key` — MIUI un-throttles the app on a media key press, so software keys ALWAYS resumed and hid the bug through hours of testing. `adb shell cmd media_session dispatch play` bypasses that hook and reproduces it. Real headset button also reproduces.
+- **`adb shell input keyevent 126/127/85` is NOT equivalent to a Bluetooth AVRCP button on MIUI.** Logcat shows `D/SmartPower: com.universalbooks.com/...: press media key` — MIUI un-throttles the app on a media key press, so software keys ALWAYS resumed and hid the bug through hours of testing. `adb shell cmd media_session dispatch play` bypasses that hook and reproduces it. Real headset button also reproduces.
 - **WebView devtools is open on the release build:** `adb shell cat /proc/net/unix | grep devtools` -> `adb forward tcp:9333 localabstract:webview_devtools_remote_<pid>`. See [[android-cdp-e2e-lane]].
 - **Freeze probe:** install `setInterval(500)` pushing `Date.now()` into an array, detach, background + pause, wait, re-attach and read. `lastTickAgoMs` is the tell (`Runtime.evaluate` still works on a frozen page — the array's staleness is the evidence, not the ability to evaluate).
 - `window.__TAURI_INTERNALS__.invoke` is **non-writable and non-configurable** — it cannot be monkey-patched to trace plugin IPC. Assignment fails silently in sloppy mode (looks installed, isn't). Verify with `Object.getOwnPropertyDescriptor`.
 - Renderer priority: `adb shell dumpsys activity processes | grep "Proc #.* <renderer-pid>:"`. Drops `fg` -> `prcp` about 5-10 s after pause (the reporter's "3-10 seconds"), page timers die ~60 s later.
-- AVRCP's exact view of the session: `adb shell dumpsys bluetooth_manager` -> `List of MediaControllers` -> `<Active> Media Player 1: com.universalbooks.app` with `Song{... duration=...}` + `PlayState`.
+- AVRCP's exact view of the session: `adb shell dumpsys bluetooth_manager` -> `List of MediaControllers` -> `<Active> Media Player 1: com.universalbooks.com` with `Song{... duration=...}` + `PlayState`.
 
 **End-to-end verified on the built APK** (`pnpm dev-android`, Xiaomi 13 / Android 16, System TTS `en-US-language`): backgrounded, paused, waited 150 s (control froze at ~68 s), `cmd media_session dispatch play` -> 4 `Synthesis request` lines, speech resumed, in-app mini player back in sync.
 

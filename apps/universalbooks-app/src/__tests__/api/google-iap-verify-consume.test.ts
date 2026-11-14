@@ -35,8 +35,8 @@ vi.mock('@/libs/payment/iap/google/server', () => ({
 import { POST } from '@/app/api/google/iap-verify/route';
 
 const verifyParams = {
-  packageName: 'com.universalbooks.app',
-  productId: 'com.universalbooks.app.purchase.storage.1gb',
+  packageName: 'com.universalbooks.com',
+  productId: 'com.universalbooks.com.purchase.storage.1gb',
   orderId: 'GPA.1111-2222-3333-44444',
   purchaseToken: 'storage-token-1',
 };
@@ -146,7 +146,7 @@ describe('/api/google/iap-verify consumption', () => {
 
     const response = await postVerify({
       ...verifyParams,
-      productId: 'com.universalbooks.app.plus.monthly',
+      productId: 'com.universalbooks.com.plus.monthly',
     });
 
     expect(response.status).toBe(200);
@@ -161,7 +161,7 @@ describe('/api/google/iap-verify consumption', () => {
 describe('/api/google/iap-verify permanent unlocks', () => {
   const unlockParams = {
     ...verifyParams,
-    productId: 'com.universalbooks.app.customization.purchase',
+    productId: 'com.universalbooks.com.customization.purchase',
     purchaseToken: 'customization-token-1',
   };
 

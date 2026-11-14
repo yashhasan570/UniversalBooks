@@ -22,11 +22,11 @@ const makeReq = (
   const headers: Record<string, string> = {
     authorization: init.authorization ?? 'Bearer test-token',
   };
-  if (init.origin !== null) headers['origin'] = init.origin ?? 'https://__READ__web.universalbooks.app';
+  if (init.origin !== null) headers['origin'] = init.origin ?? 'https://__READ__web.universalbooks.com';
   if (init.contentLength !== null) {
     headers['content-length'] = init.contentLength ?? String(new TextEncoder().encode(body).length);
   }
-  return new NextRequest(`https://__READ__web.__READ__universalbooks.app/api/yandex-translate?${query}`, {
+  return new NextRequest(`https://__READ__web.__READ__universalbooks.com/api/yandex-translate?${query}`, {
     method: 'POST',
     body,
     headers,
@@ -111,7 +111,7 @@ describe('yandex-translate proxy route', () => {
   });
 
   it('allows same-origin requests', async () => {
-    const res = await POST(makeReq('endpoint=session', { origin: 'https://__READ__web.universalbooks.app' }));
+    const res = await POST(makeReq('endpoint=session', { origin: 'https://__READ__web.universalbooks.com' }));
     expect(res.status).toBe(200);
   });
 
@@ -151,7 +151,7 @@ describe('yandex-translate proxy route', () => {
     const pending = [1, 2, 3].map(() =>
       POST(
         makeReq('endpoint=session', {
-          origin: 'https://__READ__web.universalbooks.app',
+          origin: 'https://__READ__web.universalbooks.com',
           contentLength: '0',
           body: '',
           authorization: 'Bearer user-a',
@@ -161,7 +161,7 @@ describe('yandex-translate proxy route', () => {
     await vi.waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(3));
 
     const rejectedRequest = makeReq('endpoint=session', {
-      origin: 'https://__READ__web.universalbooks.app',
+      origin: 'https://__READ__web.universalbooks.com',
       contentLength: '0',
       body: '',
       authorization: 'Bearer user-a',

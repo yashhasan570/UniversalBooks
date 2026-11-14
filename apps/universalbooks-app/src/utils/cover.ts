@@ -21,7 +21,7 @@ const FAILURE_TTL = 60 * 1000;
  * Resolve a publicly accessible cover image URL for the book, or undefined
  * when none can be provided. A public `coverImageUrl` from the book metadata
  * wins; otherwise the local cover.png is published to the public bucket under
- * media/book_covers/<user-seg>/<coverHash>.png (served via assets.universalbooks.app).
+ * media/book_covers/<user-seg>/<coverHash>.png (served via assets.universalbooks.com).
  */
 export const getPublicCoverUrl = async (
   book: Book,

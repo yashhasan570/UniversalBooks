@@ -101,9 +101,9 @@ import { resolveUserPlan } from '@/libs/payment/entitlements';
 import { createOrUpdateSubscription as stripeCreateOrUpdateSubscription } from '@/libs/payment/stripe/server';
 import { createOrUpdateSubscription as googleCreateOrUpdateSubscription } from '@/libs/payment/iap/google/server';
 
-const PRO_PLAY_SKU = 'com.universalbooks.app.monthly.pro';
-const PLUS_PLAY_SKU = 'com.universalbooks.app.monthly.plus';
-const PRO_APPLE_SKU = 'com.universalbooks.app.monthly.pro';
+const PRO_PLAY_SKU = 'com.universalbooks.com.monthly.pro';
+const PLUS_PLAY_SKU = 'com.universalbooks.com.monthly.plus';
+const PRO_APPLE_SKU = 'com.universalbooks.com.monthly.pro';
 
 const makeStripeSub = (id: string, plan: string, status = 'active') => ({
   id,
@@ -256,7 +256,7 @@ describe('Google handler does not clobber an active Stripe entitlement', () => {
     purchaseDate: '2026-09-05T00:00:00Z',
     expiresDate: '2026-10-05T00:00:00Z',
     environment: 'Production',
-    packageName: 'com.universalbooks.app',
+    packageName: 'com.universalbooks.com',
     quantity: 1,
   } as never;
 

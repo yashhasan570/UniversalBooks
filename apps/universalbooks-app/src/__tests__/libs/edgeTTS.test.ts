@@ -346,7 +346,7 @@ describe('EdgeSpeechTTS on Cloudflare Workers', () => {
 
 describe('EdgeSpeechTTS outside Cloudflare Workers', () => {
   test('does not load the Workers socket module', async () => {
-    // node.universalbooks.app (Vercel) and the clients never take the Workers path,
+    // node.universalbooks.com (Vercel) and the clients never take the Workers path,
     // so loading edgeTTS must not evaluate the cloudflare:sockets client.
     vi.resetModules();
     vi.doMock('@/libs/workersWebSocket', () => {

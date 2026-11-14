@@ -48,6 +48,6 @@ describe('reverseDnsRedirect', () => {
     // Real app/book URLs must pass through to the consumers untouched.
     expect(isGoogleOAuthRedirectUrl('universalbooks://auth-callback')).toBe(false);
     expect(isGoogleOAuthRedirectUrl('file:///Users/me/book.epub')).toBe(false);
-    expect(isGoogleOAuthRedirectUrl('https://__READ__web.__READ__universalbooks.app/s/abc')).toBe(false);
+    expect(isGoogleOAuthRedirectUrl('https://__READ__web.__READ__universalbooks.com/s/abc')).toBe(false);
   });
 });

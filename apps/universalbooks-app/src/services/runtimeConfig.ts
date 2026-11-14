@@ -50,7 +50,7 @@ export const getServerRuntimeConfig = (): UniversalBooksRuntimeConfig => ({
     return raw ? parseInt(raw, 10) : undefined;
   })(),
   // Base URL of the directory holding the self-hosted CJK webfont bundles.
-  // Universal Books's own CDN only answers CORS for universalbooks.app origins, so a
+  // Universal Books's own CDN only answers CORS for universalbooks.com origins, so a
   // self-hosted deployment on a custom domain has to serve them itself (#5550).
   // `||` not `??`: compose passes the variable through even when it is unset,
   // and an empty string would build root-relative font URLs.

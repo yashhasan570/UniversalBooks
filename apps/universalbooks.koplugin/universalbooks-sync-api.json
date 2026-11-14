@@ -1,5 +1,5 @@
 {
-  "base_url": "https://__READ__web.__READ__universalbooks.app/api",
+  "base_url": "https://__READ__web.__READ__universalbooks.com/api",
   "name": "universalbooks-sync-api",
   "methods": {
     "pullChanges": {
