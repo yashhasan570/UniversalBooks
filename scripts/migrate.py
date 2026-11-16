@@ -21,7 +21,7 @@ def main():
         ('readest','universalbooks'),
     ]
     TEXT_EXTS = {'.ts','.tsx','.js','.jsx','.json','.rs','.toml','.md','.xml','.yml','.yaml','.css','.html','.sh','.txt','.desktop','.snap','.kts','.gradle','.properties','.lua','.kt','.java','.py','.mjs','.swift'}
-    SKIP = {'.git','node_modules','scripts','data'}
+    SKIP = {'.github', '.git','node_modules','scripts','data'}
     changed = 0
     for dirpath, dirnames, filenames in os.walk(ROOT):
         dirnames[:] = [d for d in dirnames if d not in SKIP]
