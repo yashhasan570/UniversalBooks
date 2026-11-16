@@ -1,11 +1,11 @@
 #!/bin/sh
-# Applies Universal Books's incremental schema migrations (volumes/db/migrations).
+# Applies UniversalBooks's incremental schema migrations (volumes/db/migrations).
 #
 # `volumes/db/init/schema.sql` is only the base schema; every schema change
 # since then ships as a numbered file under `migrations/`, and nothing applied
 # them to a self-hosted database. Fresh deployments therefore came up without
 # `files.replica_id`, the `replicas` table or the `claim_inbox_item` RPC, so
-# uploads, replica sync and Send to Universal Books all failed (issue #5550).
+# uploads, replica sync and Send to UniversalBooks all failed (issue #5550).
 #
 # The supabase/postgres image runs `/docker-entrypoint-initdb.d/*` in glob order
 # on first boot. This script is mounted there as `zz-universalbooks-migrations.sh`,

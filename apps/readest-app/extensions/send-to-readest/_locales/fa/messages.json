@@ -1,0 +1,14 @@
+{
+  "app_name": {
+    "message": "ارسال به UniversalBooks",
+    "description": "Extension name shown in the browser toolbar and the Chrome Web Store listing."
+  },
+  "app_description": {
+    "message": "صفحات وب را در کتابخانه UniversalBooks خود ذخیره کنید",
+    "description": "Short description shown in the Chrome Web Store listing."
+  },
+  "action_title": {
+    "message": "ارسال به UniversalBooks",
+    "description": "Tooltip on the toolbar action button."
+  }
+}

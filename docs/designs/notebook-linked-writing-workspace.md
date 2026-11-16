@@ -22,7 +22,7 @@ This matches current reading-tool patterns: source-bound notes are organized in 
 ## Constraints
 
 - Preserve every existing annotation, attached note, bookmark, and excerpt. Do not run a destructive migration.
-- Reuse Universal Books’s existing note-sync category, API/table, timestamps, tombstones, and file-sync note merge. Do not add a sync service or database migration.
+- Reuse UniversalBooks’s existing note-sync category, API/table, timestamps, tombstones, and file-sync note merge. Do not add a sync service or database migration.
 - Keep the existing Notebook AI tab working without adding Notebook content to AI context in this issue.
 - Work on desktop, web, phone, tablet, RTL books, fixed-layout books, and e-ink mode.
 - Keep new UI quiet and Adwaita-aligned. Use existing surface tokens, logical spacing, visible focus, safe-area handling, and `eink-bordered` where a boundary must survive e-ink.
@@ -107,7 +107,7 @@ There is no Delete Notebook action in this issue. Clearing text is an ordinary s
 
 ### Previous-release compatibility
 
-The creation-time CFI is required so a previous Universal Books release treats the unknown `notebook` row as an anchored, opaque note instead of dropping it at the central CFI guard.
+The creation-time CFI is required so a previous UniversalBooks release treats the unknown `notebook` row as an anchored, opaque note instead of dropping it at the central CFI guard.
 
 Resolve the transport anchor in this order: retain the existing Notebook CFI; otherwise use the current non-empty `config.location` after the active view accepts it as a navigation target. This applies to reflowable and fixed-layout books. If neither source is available or valid, keep the recovery draft but do not create or sync a Notebook record. Show **Waiting for a valid book position** and retry when location changes. A close may proceed only when recovery storage succeeded; saving must never emit a CFI-less or invalid record.
 
@@ -197,7 +197,7 @@ Compatibility is a hard feature-release gate, not a degraded mode. If any previo
 
 ## Distribution Plan
 
-The existing Universal Books web, desktop, and mobile release pipelines cover this change. No new package, service, migration rollout, or user opt-in is required.
+The existing UniversalBooks web, desktop, and mobile release pipelines cover this change. No new package, service, migration rollout, or user opt-in is required.
 
 ## Next Steps
 

@@ -1,0 +1,14 @@
+{
+  "app_name": {
+    "message": "Enviar a UniversalBooks",
+    "description": "Extension name shown in the browser toolbar and the Chrome Web Store listing."
+  },
+  "app_description": {
+    "message": "Guarda páginas web en tu biblioteca de UniversalBooks",
+    "description": "Short description shown in the Chrome Web Store listing."
+  },
+  "action_title": {
+    "message": "Enviar a UniversalBooks",
+    "description": "Tooltip on the toolbar action button."
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "app_name": {
+    "message": "Pošlji v UniversalBooks",
+    "description": "Extension name shown in the browser toolbar and the Chrome Web Store listing."
+  },
+  "app_description": {
+    "message": "Spletne strani shranite v svojo knjižnico UniversalBooks",
+    "description": "Short description shown in the Chrome Web Store listing."
+  },
+  "action_title": {
+    "message": "Pošlji v UniversalBooks",
+    "description": "Tooltip on the toolbar action button."
+  }
+}

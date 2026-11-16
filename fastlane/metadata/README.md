@@ -42,7 +42,7 @@ next release run. See "Uploads are ENABLED" below for exactly which lanes.
       staging/                        gitignored scratch; nothing here is read by a lane
 
 Play and F-Droid are deliberately split. F-Droid keeps the six plain unframed
-captures and the app name "Universal Books"; Play gets the captioned marketing
+captures and the app name "UniversalBooks"; Play gets the captioned marketing
 composites and the keyword title. Upload Play with:
 
     fastlane supply --metadata_path fastlane/metadata-play/android ...
@@ -184,7 +184,7 @@ the blob and was rebuilt with the same mask technique. Captions are placed by th
 original ink box centre, so the composition is unchanged.
 
 Not reshot: an iPad Pro 13-inch (M5) simulator boots at 2064x2752 (the current
-App Store 13" size), but the dev `Universal Books.app` under
+App Store 13" size), but the dev `UniversalBooks.app` under
 `src-tauri/gen/apple/build/arm64-sim/` was gone by then, so installing failed.
 Rebuild it with `pnpm tauri ios dev` before attempting iPad captures.
 

@@ -54,7 +54,7 @@ the web client now reads `SUPABASE_PUBLIC_URL`, `SUPABASE_ANON_KEY`, `API_BASE_U
 container env, so custom self-hosted values work with pulled images.
 
 `SELF_HOSTED` unlocks every premium feature — third-party cloud sync (WebDAV,
-Google Drive, S3, OneDrive), offline Read Aloud downloads, Send to Universal Books —
+Google Drive, S3, OneDrive), offline Read Aloud downloads, Send to UniversalBooks —
 with or without a signed-in user. the image defaults it to `true`, so a pulled
 image is unlocked even if your `compose.yaml` predates the variable. set
 `SELF_HOSTED=false` in `docker/.env` only if you run a hosted service that sells
@@ -98,9 +98,9 @@ For IPv6 literals, include brackets, for example `[fd00::20]`.
 Each redirect destination must pass the same checks. List any additional private
 hosts used for feeds, covers or downloads. Unlisted hosts keep the private-address
 and DNS checks, and credentials are still removed on cross-origin redirects.
-The allowlist applies only to OPDS, not KOSync or Send to Universal Books.
+The allowlist applies only to OPDS, not KOSync or Send to UniversalBooks.
 
-Anyone who can reach your Universal Books instance can use its OPDS proxy to reach the
+Anyone who can reach your UniversalBooks instance can use its OPDS proxy to reach the
 listed hosts. Keep the instance behind your LAN/VPN or access controls when
 allowing private services. `SELF_HOSTED=true` lets the catalog form submit LAN
 URLs, but does not grant server access by itself.
@@ -120,7 +120,7 @@ docker compose -f compose.yaml -f compose.build.yaml up --build -d
 
 ### 3. Access
 
-- Universal Books app: `http://localhost:3000`
+- UniversalBooks app: `http://localhost:3000`
 - MinIO console: `http://localhost:9001` (login with `MINIO_ROOT_USER` / `MINIO_ROOT_PASSWORD`)
 
 ### Upgrading an existing deployment
@@ -224,7 +224,7 @@ are truncated.
 
 ### CJK fonts on a custom domain
 
-the reader loads a few CJK webfont bundles from Universal Books's CDN, which only sends
+the reader loads a few CJK webfont bundles from UniversalBooks's CDN, which only sends
 `Access-Control-Allow-Origin` for universalbooks.com origins, so the browser blocks them
 on a self-hosted domain. mirror
 `https://storage.universalbooks.com/public/font/dist/<Family>/` (and the `.woff2` files it

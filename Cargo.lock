@@ -3,7 +3,7 @@
 version = 3
 
 [[package]]
-name = "UniversalBooks"
+name = "Readest"
 version = "0.2.2"
 dependencies = [
  "anyhow",
@@ -4576,7 +4576,7 @@ dependencies = [
 [[package]]
 name = "localsend"
 version = "0.1.0"
-source = "git+https://github.com/universalbooks/localsend?rev=1609ca7cd5689e10cc4703e7ce178513e5d95b11#1609ca7cd5689e10cc4703e7ce178513e5d95b11"
+source = "git+https://github.com/readest/localsend?rev=1609ca7cd5689e10cc4703e7ce178513e5d95b11#1609ca7cd5689e10cc4703e7ce178513e5d95b11"
 dependencies = [
  "anyhow",
  "base64 0.23.1",

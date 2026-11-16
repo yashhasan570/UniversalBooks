@@ -1,0 +1,14 @@
+{
+  "app_name": {
+    "message": "Αποστολή στο UniversalBooks",
+    "description": "Extension name shown in the browser toolbar and the Chrome Web Store listing."
+  },
+  "app_description": {
+    "message": "Αποθηκεύστε ιστοσελίδες στη βιβλιοθήκη UniversalBooks σας",
+    "description": "Short description shown in the Chrome Web Store listing."
+  },
+  "action_title": {
+    "message": "Αποστολή στο UniversalBooks",
+    "description": "Tooltip on the toolbar action button."
+  }
+}

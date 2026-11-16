@@ -1,6 +1,6 @@
--- Migration 024: CrossPoint e-readers linked to a Universal Books account (the
+-- Migration 024: CrossPoint e-readers linked to a Readest account (the
 -- CrossPoint SD plugin). A reader signs in with a device code its owner
--- approves on the Universal Books web app, then authenticates every request (library,
+-- approves on the Readest web app, then authenticates every request (library,
 -- downloads, reading sessions, KOReader Sync progress) with its own key. Only
 -- the /api/crosspoint routes touch these tables, as the service role.
 

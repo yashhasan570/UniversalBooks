@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop-application">
-  <id>com.bilingify.universalbooks</id>
+  <id>com.bilingify.readest</id>
 
-  <name>UniversalBooks</name>
+  <name>Readest</name>
   <summary>Modern, feature-rich ebook reader</summary>
 
   <description>
-    <p>UniversalBooks is a modern, feature-rich ebook reader designed for avid readers offering seamless cross-platform access, powerful tools, and an intuitive interface to elevate your reading experience.</p>
-    <p>Built as a modern rewrite of Foliate, UniversalBooks leverages Next.js 15 and Tauri v2 to deliver a smooth, cross-platform experience across macOS, Windows, Linux, Android, iOS, and the Web.</p>
-    <p>Whether you're analyzing complex texts, immersing yourself in stories, or exploring new ideas, UniversalBooks adapts to your needs with powerful features for deep, thoughtful reading.</p>
+    <p>Readest is a modern, feature-rich ebook reader designed for avid readers offering seamless cross-platform access, powerful tools, and an intuitive interface to elevate your reading experience.</p>
+    <p>Built as a modern rewrite of Foliate, Readest leverages Next.js 15 and Tauri v2 to deliver a smooth, cross-platform experience across macOS, Windows, Linux, Android, iOS, and the Web.</p>
+    <p>Whether you're analyzing complex texts, immersing yourself in stories, or exploring new ideas, Readest adapts to your needs with powerful features for deep, thoughtful reading.</p>
     <p>Key features include:</p>
     <ul>
       <li>Multi-format support for EPUB, MOBI, KF8 (AZW3), FB2, CBZ, TXT, and PDF (experimental).</li>
@@ -23,9 +23,9 @@
       <li>Cross-platform synchronization of book files, reading progress, notes, and bookmarks across all supported platforms.</li>
       <li>Text-to-Speech functionality for a more accessible reading experience.</li>
       <li>Organize, sort, and manage your entire ebook library with advanced library management tools.</li>
-      <li>One-click file association to quickly open files in UniversalBooks from your file browser.</li>
+      <li>One-click file association to quickly open files in Readest from your file browser.</li>
     </ul>
-    <p>UniversalBooks also includes custom CSS support for personalized styling, and code syntax highlighting for technical books. The application is designed to honor the legacy of deep reading while embracing modern technology for an enhanced experience.</p>
+    <p>Readest also includes custom CSS support for personalized styling, and code syntax highlighting for technical books. The application is designed to honor the legacy of deep reading while embracing modern technology for an enhanced experience.</p>
   </description>
 
   <categories>
@@ -35,7 +35,7 @@
   </categories>
 
   <keywords>
-    <keyword translate="no">universalbooks</keyword>
+    <keyword translate="no">readest</keyword>
     <keyword>ebook</keyword>
     <keyword>reader</keyword>
     <keyword>epub</keyword>
@@ -51,13 +51,13 @@
     <keyword>sync</keyword>
   </keywords>
 
-  <url type="homepage">https://github.com/universalbooks/universalbooks</url>
-  <url type="bugtracker">https://github.com/universalbooks/universalbooks/issues</url>
-  <url type="help">https://github.com/universalbooks/universalbooks/wiki</url>
-  <url type="donation">https://github.com/sponsors/universalbooks</url>
-  <url type="vcs-browser">https://github.com/universalbooks/universalbooks</url>
+  <url type="homepage">https://github.com/readest/readest</url>
+  <url type="bugtracker">https://github.com/readest/readest/issues</url>
+  <url type="help">https://github.com/readest/readest/wiki</url>
+  <url type="donation">https://github.com/sponsors/readest</url>
+  <url type="vcs-browser">https://github.com/readest/readest</url>
 
-  <launchable type="desktop-id">com.bilingify.universalbooks.desktop</launchable>
+  <launchable type="desktop-id">com.bilingify.readest.desktop</launchable>
 
   <requires>
     <display_length compare="ge">360</display_length>
@@ -89,7 +89,7 @@
     <release version="0.12.16" date="2026-10-14">
       <description>
         <ul>
-          <li>Text-to-Speech: Added UniversalBooks Voice premium read-aloud voices for Plus and Pro, you can now connect your own OpenAI-compatible voice service, and Edge voices work again</li>
+          <li>Text-to-Speech: Added Readest Voice premium read-aloud voices for Plus and Pro, you can now connect your own OpenAI-compatible voice service, and Edge voices work again</li>
           <li>Annotations: You can now handwrite and draw on your pages, and share passages as quote card images</li>
           <li>Library: Books now show their page count with a new Pages sort and filter that syncs across devices, and numbered titles sort in natural order</li>
           <li>Sync: Custom fonts download when you need them and can be removed from the cloud, custom theme edits now sync, and deleted books no longer come back</li>
@@ -107,7 +107,7 @@
         <ul>
           <li>Text-to-Speech: You can now listen sentence by sentence and loop a passage with A-B repeat, control playback from your desktop's Now Playing controls</li>
           <li>Reading: Added dialogue highlighting for quoted speech, a Column Gap setting for two-page spreads</li>
-          <li>Sync: Added a UniversalBooks plugin for CrossPoint e-readers for reading progress sync</li>
+          <li>Sync: Added a Readest plugin for CrossPoint e-readers for reading progress sync</li>
           <li>Sync: You can now sync reading progress to Pagebound, sign in to Hardcover more easily, and note edits are no longer overwritten by older synced copies</li>
           <li>PDF: PDFs now blend smoothly with your reading theme with smart image inversion, show page thumbnails in the table of contents</li>
           <li>PDF: Highlighting and text selection on scanned PDFs is smoother and more accurate, and very large scanned pages no longer crash the reader on iOS</li>
@@ -137,7 +137,7 @@
       <description>
         <ul>
           <li>Reading: Customize the information shown in headers and footers, resize text with zoom shortcuts</li>
-          <li>Sync: You can choose whether to use UniversalBooks Cloud before signing in, and recover missing covers during sync</li>
+          <li>Sync: You can choose whether to use Readest Cloud before signing in, and recover missing covers during sync</li>
           <li>Annotations: You can now import highlights, bookmarks, and reading progress from ReadEra, and sync your notes and highlights to Notion</li>
           <li>Audiobooks: You can now stream ebook-only titles from Audiobookshelf</li>
           <li>Text-to-Speech: use Apple Enhanced and Premium voices on the web, and optionally skip parenthetical readings in Japanese books</li>
@@ -154,7 +154,7 @@
         <ul>
           <li>Audiobooks: Added Audiobookshelf support for streaming audiobooks and podcasts, and you can now pair an audiobook with its ebook to read along as it plays</li>
           <li>Text-to-Speech: Added a lyric-style view that shows the sentences around the one being read, plus per-book offline voice downloads and steadier pauses between sentences</li>
-          <li>Library: You can now browse the web inside UniversalBooks to add books, choose which chapters to import from a web novel, hide covers for privacy, and watch download progress right on the shelf</li>
+          <li>Library: You can now browse the web inside Readest to add books, choose which chapters to import from a web novel, hide covers for privacy, and watch download progress right on the shelf</li>
           <li>Sharing: Added Nearby BookDrop to send and receive books between nearby devices over your local network, including KOReader devices</li>
           <li>Reading: Added customizable keyboard and mouse shortcuts, Yomitan dictionary support, a full-screen book cover view, and right-to-left page order for comics and fixed-layout books</li>
           <li>Reading: The Notebook is now a full writing workspace, where your notes save as you type, sync across devices, and link back to the passage they came from</li>
@@ -205,7 +205,7 @@
           <li>Text-to-Speech: Redesigned read-aloud as a mini player with an expandable full player, and playback now keeps going even after you close the book</li>
           <li>Text-to-Speech: Online voices now play gap-free with chapter seeking and lock-screen controls, plus Android Auto support so you can listen in the car</li>
           <li>Sync: Added S3-compatible cloud storage and a new Cloud Sync screen to choose and switch between your sync providers</li>
-          <li>Integrations: Added a Calibre plugin to push books and custom columns into UniversalBooks, and improved OPDS sign-in and auto-download for self-hosted catalogs</li>
+          <li>Integrations: Added a Calibre plugin to push books and custom columns into Readest, and improved OPDS sign-in and auto-download for self-hosted catalogs</li>
           <li>Library: New books dropped into watched folders now import automatically, and you can sort your shelf by reading progress</li>
           <li>More: Added a speak button in the dictionary popup, a cleaner theme switcher, and per-rule toggles for proofreading</li>
         </ul>
@@ -231,26 +231,26 @@
   <metadata_license>FSFAP</metadata_license>
   <project_license>AGPL-3.0-or-later</project_license>
 
-  <developer id="com.universalbooks">
-    <name>UniversalBooks Team</name>
+  <developer id="com.readest">
+    <name>Readest Team</name>
   </developer>
 
   <screenshots>
     <screenshot type="default">
-      <caption>UniversalBooks main interface with annotation</caption>
-      <image type="source">https://raw.githubusercontent.com/universalbooks/universalbooks/refs/heads/main/data/screenshots/annotations.png</image>
+      <caption>Readest main interface with annotation</caption>
+      <image type="source">https://raw.githubusercontent.com/readest/readest/refs/heads/main/data/screenshots/annotations.png</image>
     </screenshot>
     <screenshot>
       <caption>Reading interface with dark mode</caption>
-      <image type="source">https://raw.githubusercontent.com/universalbooks/universalbooks/refs/heads/main/data/screenshots/dark_mode.png</image>
+      <image type="source">https://raw.githubusercontent.com/readest/readest/refs/heads/main/data/screenshots/dark_mode.png</image>
     </screenshot>
     <screenshot>
       <caption>Reading with TTS speak out</caption>
-      <image type="source">https://raw.githubusercontent.com/universalbooks/universalbooks/refs/heads/main/data/screenshots/tts_speak_aloud.png</image>
+      <image type="source">https://raw.githubusercontent.com/readest/readest/refs/heads/main/data/screenshots/tts_speak_aloud.png</image>
     </screenshot>
     <screenshot>
       <caption>Reading tools with Wikipedia integration</caption>
-      <image type="source">https://raw.githubusercontent.com/universalbooks/universalbooks/refs/heads/main/data/screenshots/wikipedia_vertical.png</image>
+      <image type="source">https://raw.githubusercontent.com/readest/readest/refs/heads/main/data/screenshots/wikipedia_vertical.png</image>
     </screenshot>
   </screenshots>
 

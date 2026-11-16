@@ -57,8 +57,8 @@ result*
 fastlane/staging/
 fastlane/metadata-play/android/en-US/changelogs
 
-apps/universalbooks.koplugin/bin/
-apps/universalbooks.koplugin/native/localsend-bin/target/
+apps/readest.koplugin/bin/
+apps/readest.koplugin/native/localsend-bin/target/
 
 # scripts/tauri.mjs parks the wry Cargo.lock here during a Linux CEF build
 /Cargo.lock.wry

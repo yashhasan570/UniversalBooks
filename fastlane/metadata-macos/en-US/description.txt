@@ -1,4 +1,4 @@
-Universal Books is an ebook reader for people who read a lot, and who want their books, notes and reading position on whatever device is nearest.
+UniversalBooks is an ebook reader for people who read a lot, and who want their books, notes and reading position on whatever device is nearest.
 
 On the Mac you get room to spread out. Open several books in their own windows, keep the text and your notes in view at once, and drive the whole thing from the keyboard.
 
@@ -31,12 +31,12 @@ Listening and languages
 • Wikipedia and dictionary lookup without leaving the page
 
 Sync
-• Universal Books Cloud, or bring your own: iCloud, Google Drive, OneDrive, WebDAV, S3
+• UniversalBooks Cloud, or bring your own: iCloud, Google Drive, OneDrive, WebDAV, S3
 • KOReader sync keeps your progress in step with your e-reader
 • Mac, iPhone, iPad, all other platforms and the web
 
-Universal Books is open source.
+UniversalBooks is open source.
 
 Support: support@universalbooks.com
-Privacy Policy: https://__READ__universalbooks.com/privacy-policy
+Privacy Policy: https://universalbooks.com/privacy-policy
 Terms of Service: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
