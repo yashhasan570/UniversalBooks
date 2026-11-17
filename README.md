@@ -15,6 +15,7 @@
 [![Reddit][badge-reddit]][link-reddit]
 [![AGPL Licence][badge-license]](LICENSE)
 [![Language Coverage][badge-language-coverage]][link-locales]
+[![Donate][badge-donate]][link-donate]
 [![Latest release][badge-release]][link-gh-releases]
 [![Last commit][badge-last-commit]][link-gh-commits]
 [![Commits][badge-commit-activity]][link-gh-pulse]
@@ -234,6 +235,15 @@ UniversalBooks is open-source, and contributions are welcome! Feel free to open 
 
 ## Support
 
+If UniversalBooks has been useful to you, consider supporting its development at [donate.universalbooks.com](https://donate.universalbooks.com), where you'll find all available donation methods, including GitHub Sponsors, PayPal, card payments, and crypto. Your contribution helps us fix bugs faster, improve performance, and keep building great features.
+
+### Sponsors
+
+<p align="center">
+  <a title="Browser testing via TestMu AI" href="https://www.testmuai.com/?utm_medium=sponsor&utm_source=universalbooks" target="_blank">
+    <img src="https://raw.githubusercontent.com/universalbooks/universalbooks/refs/heads/main/data/sponsors/testmu-ai-logo.png" style="vertical-align: middle;" width="250" />
+  </a>
+</p>
 
 ## License
 
@@ -271,9 +281,11 @@ We would also like to thank the [Web Chinese Fonts Plan](https://chinese-font.ne
 [badge-commit-activity]: https://img.shields.io/github/commit-activity/m/universalbooks/universalbooks?color=blue
 [badge-discord]: https://img.shields.io/discord/1314226120886976544?color=5865F2&label=discord&labelColor=black&logo=discord&logoColor=white&style=flat-square
 [badge-hellogithub]: https://abroad.hellogithub.com/v1/widgets/recommend.svg?rid=8a5b6ade2aee461a8bd94e59200682a7&claim_uid=eRLUbPOy2qZtDgw&theme=small
+[badge-donate]: https://donate.universalbooks.com/badge.svg
 [badge-deepwiki]: https://img.shields.io/badge/Ask-DeepWiki-blue
 [badge-reddit]: https://img.shields.io/reddit/subreddit-subscribers/universalbooks?style=flat&logo=reddit&color=F37E41
 [badge-language-coverage]: https://img.shields.io/badge/coverage-53%25%20population%20🌍-green
+[link-donate]: https://donate.universalbooks.com/?tickers=btc%2Ceth%2Csol%2Cusdc
 [link-appstore]: https://apps.apple.com/app/apple-store/id6738622779?pt=127463130&ct=github&mt=8
 [link-website]: https://universalbooks.com?utm_source=github&utm_medium=referral&utm_campaign=readme
 [link-flathub]: https://flathub.org/en/apps/com.universalbooks.app
@@ -293,7 +305,3 @@ We would also like to thank the [Web Chinese Fonts Plan](https://chinese-font.ne
 [link-readalong]: https://github.com/universalbooks/universalbooks/blob/main/apps/universalbooks-app/docs/read-along-narration.md
 [link-storyteller]: https://storyteller-platform.dev/
 [link-reddit]: https://reddit.com/r/universalbooks/
-
-## Contact
-
-Questions, problem reports or feedback? Reach us on Telegram: [@johnconstantine570](https://t.me/johnconstantine570)
