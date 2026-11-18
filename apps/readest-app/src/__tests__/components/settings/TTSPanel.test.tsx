@@ -26,7 +26,8 @@ vi.mock('next/navigation', () => ({
 }));
 
 vi.mock('@/hooks/useTranslation', () => ({
-  useTranslation: () => (value: string) => value,
+  useTranslation: () => (value: string, opts?: Record<string, unknown>) =>
+    opts ? value.replace(/{{(\w+)}}/g, (_m, k) => String(opts[k])) : value,
 }));
 
 vi.mock('@/utils/misc', async (importOriginal) => ({
@@ -76,17 +77,42 @@ vi.mock('@/components/settings/theme/TTSHighlightStyleEditor', () => ({
 }));
 
 const ARIA = { id: 'en-US-AriaNeural', name: 'Aria', lang: 'en-US', gender: 'female' as const };
+const HEART = { id: 'kokoro:af_heart', name: 'Heart', lang: 'en-US', tier: 'plus' as const };
+const ETHAN = {
+  id: 'omnivoice:ethan',
+  name: 'Ethan',
+  lang: 'en-US',
+  tier: 'pro' as const,
+  disabled: true,
+};
 vi.mock('@/services/tts/voiceLibrary', () => ({
   loadVoiceLibrary: async () => ({
     languages: ['en', 'fr'],
     getVoices: async (lang: string) =>
       lang === 'en'
-        ? [{ id: 'edge-tts', name: 'Edge TTS', engine: 'edge-tts', voices: [ARIA] }]
+        ? [
+            {
+              id: 'universalbooks-tts',
+              name: 'UniversalBooks Voice',
+              engine: 'universalbooks-tts',
+              voices: [HEART, ETHAN],
+            },
+            { id: 'edge-tts', name: 'Edge TTS', engine: 'edge-tts', voices: [ARIA] },
+          ]
         : [],
   }),
 }));
 
+vi.mock('@/services/tts/voicePreview', () => ({
+  canPreviewEngine: () => true,
+  primeVoicePreview: vi.fn(),
+  suspendReadingForPreview: vi.fn().mockResolvedValue(false),
+  playVoicePreview: vi.fn().mockResolvedValue(undefined),
+  UNIVERSALBOOKS_TTS_ENGINE: 'universalbooks-tts',
+}));
+
 import { saveViewSettings } from '@/helpers/settings';
+import { playVoicePreview } from '@/services/tts/voicePreview';
 import { useSettingsStore } from '@/store/settingsStore';
 import { TTSUtils } from '@/services/tts/TTSUtils';
 import TTSPanel from '@/components/settings/TTSPanel';
@@ -115,6 +141,95 @@ describe('TTSPanel voice library row', () => {
     expect(TTSUtils.getDefaultVoice('en')).toEqual({ engine: 'edge-tts', voiceId: ARIA.id });
     fireEvent.click(screen.getByText('TTS'));
     expect(await screen.findByText('English · Aria')).toBeTruthy();
+  });
+});
+
+describe('TTSPanel sign-in round trip from the voice library', () => {
+  // Leaving for /auth or /user unmounts Settings; coming back mounts it afresh.
+  const mount = () => render(<TTSPanel bookKey='' onRegisterReset={vi.fn()} />);
+  const openVoiceLibrary = async () => {
+    const view = mount();
+    fireEvent.click(await screen.findByText('Voice Library'));
+    await screen.findByText('Ethan');
+    return view;
+  };
+  const expectVoiceLibrary = () =>
+    waitFor(() =>
+      expect(screen.queryByLabelText('Language'), 'reopens on the voice library').not.toBeNull(),
+    );
+  const expectPanel = async () => {
+    expect(await screen.findByText('Custom TTS Services')).toBeTruthy();
+    expect(screen.queryByLabelText('Language'), 'opens on the TTS panel').toBeNull();
+  };
+
+  beforeEach(() => {
+    localStorage.clear();
+    state.uiLocale = 'en-US';
+    state.user = null;
+    state.push.mockReset();
+    vi.mocked(playVoicePreview).mockClear();
+  });
+
+  afterEach(cleanup);
+
+  it('a locked voice leaves for sign-in; coming back reopens the voice library, once', async () => {
+    const { unmount } = await openVoiceLibrary();
+    fireEvent.click(screen.getByText('Ethan'));
+    expect(state.push).toHaveBeenCalledWith(expect.stringMatching(/^\/auth/));
+    unmount();
+
+    const back = mount();
+    await expectVoiceLibrary();
+    back.unmount();
+
+    // A later open of Settings starts on the panel again.
+    mount();
+    await expectPanel();
+  });
+
+  it('a UniversalBooks Voice preview signed out comes back to the voice library too', async () => {
+    const { unmount } = await openVoiceLibrary();
+    fireEvent.click(screen.getByLabelText('Preview Heart'));
+    expect(state.push).toHaveBeenCalledWith(expect.stringMatching(/^\/auth/));
+    unmount();
+
+    mount();
+    await expectVoiceLibrary();
+  });
+
+  it('coming back shows the engine that was on show, for that visit only', async () => {
+    const { unmount } = await openVoiceLibrary();
+    const select = screen.getByLabelText('Voice Engine') as HTMLSelectElement;
+    const universalbooks = [...select.options].find((o) => o.text === 'UniversalBooks Voice')!;
+    fireEvent.change(select, { target: { value: universalbooks.value } });
+    fireEvent.click(screen.getByText('Ethan'));
+    unmount();
+
+    mount();
+    await expectVoiceLibrary();
+    await screen.findByText('Ethan');
+    const restored = screen.getByLabelText('Voice Engine') as HTMLSelectElement;
+    expect(restored.selectedOptions[0]!.text).toBe('UniversalBooks Voice');
+    expect(screen.queryByText('Aria')).toBeNull();
+
+    // Back ends that visit: the next one starts on every engine again.
+    fireEvent.click(screen.getByText('TTS'));
+    fireEvent.click(await screen.findByText('Voice Library'));
+    await screen.findByText('Ethan');
+    const reopened = screen.getByLabelText('Voice Engine') as HTMLSelectElement;
+    expect(reopened.selectedOptions[0]!.text, 'reopens on All').toBe('All');
+  });
+
+  it('a preview that plays stays on the page, so a later open starts on the panel', async () => {
+    state.user = { id: 'u' };
+    const { unmount } = await openVoiceLibrary();
+    fireEvent.click(screen.getByLabelText('Preview Aria'));
+    await waitFor(() => expect(playVoicePreview).toHaveBeenCalled());
+    expect(state.push).not.toHaveBeenCalled();
+    unmount();
+
+    mount();
+    await expectPanel();
   });
 });
 

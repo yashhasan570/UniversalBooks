@@ -153,8 +153,8 @@ const isSameRange = (a: Range, b: Range) =>
 const PositionFollowers: React.FC<{
   bookKey: string;
   annotationIndex: AnnotationIndex;
-  translationEpoch: number;
-}> = ({ bookKey, annotationIndex, translationEpoch }) => {
+  contentEpoch: number;
+}> = ({ bookKey, annotationIndex, contentEpoch }) => {
   const getView = useReaderStore((s) => s.getView);
   const progress = useBookProgress(bookKey);
   useBookOrbitNotesSync(bookKey);
@@ -194,10 +194,16 @@ const PositionFollowers: React.FC<{
       console.warn(e);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [progress, annotationIndex, translationEpoch]);
+  }, [progress, annotationIndex, contentEpoch]);
 
   return null;
 };
+
+// Below `sm` (or short landscape) the note editor and the dictionary are bottom
+// sheets rather than popups pinned to the selection: an anchored editor would
+// sit under the on-screen keyboard, and the popup gets cramped. Matches the
+// `isMobile` heuristic used by `Dialog`.
+const isSheetViewport = () => window.innerWidth < 640 || window.innerHeight < 640;
 
 const Annotator: React.FC<{ bookKey: string; contentInsets: Insets; gridInsets?: Insets }> = ({
   bookKey,
@@ -208,7 +214,7 @@ const Annotator: React.FC<{ bookKey: string; contentInsets: Insets; gridInsets?:
   const { envConfig, appService } = useEnv();
   const { settings, setSettingsDialogBookKey, setSettingsDialogOpen, setActiveSettingsItemId } =
     useSettingsStore();
-  const { isDarkMode, isIPhoneDuo, themeCode } = useThemeStore();
+  const { isDarkMode, themeCode } = useThemeStore();
   // Per-field selectors — see store/readerProgressStore.ts header for the
   // "destructure-subscribes-the-whole-store" rationale.
   const getConfig = useBookDataStore((s) => s.getConfig);
@@ -259,9 +265,12 @@ const Annotator: React.FC<{ bookKey: string; contentInsets: Insets; gridInsets?:
     },
     [],
   );
-  const [translationEpoch, setTranslationEpoch] = useState(0);
+  const [contentEpoch, setContentEpoch] = useState(0);
   const [showAnnotPopup, setShowAnnotPopup] = useState(false);
   const [showDictionaryPopup, setShowDictionaryPopup] = useState(false);
+  // Decided when the lookup opens, as for the note editor: the keyboard for a
+  // Learning word's hint field must not swap the popup for the sheet (#7570).
+  const [dictionaryInSheet, setDictionaryInSheet] = useState(false);
   const [showDeepLPopup, setShowDeepLPopup] = useState(false);
   const [showProofreadPopup, setShowProofreadPopup] = useState(false);
   const [trianglePosition, setTrianglePosition] = useState<Position>();
@@ -276,9 +285,13 @@ const Annotator: React.FC<{ bookKey: string; contentInsets: Insets; gridInsets?:
   const [showAnnotationNotes, setShowAnnotationNotes] = useState(false);
   // The note the Annotate action is currently collecting, plus the highlights
   // it created on the way (#4791: those only live as long as this editor).
+  // `inSheet` is decided when the editor opens: the keyboard its textarea
+  // raises shortens the window, and re-deciding then swapped the popup for the
+  // sheet, which dropped the keyboard and swapped back, over and over (#7570).
   const [noteEditorTarget, setNoteEditorTarget] = useState<{
     annotationId: string;
     placeholderIds: string[];
+    inSheet: boolean;
   } | null>(null);
   const [annotationNotes, setAnnotationNotes] = useState<BookNote[]>([]);
   const [editingAnnotation, setEditingAnnotation] = useState<BookNote | null>(null);
@@ -419,19 +432,26 @@ const Annotator: React.FC<{ bookKey: string; contentInsets: Insets; gridInsets?:
   };
   const androidSelectionHandlerHeight = 0;
 
+  // The keyboard a popup's text field raises can shorten the window, and the
+  // popup stays a popup (#7570): place it again against the new size.
+  const [windowResizes, setWindowResizes] = useState(0);
+  useEffect(() => {
+    if (!showingPopup) return;
+    const onResize = () => setWindowResizes((count) => count + 1);
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, [showingPopup]);
+
   // Reposition popups on scroll without dismissing them
   const repositionPopups = useCallback(() => {
     if (!selection || !selection.text) return;
     const gridFrame = document.querySelector(`#gridcell-${bookKey}`);
     if (!gridFrame) return;
-    // On iPhone Duo clamp to the safe region, not the physical cell (its
-    // status-bar strip can otherwise sit under a popup, #6307). The points come
-    // back relative to that region; they are shifted to cell coordinates below.
-    const { rect, origin } = getPopupBounds(
-      gridFrame.getBoundingClientRect(),
-      gridInsets,
-      isIPhoneDuo,
-    );
+    // Clamp to the safe region, not the physical cell (the Dynamic Island, a
+    // cutout or iPhone Duo's status strip can otherwise sit under a popup,
+    // #6307, #7389). The points come back relative to that region; they are
+    // shifted to cell coordinates below.
+    const { rect, origin } = getPopupBounds(gridFrame.getBoundingClientRect(), gridInsets);
     const triangPos = getToolbarPosition(selection, rect);
     const annotPopupPos = getPopupPosition(
       triangPos,
@@ -471,17 +491,17 @@ const Annotator: React.FC<{ bookKey: string; contentInsets: Insets; gridInsets?:
     setTranslatorPopupPosition(offsetPosition(transPopupPos, origin));
     setProofreadPopupPosition(offsetPosition(proofreadPopupPos, origin));
     setTrianglePosition(offsetPosition(triangPos, origin));
-    // Re-clamp when the cell's insets change, which only iPhone Duo uses;
-    // elsewhere the deps are unchanged.
+    // Re-clamp when the cell's insets change.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     selection,
     bookKey,
-    isIPhoneDuo && gridInsets,
+    gridInsets,
     viewSettings.vertical,
     annotPopupWidth,
     annotPopupHeight,
     footnotePopupDir,
+    windowResizes,
   ]);
 
   useEffect(() => {
@@ -1397,14 +1417,11 @@ const Annotator: React.FC<{ bookKey: string; contentInsets: Insets; gridInsets?:
       pendingWordLensDictRef.current = false;
       const gridFrame = document.querySelector(`#gridcell-${bookKey}`);
       if (!gridFrame) return;
-      // On iPhone Duo clamp to the safe region, not the physical cell (its
-      // status-bar strip can otherwise sit under a popup, #6307). The points come
-      // back relative to that region; they are shifted to cell coordinates below.
-      const { rect, origin } = getPopupBounds(
-        gridFrame.getBoundingClientRect(),
-        gridInsets,
-        isIPhoneDuo,
-      );
+      // Clamp to the safe region, not the physical cell (the Dynamic Island, a
+      // cutout or iPhone Duo's status strip can otherwise sit under a popup,
+      // #6307, #7389). The points come back relative to that region; they are
+      // shifted to cell coordinates below.
+      const { rect, origin } = getPopupBounds(gridFrame.getBoundingClientRect(), gridInsets);
       const triangPos = getToolbarPosition(selection, rect);
       const annotPopupPos = getPopupPosition(
         triangPos,
@@ -1494,23 +1511,26 @@ const Annotator: React.FC<{ bookKey: string; contentInsets: Insets; gridInsets?:
 
   // Translations are appended long after a section's annotations were drawn, so
   // a highlight anchored inside translated text has nothing to attach to at
-  // draw time. Bumping this re-runs the draw effect above once the inserts
-  // settle; they arrive in bursts, hence the debounce.
+  // draw time. Word Lens hints drawn or removed move the text under the
+  // highlights already drawn. Bumping this re-runs the draw effect above once
+  // the changes settle; they arrive in bursts, hence the debounce.
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout> | null = null;
-    const handleTranslationInserted = (event: CustomEvent) => {
+    const handleContentChanged = (event: CustomEvent) => {
       const detail = event.detail as { bookKey: string } | undefined;
       if (!detail || detail.bookKey !== bookKey) return;
       if (timer) clearTimeout(timer);
       timer = setTimeout(() => {
         timer = null;
-        setTranslationEpoch((epoch) => epoch + 1);
+        setContentEpoch((epoch) => epoch + 1);
       }, 150);
     };
-    eventDispatcher.on('translation-inserted', handleTranslationInserted);
+    eventDispatcher.on('translation-inserted', handleContentChanged);
+    eventDispatcher.on('wordlens-glosses-changed', handleContentChanged);
     return () => {
       if (timer) clearTimeout(timer);
-      eventDispatcher.off('translation-inserted', handleTranslationInserted);
+      eventDispatcher.off('translation-inserted', handleContentChanged);
+      eventDispatcher.off('wordlens-glosses-changed', handleContentChanged);
     };
   }, [bookKey]);
 
@@ -1918,6 +1938,7 @@ const Annotator: React.FC<{ bookKey: string; contentInsets: Insets; gridInsets?:
     setNoteEditorTarget({
       annotationId: target.id,
       placeholderIds: created.map((annotation) => annotation.id),
+      inSheet: isSheetViewport(),
     });
   };
 
@@ -1926,7 +1947,11 @@ const Annotator: React.FC<{ bookKey: string; contentInsets: Insets; gridInsets?:
   // from. No placeholder to take back: the annotation already existed.
   const handleEditNote = (note: BookNote) => {
     dropSelectionForOverlay();
-    setNoteEditorTarget({ annotationId: note.id, placeholderIds: [] });
+    setNoteEditorTarget({
+      annotationId: note.id,
+      placeholderIds: [],
+      inSheet: isSheetViewport(),
+    });
   };
 
   // Takes back the highlight Annotate created for the note to hang on, but
@@ -2025,6 +2050,7 @@ const Annotator: React.FC<{ bookKey: string; contentInsets: Insets; gridInsets?:
     }
     setShowAnnotPopup(false);
     void suppressNativeSelectionHandles();
+    setDictionaryInSheet(isSheetViewport());
     setShowDictionaryPopup(true);
   };
 
@@ -2790,11 +2816,7 @@ const Annotator: React.FC<{ bookKey: string; contentInsets: Insets; gridInsets?:
   const overlaySurfaceOpen =
     showDictionaryPopup || showDeepLPopup || showProofreadPopup || !!noteEditorTarget;
 
-  // Below `sm` (or short landscape) the note editor is a bottom sheet rather
-  // than a popup pinned to the selection: an anchored editor would sit under
-  // the on-screen keyboard. Same heuristic the dictionary uses.
-  const noteEditorInSheet =
-    !!noteEditorTarget && (window.innerWidth < 640 || window.innerHeight < 640);
+  const noteEditorInSheet = !!noteEditorTarget?.inSheet;
   const noteEditorInPopup = !!noteEditorTarget && !noteEditorInSheet;
   const editedNoteText =
     config.booknotes?.find((annotation) => annotation.id === noteEditorTarget?.annotationId)
@@ -2806,14 +2828,10 @@ const Annotator: React.FC<{ bookKey: string; contentInsets: Insets; gridInsets?:
       <PositionFollowers
         bookKey={bookKey}
         annotationIndex={annotationIndex}
-        translationEpoch={translationEpoch}
+        contentEpoch={contentEpoch}
       />
       {showDictionaryPopup &&
         (() => {
-          // Below `sm` (or short landscape) we present the dictionary as a
-          // bottom sheet — the anchored popup gets cramped at this size.
-          // Matches the `isMobile` heuristic used by `Dialog`.
-          const useSheet = window.innerWidth < 640 || window.innerHeight < 640;
           const onManage = () => {
             // Dismiss so the user returns to the reader cleanly when they
             // close settings; the dictionaries sub-page in SettingsDialog
@@ -2823,7 +2841,7 @@ const Annotator: React.FC<{ bookKey: string; contentInsets: Insets; gridInsets?:
             setActiveSettingsItemId('settings.language.dictionaries.manage');
             setSettingsDialogOpen(true);
           };
-          if (useSheet) {
+          if (dictionaryInSheet) {
             return (
               <DictionarySheet
                 word={selection?.text as string}

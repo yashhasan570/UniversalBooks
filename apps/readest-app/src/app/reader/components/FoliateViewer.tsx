@@ -48,6 +48,7 @@ import { useFileSync } from '../hooks/useFileSync';
 import {
   applyEinkModeAttribute,
   applyOrientationMedia,
+  applyViewportUnits,
   applyFixedlayoutStyles,
   applyImageStyle,
   applyNamespacedAttributes,
@@ -236,7 +237,9 @@ const FoliateViewer: React.FC<{
   const [scrollMargins, setScrollMargins] = useState({ top: 0, bottom: 0 });
   const docLoaded = useRef(false);
 
-  const autoScroll = useAutoScroll(bookKey, viewRef);
+  // Commits the relocation an Auto Scroll wipe held back (see commitRelocate).
+  const wipeCommitRef = useRef<(() => void) | null>(null);
+  const autoScroll = useAutoScroll(bookKey, viewRef, wipeCommitRef);
   const { registerSpeedListeners, overlayVisible: speedOverlayVisible } =
     useAutoScrollSpeedGesture(autoScroll);
 
@@ -307,8 +310,13 @@ const FoliateViewer: React.FC<{
     relocateRafRef.current = null;
     cancelAnimationFrame(id);
   }, []);
+  const { isWipeAhead } = autoScroll;
   const commitRelocate = useCallback(() => {
     cancelRelocateScheduled();
+    // An Auto Scroll wipe turns to the next page while the reader is still on
+    // the page above it (#7575). That page is held back, also on close, until
+    // the wipe brings it in, or is replaced when the wipe turns back.
+    if (isWipeAhead()) return;
     const event = pendingRelocateRef.current;
     pendingRelocateRef.current = null;
     if (!event) return;
@@ -394,7 +402,7 @@ const FoliateViewer: React.FC<{
       // mid-chapter, where they would break the one-page-per-turn cadence.
       snapshotChapterScreens(bookKey);
     }
-  }, [bookKey, setProgress, cancelRelocateScheduled]);
+  }, [bookKey, setProgress, cancelRelocateScheduled, isWipeAhead]);
 
   const progressRelocateHandler = (event: Event) => {
     // Foliate can emit a late relocation after close() clears its progress
@@ -483,10 +491,15 @@ const FoliateViewer: React.FC<{
       const el = viewRef.current;
       if (el) {
         // The same resize can turn the reading area, which the book's
-        // `(orientation: ...)` rules follow (see applyOrientationMedia).
+        // `(orientation: ...)` rules follow (see applyOrientationMedia), and
+        // changes what the book's vw/vh lengths resolve to.
         let landscape = isLandscapeBox(el);
-        observer = new ResizeObserver(() => {
+        observer = new ResizeObserver(([entry]) => {
           invalidateChapterScreens();
+          if (entry && !getBookData(bookKey)?.isFixedLayout) {
+            const { width, height } = entry.contentRect;
+            for (const { doc } of el.renderer.getContents()) applyViewportUnits(doc, width, height);
+          }
           if (isLandscapeBox(el) === landscape) return;
           landscape = !landscape;
           for (const { doc } of el.renderer.getContents()) applyOrientationMedia(doc, landscape);
@@ -601,13 +614,28 @@ const FoliateViewer: React.FC<{
       // UI language is the last resort, for a book that says nothing at all.
       const documentRtl = writingDir?.rtl || getDirFromUILanguage() === 'rtl' || false;
       const newRtl = getPageProgressionRTL(viewSettings.writingMode, bookDoc.dir, documentRtl);
-      if (viewSettings.vertical !== newVertical || viewSettings.rtl !== newRtl) {
+      // Continuous scrolling keeps the neighbouring sections mounted, and they
+      // finish loading *after* the one being read. A horizontal front matter
+      // landing last therefore used to rewrite a vertical book's writing mode
+      // to horizontal, and persist it: page turns, the scrollbar, the reading
+      // ruler and every overlay then disagreed with the text on screen (the
+      // footnote popup sized its box along the wrong axis for exactly this
+      // reason). Only the section the reader is actually on speaks for the
+      // book; a neighbour keeps its own direction locally, which is all the
+      // scrollbar position below needs from it.
+      const primaryDoc = renderer
+        ?.getContents?.()
+        .find((content) => content.index === renderer?.primaryIndex)?.doc;
+      const speaksForBook = !primaryDoc || primaryDoc === detail.doc;
+      if (speaksForBook && (viewSettings.vertical !== newVertical || viewSettings.rtl !== newRtl)) {
         viewSettings.vertical = newVertical;
         viewSettings.rtl = newRtl;
         setViewSettings(bookKey, { ...viewSettings });
       }
 
       if (!bookData?.isFixedLayout) {
+        const view = viewRef.current;
+        if (view) applyViewportUnits(detail.doc, view.clientWidth, view.clientHeight);
         mountAdditionalFonts(detail.doc, isCJKLang(bookData.book?.primaryLanguage));
       }
 
@@ -774,6 +802,7 @@ const FoliateViewer: React.FC<{
       appLang: getLocale(),
       allowDownload,
       vocabulary: useVocabularyStore.getState().getLearningAndMastered(vocabularyLang(bookLang)),
+      onGlossesChanged: () => eventDispatcher.dispatch('wordlens-glosses-changed', { bookKey }),
       onProgress: () => {
         if (wordLensToastShownRef.current) return;
         wordLensToastShownRef.current = true;
@@ -834,6 +863,18 @@ const FoliateViewer: React.FC<{
     // can flow normally.
     setPreviewMode(bookKey, false);
 
+    // Linked books follow an Auto Scroll wipe's turn once the page is wiped
+    // in, like the reading position (#7575).
+    if (isWipeAhead()) {
+      heldParallelRelocateRef.current = detail;
+      return;
+    }
+    heldParallelRelocateRef.current = null;
+    syncParallelViews(detail);
+  };
+
+  const heldParallelRelocateRef = useRef<{ index: number; fraction: number } | null>(null);
+  const syncParallelViews = (detail: { index: number; fraction: number }) => {
     const parallelViews = getParallels(bookKey);
     if (parallelViews && parallelViews.size > 0) {
       parallelViews.forEach((key) => {
@@ -845,6 +886,14 @@ const FoliateViewer: React.FC<{
         }
       });
     }
+  };
+
+  // The page an Auto Scroll wipe brought in is the reading position now.
+  wipeCommitRef.current = () => {
+    commitRelocate();
+    const held = heldParallelRelocateRef.current;
+    heldParallelRelocateRef.current = null;
+    if (held) syncParallelViews(held);
   };
 
   const { handlePageFlip } = usePagination(bookKey, viewRef, containerRef);
@@ -1177,7 +1226,13 @@ const FoliateViewer: React.FC<{
     // The drawing dock stays up for the whole drawing session, so the text
     // makes room for it instead of running underneath.
     const drawingDock = viewState?.drawingEnabled ? getDrawingDockClearance(gridInsets) : null;
-    const topMargin = (showTopHeader ? insets.top : viewInsets.top) + moreTopInset;
+    // Vertical mode cannot scroll lines vertically out from under a top safe-area
+    // inset (Dynamic Island/notch). Preserve gridInsets.top while dividing out
+    // foliate-js's 1.5x vertical marginTop multiplier so effective padding-top is
+    // gridInsets.top + viewInsets.top * 1.5, leaving horizontal mode unchanged.
+    const topMargin = viewSettings.vertical
+      ? gridInsets.top / 1.5 + viewInsets.top
+      : (showTopHeader ? insets.top : viewInsets.top) + moreTopInset;
     // On iPhone Duo the horizontal safe-area insets are applied to the viewer
     // container itself (see the render below), not folded into these margins:
     // the paginator treats a horizontal margin as a gutter and puts only half
@@ -1442,6 +1497,32 @@ const FoliateViewer: React.FC<{
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [viewSettings?.vertical]);
 
+  // The max inline size depends on the window (a near-square window trims it
+  // on touch devices, and vertical writing measures the longer screen axis),
+  // so a resize re-resolves it; otherwise a maximized window keeps the ceiling
+  // the book opened with and leaves a band on each side (#7510). Only a changed
+  // value is written, since each write re-lays out the page, and a drag is
+  // resolved once it settles. Settings are read when it fires, not captured.
+  useEffect(() => {
+    if (bookDoc.rendition?.layout === 'pre-paginated') return;
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    const handleResize = () => {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        const renderer = viewRef.current?.renderer;
+        const viewSettings = getViewSettings(bookKey);
+        if (!renderer || !viewSettings) return;
+        applyRendererLayout(renderer, getCurrentRendererLayout(viewSettings), bookDoc.rendition);
+      }, 150);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      clearTimeout(timer);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [bookKey, bookDoc]);
+
   // iPhone Duo: folding, unfolding, turning the device or flipping book mode
   // changes how many pages the display shows. The paginator keeps the
   // reading position across the re-layout. The layout is resolved here from
@@ -1560,6 +1641,28 @@ const FoliateViewer: React.FC<{
         {...touchHandlers}
       />
       {autoscrollAnchor && <AutoscrollIndicator anchor={autoscrollAnchor} />}
+      {autoScroll.active && autoScroll.wipe && (
+        // The edge of a page wipe, moved by useAutoScroll every frame: the next
+        // page is pulled down over the page being read like a blind, and its
+        // edge casts a short shadow onto it, with a lit rim on dark themes.
+        // E-ink gets a plain 1px line (the global rule drops `shadow-`). The
+        // full-cell layer keeps the edge above the page snapshot.
+        <div
+          aria-hidden
+          data-page-wipe-above=''
+          className='pointer-events-none absolute inset-0 z-10 overflow-hidden'
+        >
+          <div
+            ref={autoScroll.wipeLineRef}
+            className={clsx(
+              'absolute left-0 top-0 h-2',
+              'not-eink:bg-linear-to-b theme-dark:from-black/55 from-black/30 to-transparent',
+              'theme-dark:shadow-[inset_0_1px_0_rgb(255_255_255/0.4)]',
+              'eink:border-base-content eink:border-t',
+            )}
+          />
+        </div>
+      )}
       {autoScroll.active && (
         <AutoScrollControl
           bookKey={bookKey}
