@@ -13,6 +13,12 @@ import ModalPortal from '@/components/ModalPortal';
 import ImageViewer from '@/app/reader/components/ImageViewer';
 import { useCustomDictionaryStore } from '@/store/customDictionaryStore';
 import { getEnabledProviders } from '@/services/dictionaries/registry';
+import {
+  contextProvider,
+  getContextTranslator,
+} from '@/services/dictionaries/providers/contextProvider';
+import { getLLMTranslators } from '@/store/customTranslatorStore';
+import Select from '@/components/Select';
 import { buildLookupCandidates } from '@/services/dictionaries/lookupCandidates';
 import { isTauriAppPlatform } from '@/services/environment';
 import { cancelWordPronounce, pronounceWord, warmWordAudio } from '@/services/tts/wordPronouncer';
@@ -26,6 +32,7 @@ import type {
   DictionarySelectionContext,
   WebSearchEntry,
 } from '@/services/dictionaries/types';
+import { BUILTIN_PROVIDER_IDS } from '@/services/dictionaries/types';
 import type { Insets } from '@/types/misc';
 import type { VocabularyOccurrence, VocabularyState } from '@/services/vocabulary/types';
 import { entryId, normalizeWordKey } from '@/services/vocabulary/entry';
@@ -53,6 +60,12 @@ interface CardState {
   loadKey: string;
   outcome?: DictionaryLookupOutcome;
   expanded: boolean;
+  /**
+   * Asking again with another AI translator (#7669): shows the skeleton but
+   * stays `loaded`, so the footer picker keeps focus and the other cards keep
+   * their auto-expand state.
+   */
+  refreshing?: boolean;
 }
 
 export interface UseDictionaryResultsArgs {
@@ -62,6 +75,8 @@ export interface UseDictionaryResultsArgs {
   selection?: DictionarySelectionContext;
   /** Save the lookup to the vocabulary builder (#789); also enables the header chips. */
   capture?: VocabularyCapture;
+  /** Ask the AI context dictionary alone, on or off in the list (#7497). */
+  contextOnly?: boolean;
 }
 
 export interface VocabularyCapture {
@@ -86,6 +101,8 @@ export interface DictionaryResultsState {
   resolveWebSearchUrl: (id: string) => string | undefined;
   onWebSearchClickTauri: (e: React.MouseEvent<HTMLAnchorElement>, id: string) => void;
   noProvidersAtAll: boolean;
+  /** Ask the context dictionary card again with another AI translator (#7669). */
+  setContextTranslator: (id: string) => void;
   /** Dictionary popup font-size multiplier (#4443); `1` = default sizes. */
   fontScale: number;
   /** Data URL of the entry image being shown full screen, or `null` (#6018). */
@@ -118,20 +135,24 @@ export function useDictionaryResults({
   lang,
   selection,
   capture,
+  contextOnly,
 }: UseDictionaryResultsArgs): DictionaryResultsState {
-  const { appService } = useEnv();
-  const { dictionaries, settings } = useCustomDictionaryStore();
+  const { appService, envConfig } = useEnv();
+  const { dictionaries, settings, setContextTranslatorId, saveCustomDictionaries } =
+    useCustomDictionaryStore();
   const isDarkMode = useThemeStore((s) => s.isDarkMode);
   const themeCode = useThemeStore((s) => s.themeCode);
   // Speak the entry as soon as it renders, for dictionaries that carry their
   // own recordings (#6265). Providers without bundled audio ignore it.
   const autoPlayPronunciation = settings.autoPlayPronunciation ?? false;
 
-  const computedProviders = getEnabledProviders({
-    settings,
-    dictionaries,
-    fs: appService ?? undefined,
-  });
+  const computedProviders = contextOnly
+    ? [contextProvider]
+    : getEnabledProviders({
+        settings,
+        dictionaries,
+        fs: appService ?? undefined,
+      });
   const providersSignature = computedProviders.map((p) => p.id).join('|');
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const providers = useMemo<DictionaryProvider[]>(() => computedProviders, [providersSignature]);
@@ -166,11 +187,15 @@ export function useDictionaryResults({
 
   // Automatic capture: the word selected in the book, with its sentence.
   // Words reached through in-entry links have no sentence and aren't saved.
+  // With saving off, a word marked Learning or Mastered still keeps the
+  // sentences it is looked up in (#7691).
   const saveLookups = settings.saveLookupsToVocabulary !== false;
   useEffect(() => {
     // No sentence means a re-lookup (from the vocabulary window): chips only.
-    if (!capture?.occurrence || !saveLookups) return;
-    useVocabularyStore.getState().recordLookup({
+    if (!capture?.occurrence) return;
+    const vocabulary = useVocabularyStore.getState();
+    if (!saveLookups && !vocabulary.isMarked(word, capture.lang)) return;
+    vocabulary.recordLookup({
       word,
       lang: capture.lang,
       occurrence: capture.occurrence,
@@ -342,28 +367,14 @@ export function useDictionaryResults({
     });
   }, []);
 
-  // Lookup orchestration: fan out across all definition providers in
-  // parallel whenever currentWord (or the provider list) changes.
-  useEffect(() => {
-    if (!definitionProviders.length) return;
-
-    setCards(() => {
-      const next: Record<string, CardState> = {};
-      for (const provider of definitionProviders) {
-        next[provider.id] = {
-          state: 'loading',
-          loadKey,
-          outcome: undefined,
-          expanded: false,
-        };
-      }
-      return next;
-    });
-
-    const controllers = new Map<string, AbortController>();
-    definitionProviders.forEach((provider) => {
+  // One in-flight lookup per provider; a new lookup for a provider aborts its
+  // previous one.
+  const controllersRef = useRef(new Map<string, AbortController>());
+  const lookupProvider = useCallback(
+    (provider: DictionaryProvider) => {
+      controllersRef.current.get(provider.id)?.abort();
       const controller = new AbortController();
-      controllers.set(provider.id, controller);
+      controllersRef.current.set(provider.id, controller);
 
       const run = async () => {
         let outcome: DictionaryLookupOutcome;
@@ -392,8 +403,12 @@ export function useDictionaryResults({
                   if (controller.signal.aborted) return;
                   setCards((prev) => {
                     const old = prev[provider.id];
-                    if (!old || old.loadKey !== loadKey || old.state !== 'loading') return prev;
-                    return { ...prev, [provider.id]: { ...old, state: 'loaded' } };
+                    if (!old || old.loadKey !== loadKey) return prev;
+                    if (old.state !== 'loading' && !old.refreshing) return prev;
+                    return {
+                      ...prev,
+                      [provider.id]: { ...old, state: 'loaded', refreshing: false },
+                    };
                   });
                 },
               });
@@ -419,25 +434,64 @@ export function useDictionaryResults({
         setCards((prev) => {
           const old = prev[provider.id];
           if (!old || old.loadKey !== loadKey) return prev;
-          return { ...prev, [provider.id]: { ...old, state, outcome } };
+          return { ...prev, [provider.id]: { ...old, state, outcome, refreshing: false } };
         });
       };
       void run();
-    });
+    },
+    [
+      loadKey,
+      currentWord,
+      langCode,
+      pushWord,
+      isDarkMode,
+      themeCode.bg,
+      themeCode.fg,
+      autoPlayPronunciation,
+      autoPlayProviderId,
+      currentSelection,
+    ],
+  );
 
+  // Lookup orchestration: fan out across all definition providers in
+  // parallel whenever currentWord (or the provider list) changes.
+  useEffect(() => {
+    if (!definitionProviders.length) return;
+
+    setCards(() => {
+      const next: Record<string, CardState> = {};
+      for (const provider of definitionProviders) {
+        next[provider.id] = {
+          state: 'loading',
+          loadKey,
+          outcome: undefined,
+          expanded: false,
+        };
+      }
+      return next;
+    });
+    definitionProviders.forEach(lookupProvider);
+
+    const controllers = controllersRef.current;
     return () => controllers.forEach((c) => c.abort());
-  }, [
-    currentWord,
-    definitionProviders,
-    langCode,
-    pushWord,
-    isDarkMode,
-    themeCode.bg,
-    themeCode.fg,
-    autoPlayPronunciation,
-    autoPlayProviderId,
-    currentSelection,
-  ]);
+  }, [definitionProviders, lookupProvider]);
+
+  // Switching the AI translator re-asks the context dictionary card only.
+  const setContextTranslator = useCallback(
+    (id: string) => {
+      setContextTranslatorId(id);
+      void saveCustomDictionaries(envConfig);
+      const provider = definitionProviders.find((p) => p.id === BUILTIN_PROVIDER_IDS.context);
+      if (!provider) return;
+      setCards((prev) => {
+        const old = prev[provider.id];
+        if (!old) return prev;
+        return { ...prev, [provider.id]: { ...old, refreshing: true } };
+      });
+      lookupProvider(provider);
+    },
+    [definitionProviders, lookupProvider, envConfig],
+  );
 
   // Visible cards = providers that are still loading or finished with a
   // result. Empty/unsupported/error cards are removed entirely.
@@ -493,6 +547,7 @@ export function useDictionaryResults({
     resolveWebSearchUrl,
     onWebSearchClickTauri,
     noProvidersAtAll,
+    setContextTranslator,
     fontScale: settings.fontScale ?? 1,
     zoomedImageSrc,
     closeZoomedImage,
@@ -710,12 +765,14 @@ export const DictionaryResultsBody: React.FC<DictionaryResultsBodyProps> = ({
   resolveWebSearchUrl,
   onWebSearchClickTauri,
   noProvidersAtAll,
+  setContextTranslator,
   fontScale,
   zoomedImageSrc,
   closeZoomedImage,
 }) => {
   const _ = useTranslation();
   const safeAreaInsets = useThemeStore((s) => s.safeAreaInsets);
+  const contextTranslators = getLLMTranslators();
 
   // `first:pt-2` keeps the leading section's tighter top padding whichever of
   // the two comes first.
@@ -730,6 +787,7 @@ export const DictionaryResultsBody: React.FC<DictionaryResultsBodyProps> = ({
         {visibleDefinitionProviders.map((p) => {
           const card = cards[p.id];
           const isLoading = !card || card.state === 'loading';
+          const showSkeleton = isLoading || !!card.refreshing;
           const expanded = card?.expanded ?? false;
           const sourceLabel =
             card?.outcome?.ok && card.outcome.sourceLabel ? card.outcome.sourceLabel : _(p.label);
@@ -746,7 +804,8 @@ export const DictionaryResultsBody: React.FC<DictionaryResultsBodyProps> = ({
                     if (node === e.currentTarget) break;
                     if (node instanceof Element) {
                       const tag = node.tagName;
-                      if (tag === 'A' || tag === 'BUTTON' || tag === 'IMG') return;
+                      if (tag === 'A' || tag === 'BUTTON' || tag === 'IMG' || tag === 'SELECT')
+                        return;
                     }
                   }
                   toggleExpanded(p.id);
@@ -759,7 +818,7 @@ export const DictionaryResultsBody: React.FC<DictionaryResultsBodyProps> = ({
                 }}
                 className={clsx('cursor-pointer rounded-lg')}
               >
-                {isLoading && (
+                {showSkeleton && (
                   <div
                     data-testid='dict-card-skeleton'
                     className='bg-base-200/50 h-12 animate-pulse rounded-sm'
@@ -776,7 +835,7 @@ export const DictionaryResultsBody: React.FC<DictionaryResultsBodyProps> = ({
                   style={{ '--dict-font-scale': fontScale } as React.CSSProperties}
                   className={clsx(
                     'font-sans',
-                    isLoading && 'hidden',
+                    showSkeleton && 'hidden',
                     !isLoading &&
                       !expanded &&
                       'line-clamp-4 max-h-40 overflow-hidden [-webkit-box-orient:vertical] [display:-webkit-box]',
@@ -784,7 +843,17 @@ export const DictionaryResultsBody: React.FC<DictionaryResultsBodyProps> = ({
                 />
                 {!isLoading && (
                   <div className='border-base-content/10 -me-4 mt-2 border-b pb-2'>
-                    <span className='not-eink:opacity-60 text-xs'>{sourceLabel}</span>
+                    {p.id === BUILTIN_PROVIDER_IDS.context && contextTranslators.length > 1 ? (
+                      <Select
+                        ariaLabel={_('AI Translator')}
+                        value={getContextTranslator()?.id ?? ''}
+                        onChange={(e) => setContextTranslator(e.target.value)}
+                        options={contextTranslators.map((t) => ({ value: t.id, label: t.name }))}
+                        className='not-eink:opacity-60 focus-visible:ring-base-content/15 -ms-3 h-6 min-h-6 text-xs focus-visible:ring-2'
+                      />
+                    ) : (
+                      <span className='not-eink:opacity-60 text-xs'>{sourceLabel}</span>
+                    )}
                   </div>
                 )}
               </div>

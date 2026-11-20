@@ -174,6 +174,7 @@ vi.mock('@/services/tts', () => ({
       startFromRange: vi.fn().mockReturnValue('<speak>hello</speak>'),
       stop: vi.fn().mockResolvedValue(undefined),
       shutdown: vi.fn().mockResolvedValue(undefined),
+      unblockSilentAudio: vi.fn(),
       forward: vi.fn().mockResolvedValue(undefined),
       backward: vi.fn().mockResolvedValue(undefined),
       getVoices: vi.fn().mockResolvedValue([]),
@@ -309,6 +310,9 @@ import { ttsMediaBridge } from '@/services/tts/ttsMediaBridge';
 import { eventDispatcher } from '@/utils/event';
 import { pageBreakFraction } from '@/utils/ttsPageFollow';
 import { useReaderStore } from '@/store/readerStore';
+import { useNotebookDocumentStore } from '@/store/notebookDocumentStore';
+import NotebookEditor from '@/app/reader/components/notebook/NotebookEditor';
+import AnnotationNoteEditor from '@/app/reader/components/annotator/AnnotationNoteEditor';
 
 const getSetTTSEnabledMock = () =>
   (
@@ -473,6 +477,38 @@ describe('useTTSControl changing the voice', () => {
     });
     expect(controller.setVoice).toHaveBeenCalledWith('edge:en-US-GuyNeural', 'en');
     await waitFor(() => expect(controller.start).toHaveBeenCalled());
+  });
+
+  it('plays the silent audio inside the tap, before stopping to switch voices', async () => {
+    render(<ApiHarness />);
+    await act(async () => {
+      const started = eventDispatcher.dispatch('tts-speak', { bookKey: 'book-1' });
+      for (let i = 0; i < 10; i++) await Promise.resolve();
+      while (pendingInitResolvers.length > 0) pendingInitResolvers.shift()!();
+      await started;
+    });
+    const controller = ttsControllerInstances.at(-1) as {
+      state: string;
+      stop: ReturnType<typeof vi.fn>;
+      unblockSilentAudio: ReturnType<typeof vi.fn>;
+    };
+    controller.state = 'playing';
+    const calls: string[] = [];
+    controller.unblockSilentAudio.mockImplementation(() => calls.push('unblock'));
+    controller.stop.mockImplementation(async () => {
+      calls.push('stop');
+    });
+    // What runs before the first await is what runs inside the tap.
+    let beforeAwait: string[] = [];
+    await act(async () => {
+      const switching = hookApi!.handleSetVoice('edge:en-US-AvaNeural', 'en');
+      beforeAwait = [...calls];
+      await switching;
+    });
+    expect(beforeAwait, 'the silent audio plays before the switch leaves the tap').toEqual([
+      'unblock',
+      'stop',
+    ]);
   });
 });
 
@@ -1311,6 +1347,48 @@ describe('useTTSControl handleHighlightMark cross-section navigation', () => {
       });
 
       expect(mockView.renderer.scrollToAnchor).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  // The hold is for editors a page turn takes away: the note popup closes on
+  // relocation. The Notebook stays open beside the page, and the book no
+  // longer takes the caret from a text field, so the page keeps up with the
+  // voice while it is typed in (#7663).
+  describe('which note editors hold the view (#7663)', () => {
+    const followMark = async () => {
+      const handler = await setupAndCaptureHighlightHandler();
+      mockView.resolveCFI.mockReturnValue({ index: 0, anchor: () => new Range() });
+      await act(async () => {
+        handler(new CustomEvent('tts-highlight-mark', { detail: { cfi: 'epubcfi(/6/4!/4/2)' } }));
+      });
+    };
+
+    it('turns the page with the voice while the Notebook is typed in', async () => {
+      useNotebookDocumentStore.getState().hydrate('book', '', null);
+      render(
+        <NotebookEditor
+          bookKey='book-1'
+          handleOpenAnnotations={vi.fn()}
+          excerpts={[]}
+          onDeleteExcerpt={vi.fn()}
+        />,
+      );
+      const notebook = screen.getByRole('textbox', { name: 'Notebook' });
+      notebook.focus();
+      expect(document.activeElement).toBe(notebook);
+
+      await followMark();
+
+      expect(mockView.renderer.scrollToAnchor).toHaveBeenCalledTimes(1);
+    });
+
+    it('holds the view while the note popup is typed in', async () => {
+      render(<AnnotationNoteEditor value='' onSave={vi.fn()} onCancel={vi.fn()} />);
+      expect(document.activeElement?.localName).toBe('textarea');
+
+      await followMark();
+
+      expect(mockView.renderer.scrollToAnchor).not.toHaveBeenCalled();
     });
   });
 });

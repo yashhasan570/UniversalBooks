@@ -17,6 +17,7 @@ import {
 } from '@/services/sync/replicaBinaryUpload';
 import { eventDispatcher } from '@/utils/event';
 import { Tips } from './primitives';
+import { useSettingsSubPageBack } from './settingsSubPageBack';
 
 interface CustomFontsProps {
   bookKey: string;
@@ -31,6 +32,9 @@ type FontFamily = {
 const CustomFonts: React.FC<CustomFontsProps> = ({ bookKey, onBack }) => {
   const _ = useTranslation();
   const { appService, envConfig } = useEnv();
+  // Escape and Android Back take the breadcrumb's way out, back to the Font
+  // panel, instead of closing Settings (this page has no SubPageHeader).
+  useSettingsSubPageBack(onBack);
   const { settings } = useSettingsStore();
   const {
     fonts: customFonts,
@@ -79,6 +83,10 @@ const CustomFonts: React.FC<CustomFontsProps> = ({ bookKey, onBack }) => {
             bundleDir: fontInfo.bundleDir,
             byteSize: fontInfo.byteSize,
           });
+          // Save before the next await: a sync pull reloads the store from
+          // settings, and one can land mid-import (closing the picker
+          // focuses the window), dropping fonts not saved yet (#7671).
+          saveCustomFonts(envConfig);
           console.log('Added custom font:', customFont);
           if (customFont && !customFont.error) {
             const loadedFont = await loadFont(envConfig, customFont.id);
@@ -86,7 +94,6 @@ const CustomFonts: React.FC<CustomFontsProps> = ({ bookKey, onBack }) => {
             if (appService) void queueReplicaBinaryUpload('font', customFont, appService);
           }
         }
-        saveCustomFonts(envConfig);
       } finally {
         // Keep the card visible — it now shows the font family name.
         // availableFamilies will pick it up on next render and the

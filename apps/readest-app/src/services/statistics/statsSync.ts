@@ -74,14 +74,21 @@ export async function pullStats(stats: StatisticsDb, client: PullClient): Promis
       bookMd5: b.book_hash,
       title: b.title,
       authors: b.authors,
+      // Events are whole seconds: one that started before the deletion's
+      // millisecond started before its next whole second.
+      ...(b.deleted_at_ms ? { deletedAt: Math.ceil(b.deleted_at_ms / 1000) } : {}),
     }));
-    const events: PageStatEvent[] = wirePages.map((p) => ({
-      bookMd5: p.book_hash,
-      page: p.page,
-      startTime: p.start_time,
-      duration: p.duration,
-      totalPages: p.total_pages,
-    }));
+    // Events of a deleted book come flagged (#7494): skip them, but still count
+    // them for the cursor below.
+    const events: PageStatEvent[] = wirePages
+      .filter((p) => !p.deleted_at_ms)
+      .map((p) => ({
+        bookMd5: p.book_hash,
+        page: p.page,
+        startTime: p.start_time,
+        duration: p.duration,
+        totalPages: p.total_pages,
+      }));
     await stats.applyRemoteEvents(books, events);
     // Advance the cursor to the newest page-event updated_at_ms. Stop when a
     // page yields no further page-event progress (covers the empty-pages and
@@ -90,4 +97,53 @@ export async function pullStats(stats: StatisticsDb, client: PullClient): Promis
     if (newest <= since) break;
     await stats.setCursor('pull', newest);
   }
+}
+
+/**
+ * Delete a book's reading statistics (#7494). With a sync client the server
+ * records the deletion first, so every device drops the book's events on its
+ * next pull; if that fails, nothing is deleted here either.
+ */
+export async function deleteBookStats(
+  stats: StatisticsDb,
+  client: PushClient | null,
+  book: StatBook,
+): Promise<void> {
+  if (client) await pushDeletion(client, book);
+  await stats.deleteBook(book.bookMd5);
+}
+
+const pushDeletion = (client: PushClient, book: StatBook) =>
+  client.pushChanges({
+    statBooks: [{ ...toWireBook(book), deleted_at: new Date().toISOString() }],
+  });
+
+/**
+ * Merge two entries of the same book (#7494): every event of `source` becomes
+ * an event of `target`, and `source` is deleted. With a sync client this
+ * device first pulls, so it holds every event of `source`, then pushes them
+ * under `target` and only then deletes `source` on the server. A failure
+ * before that leaves both entries as they were here; retrying is safe, since
+ * the server keeps the longer duration of an event it already has.
+ */
+export async function mergeBookStats(
+  stats: StatisticsDb,
+  client: (PushClient & PullClient) | null,
+  source: StatBook,
+  target: StatBook,
+): Promise<void> {
+  if (client) {
+    await pullStats(stats, client);
+    const events = await stats.getBookEvents(source.bookMd5);
+    for (let i = 0; i < events.length; i += PUSH_CHUNK) {
+      await client.pushChanges({
+        statBooks: [toWireBook(target)],
+        statPages: events
+          .slice(i, i + PUSH_CHUNK)
+          .map((e) => toWirePage({ ...e, bookMd5: target.bookMd5 })),
+      });
+    }
+    await pushDeletion(client, source);
+  }
+  await stats.mergeBook(source.bookMd5, target);
 }

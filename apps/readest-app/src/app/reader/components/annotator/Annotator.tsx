@@ -3,6 +3,8 @@ import { RiDeleteBinLine } from 'react-icons/ri';
 
 import * as CFI from 'foliate-js/epubcfi.js';
 import { useEnv } from '@/context/EnvContext';
+import { useAuth } from '@/context/AuthContext';
+import { isCustomTranslatorAllowed } from '@/utils/access';
 import {
   BookNote,
   BooknoteGroup,
@@ -25,6 +27,7 @@ import { useVocabularyStore } from '@/store/vocabularyStore';
 import { isSystemDictionaryEnabled } from '@/services/dictionaries/registry';
 import { invokeSystemDictionary } from '@/services/dictionaries/systemDictionary';
 import { buildSelectionContext } from '@/services/dictionaries/contextDictionary';
+import { getContextTranslator } from '@/services/dictionaries/providers/contextProvider';
 import type { DictionarySelectionContext } from '@/services/dictionaries/types';
 import { useTranslation } from '@/hooks/useTranslation';
 import { useResponsiveSize } from '@/hooks/useResponsiveSize';
@@ -91,6 +94,7 @@ import {
   selectLocationAnnotations,
 } from '../../utils/annotationIndex';
 import { findContentAtPoint } from '../../utils/crossDocSelection';
+import { glossWordRange } from '../../utils/wordlensRuby';
 import {
   expandAllRenderedSections,
   expandGlobalAnnotation,
@@ -212,6 +216,7 @@ const Annotator: React.FC<{ bookKey: string; contentInsets: Insets; gridInsets?:
 }) => {
   const _ = useTranslation();
   const { envConfig, appService } = useEnv();
+  const { token } = useAuth();
   const { settings, setSettingsDialogBookKey, setSettingsDialogOpen, setActiveSettingsItemId } =
     useSettingsStore();
   const { isDarkMode, themeCode } = useThemeStore();
@@ -271,6 +276,8 @@ const Annotator: React.FC<{ bookKey: string; contentInsets: Insets; gridInsets?:
   // Decided when the lookup opens, as for the note editor: the keyboard for a
   // Learning word's hint field must not swap the popup for the sheet (#7570).
   const [dictionaryInSheet, setDictionaryInSheet] = useState(false);
+  // Set by the Context Dictionary tool: the lookup asks the AI alone (#7497).
+  const [dictionaryContextOnly, setDictionaryContextOnly] = useState(false);
   const [showDeepLPopup, setShowDeepLPopup] = useState(false);
   const [showProofreadPopup, setShowProofreadPopup] = useState(false);
   const [trianglePosition, setTrianglePosition] = useState<Position>();
@@ -700,6 +707,8 @@ const Annotator: React.FC<{ bookKey: string; contentInsets: Insets; gridInsets?:
         rect?: TextSelection['rect'];
         getPopupCfi?: TextSelection['getPopupCfi'];
         quickAction?: boolean;
+        /** A tap on a Word Lens hint in the popup: look the word up (#7691). */
+        wordLens?: boolean;
       };
       if (detail.key !== bookKey) return;
       // Every event for this book advances the epoch so a handler still
@@ -779,6 +788,7 @@ const Annotator: React.FC<{ bookKey: string; contentInsets: Insets; gridInsets?:
       if (detail.quickAction && quickAction !== 'tts') {
         isTextSelected.current = true;
       }
+      if (detail.wordLens) pendingWordLensDictRef.current = true;
       setSelection({
         key: bookKey,
         text,
@@ -1119,14 +1129,8 @@ const Annotator: React.FC<{ bookKey: string; contentInsets: Insets; gridInsets?:
       const content = view?.renderer?.getContents().find((c) => c.doc === doc);
       if (!content || content.index == null) return;
       const index = content.index;
-      const rt = element.querySelector('rt');
-      const range = doc.createRange();
-      try {
-        range.selectNodeContents(element);
-        if (rt) range.setEndBefore(rt);
-      } catch {
-        return;
-      }
+      const range = glossWordRange(element);
+      if (!range) return;
       const text = range.toString().trim() || word;
       pendingWordLensDictRef.current = true;
       setSelection({
@@ -2037,12 +2041,17 @@ const Annotator: React.FC<{ bookKey: string; contentInsets: Insets; gridInsets?:
         word,
         rect ? { rect, style: style ?? undefined } : undefined,
       );
-      const capture =
-        dictSettings.saveLookupsToVocabulary !== false ? getDictionaryCapture() : undefined;
+      const capture = getDictionaryCapture();
       if (capture?.occurrence) {
         const { lang, occurrence } = capture;
+        const saveLookups = dictSettings.saveLookupsToVocabulary !== false;
         void lookup.then((launched) => {
-          if (launched) useVocabularyStore.getState().recordLookup({ word, lang, occurrence });
+          // A marked word keeps its sentences with saving off (#7691); read
+          // the mark once launched, after any change made in the meantime.
+          const vocabulary = useVocabularyStore.getState();
+          if (launched && (saveLookups || vocabulary.isMarked(word, lang))) {
+            vocabulary.recordLookup({ word, lang, occurrence });
+          }
         });
       }
       handleDismissPopupAndSelection();
@@ -2051,6 +2060,18 @@ const Annotator: React.FC<{ bookKey: string; contentInsets: Insets; gridInsets?:
     setShowAnnotPopup(false);
     void suppressNativeSelectionHandles();
     setDictionaryInSheet(isSheetViewport());
+    setDictionaryContextOnly(false);
+    setShowDictionaryPopup(true);
+  };
+
+  // Asks the AI context dictionary alone, so it can stay off in the dictionary
+  // list and spend no tokens on everyday lookups (#7497).
+  const handleContextDictionary = () => {
+    if (!selection || !selection.text) return;
+    setShowAnnotPopup(false);
+    void suppressNativeSelectionHandles();
+    setDictionaryInSheet(isSheetViewport());
+    setDictionaryContextOnly(true);
     setShowDictionaryPopup(true);
   };
 
@@ -2742,6 +2763,14 @@ const Annotator: React.FC<{ bookKey: string; contentInsets: Insets; gridInsets?:
         return { tooltipText: _(label), Icon, onClick: handleSearch };
       case 'dictionary':
         return { tooltipText: _(label), Icon, onClick: handleDictionary };
+      case 'contextdictionary':
+        return {
+          tooltipText: _(label),
+          Icon,
+          onClick: handleContextDictionary,
+          // Premium, like the Context Dictionary switch in Manage Dictionaries.
+          disabled: !isCustomTranslatorAllowed(token) || !getContextTranslator(),
+        };
       case 'translate':
         return { tooltipText: _(label), Icon, onClick: handleTranslation };
       case 'tts':
@@ -2848,6 +2877,7 @@ const Annotator: React.FC<{ bookKey: string; contentInsets: Insets; gridInsets?:
                 lang={bookData.bookDoc?.metadata.language as string}
                 selection={dictionarySelection}
                 capture={dictionaryCapture}
+                contextOnly={dictionaryContextOnly}
                 onDismiss={handleDismissPopupShowToolbar}
                 onManage={onManage}
               />
@@ -2864,6 +2894,7 @@ const Annotator: React.FC<{ bookKey: string; contentInsets: Insets; gridInsets?:
               trianglePosition={trianglePosition}
               popupWidth={dictPopupWidth}
               popupHeight={dictPopupHeight}
+              contextOnly={dictionaryContextOnly}
               onDismiss={handleDismissPopupShowToolbar}
               onManage={onManage}
             />
