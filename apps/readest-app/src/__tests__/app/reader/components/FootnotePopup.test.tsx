@@ -158,7 +158,9 @@ vi.mock('@/app/reader/utils/footnoteCfi', () => ({
 }));
 
 vi.mock('@/components/Overlay', () => ({
-  Overlay: () => <div data-testid='overlay' />,
+  Overlay: ({ onDismiss }: { onDismiss?: () => void }) => (
+    <div data-testid='overlay' onClick={onDismiss} />
+  ),
 }));
 
 // The real Popup keeps its children mounted and only moves them off-screen
@@ -409,7 +411,7 @@ describe('FootnotePopup jump to location', () => {
       fireEvent.click(button);
     });
 
-    expect(hoisted.goTo).toHaveBeenCalledWith(HREF);
+    expect(hoisted.goTo).toHaveBeenCalledWith(HREF, { focus: true });
     expect(screen.getByTestId('popup').dataset['open']).toBe('false');
     expect(screen.queryByLabelText('Jump to Location')).toBeNull();
   });
@@ -435,7 +437,7 @@ describe('FootnotePopup jump to location', () => {
       fireEvent.click(screen.getByLabelText('Jump to Location'));
     });
 
-    expect(hoisted.goTo).toHaveBeenCalledWith(nestedHref);
+    expect(hoisted.goTo).toHaveBeenCalledWith(nestedHref, { focus: true });
   });
 
   // The reader's stylesheet hides inline footnote bodies, so a link that
@@ -661,6 +663,23 @@ describe('FootnotePopup jump to location', () => {
     });
     Object.defineProperty(window, 'innerWidth', { value: width, configurable: true });
     expect(screen.getByTestId('popup').dataset['open']).toBe('false');
+  });
+
+  // The instant dictionary drops the popup selection as it opens, so the
+  // Annotator ignores a plain cleared report while it is up; a tap outside
+  // the popup has to say the popup itself is gone, or the lookup stays (#7727).
+  it('reports itself closed when a tap outside dismisses it', async () => {
+    await renderPopup();
+    await openFootnotePopup();
+    const dispatch = vi.spyOn(eventDispatcher, 'dispatch');
+
+    await act(async () => {
+      fireEvent.click(screen.getByTestId('overlay'));
+    });
+
+    expect(screen.getByTestId('popup').dataset['open']).toBe('false');
+    expect(dispatch).toHaveBeenCalledWith('footnote-selection', { key: BOOK_KEY, closed: true });
+    dispatch.mockRestore();
   });
 
   it('closes when paragraph mode focuses a different paragraph in this book', async () => {

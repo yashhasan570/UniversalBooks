@@ -981,6 +981,8 @@ pub struct AnkiReadDeckRequest {
 #[serde(rename_all = "camelCase")]
 pub struct AnkiNoteRow {
     pub id: i64,
+    /// The note's note type.
+    pub mid: i64,
     pub fields: Vec<String>,
     pub tags: String,
 }
@@ -1048,4 +1050,47 @@ pub struct AnkiUpdateTagsResponse {
     pub updated: Option<i64>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub error: Option<String>,
+}
+
+/// Whether the UniversalBooks note type still lacks its audio fields or template (#7729).
+#[derive(Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct AnkiNoteTypeResponse {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub outdated: Option<bool>,
+    /// The UniversalBooks note type's id and field names; omitted before Sync created it.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub id: Option<i64>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub fields: Option<Vec<String>>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub error: Option<String>,
+}
+
+#[derive(Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct AnkiNoteFill {
+    pub id: i64,
+    pub word: String,
+    pub language: String,
+}
+
+#[derive(Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct AnkiUpgradeNoteTypeRequest {
+    pub notes: Vec<AnkiNoteFill>,
+}
+
+/// A dictionary entry for a note's empty Entry field (#7728).
+#[derive(Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct AnkiEntry {
+    pub id: i64,
+    pub entry: String,
+}
+
+#[derive(Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct AnkiSetEntriesRequest {
+    pub notes: Vec<AnkiEntry>,
 }

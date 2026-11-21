@@ -29,6 +29,7 @@ import { getPopupBounds, offsetPosition, PopupBounds } from '@/utils/insets';
 import { Insets } from '@/types/misc';
 import { FootnoteHandler } from 'foliate-js/footnotes.js';
 import { mountAdditionalFonts, mountCustomFont } from '@/styles/fonts';
+import { mountWhiteTransparencyFilter } from '@/utils/imageBackground';
 import { eventDispatcher } from '@/utils/event';
 import { getCfiSpinePrefix } from '@/utils/cfi';
 import { isLinkTargetVisible, shouldCheckAsFootnote } from '../utils/footnoteHeuristics';
@@ -160,13 +161,15 @@ const FootnotePopup: React.FC<FootnotePopupProps> = ({
 
   // Point the popup at a new (or no) source document: drop the CFI mapping and
   // the drawn-overlay bookkeeping, and tell the Annotator that any selection
-  // made in the previous popup document is gone.
+  // made in the previous popup document is gone. `closed` says the popup
+  // itself went, which also closes a lookup opened on its text (#7727).
   const resetPopupAnnotationState = (
     map: { index: number; extract: FootnoteExtractMapping | null; doc?: Document } | null = null,
+    closed = false,
   ) => {
     popupMapRef.current = map;
     drawnNotesRef.current.clear();
-    eventDispatcher.dispatch('footnote-selection', { key: bookKey });
+    eventDispatcher.dispatch('footnote-selection', { key: bookKey, closed });
   };
   const historyRef = useRef<{ items: Record<string, unknown>[]; index: number }>({
     items: [],
@@ -413,7 +416,7 @@ const FootnotePopup: React.FC<FootnotePopupProps> = ({
         setCanGoBack(true);
         footnoteHandler.handle(bookDoc, e)?.catch((err) => {
           console.warn(err);
-          getView(bookKey)?.goTo(popupLinkDetail.href);
+          getView(bookKey)?.goTo(popupLinkDetail.href, { focus: true });
           flashLinkTarget(popupLinkDetail.href);
           setShowPopup(false);
         });
@@ -428,6 +431,7 @@ const FootnotePopup: React.FC<FootnotePopupProps> = ({
         const { doc, index } = e.detail as { doc: Document; index: number };
         const bookData = getBookData(bookKey)!;
         keepTextAlignment(doc);
+        mountWhiteTransparencyFilter(doc);
         mountAdditionalFonts(doc, isCJKLang(bookData.book?.primaryLanguage));
         getLoadedFonts().forEach((font) => {
           mountCustomFont(doc, font);
@@ -744,7 +748,7 @@ const FootnotePopup: React.FC<FootnotePopupProps> = ({
           setShowPopup(false);
         }
         const detail = (event as CustomEvent).detail;
-        view?.goTo(detail.href);
+        view?.goTo(detail.href, { focus: true });
         flashLinkTarget(detail.href);
       });
     } else if (!event.defaultPrevented) {
@@ -775,7 +779,7 @@ const FootnotePopup: React.FC<FootnotePopupProps> = ({
     const href = sourceHref;
     handleDismissPopup();
     if (!href) return;
-    view?.goTo(href);
+    view?.goTo(href, { focus: true });
     flashLinkTarget(href);
   };
 
@@ -788,7 +792,7 @@ const FootnotePopup: React.FC<FootnotePopupProps> = ({
   const handleDismissPopup = () => {
     closePopup();
     stopTrackingPopupContentSize();
-    resetPopupAnnotationState();
+    resetPopupAnnotationState(null, true);
     historyRef.current = { items: [], index: -1 };
     sizeAdjustCountRef.current = 0;
     trianglePositionRef.current = null;

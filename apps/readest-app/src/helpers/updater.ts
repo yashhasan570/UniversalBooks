@@ -115,6 +115,8 @@ export const resolveNightlyUpdate = async (
     fetchManifest(fetchFn, UNIVERSALBOOKS_NIGHTLY_UPDATER_FILE),
     fetchManifest(fetchFn, UNIVERSALBOOKS_UPDATER_FILE),
   ]);
+  // Neither manifest loaded: the check failed, it didn't find "no update".
+  if (!nightly && !stable) throw new Error('Failed to fetch update manifests');
   const sources: Array<[UpdateManifest | null, string]> = [
     [nightly, UNIVERSALBOOKS_NIGHTLY_UPDATER_FILE],
     [stable, UNIVERSALBOOKS_UPDATER_FILE],
